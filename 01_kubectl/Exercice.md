@@ -3,17 +3,21 @@
 Dans cet exercice nous allons introduire et manipuler les composants de bases de Kubernetes avec le **CLI "kubectl"**.
 Ces composants seront décrits en détails dans la suite de la formation. 
 
-__Les - Vos - Applications sont au coeur de Kubernetes__.
+__Les applications sont au coeur de Kubernetes__.
 
-Chaque fonction de l'application (Frontend, Backend... ) peut avantageusement utiliser la containeurisation - avec Docker par exemple. 
+Chaque fonction de l'application (frontend, backend... ) peut avantageusement utiliser la containeurisation - avec Docker par exemple. 
 
-C'est là que le système Kubernetes rentre en scène. Son rôle: piloter harmonieusement l'ensemble des containers formant l'application. 
-Pour maintenir le cap tout au long du cycle de vie de l'application, Kubernetes utilise des composants : Pods, ReplicatSet, Deployments... 
-Ces composants permettent le pilotage programmatique et donc la fourniture des capacités d'automatisation et d'orchestration tout au long du cycle de vie de l'application. Ceci en parfaite correspondance avec les bonnes pratiques DevOps. 
+C'est là que le système Kubernetes rentre en scène. 
+Son rôle: piloter harmonieusement l'ensemble des containers formant l'application. 
 
-Cet exercice se focalise sur le set de commandes *kubectl* et nous soumettrons directement via le CLI les options a passer au système K8s. 
-Plus tard nous envisagerons le provisionning d'Applications, qui consiste à automatiser le déploiement des Pods et des objects nécessaires à leur orchestration, au travers de fichiers de configurations .yaml . 
+Pour maintenir le cap tout au long du cycle de vie de l'application, Kubernetes utilise des composants :
+* Pods
+* ReplicatSet 
+* Deployments... 
 
+Ces composants permettent via une syntaxe déclarative de fournir les capacités d'automatisation et d'orchestration. Cette approche en parfaite correspondance avec les bonnes pratiques DevOps. 
+
+Cet exercice se focalise sur le set de commandes *kubectl* et nous soumettrons directement via le CLI les options a passer au système K8s. Plus tard nous envisagerons le provisionning d'applications, qui consiste à automatiser le déploiement des *Pods* et des objects nécessaires à leur orchestration, au travers de fichiers de configurations *.yaml* . 
 
 ## Objectifs 
 
@@ -33,7 +37,7 @@ Se connecter au Cluster K8s de votre environnement de lab provisionné précedem
  
 `kubectl get pods `
 
-4. Utiliser *kubectl* pour *lancer* un POD avec les options : 
+4. Utiliser *kubectl* pour lancer un *Pod* avec les options : 
 * nom du POD : nginx_pod
 * image : nginx
 * port : 80
