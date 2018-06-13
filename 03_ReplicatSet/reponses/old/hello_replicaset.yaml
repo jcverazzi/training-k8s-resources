@@ -1,0 +1,50 @@
+apiVersion: apps/v1
+kind: ReplicaSet
+metadata:
+  name: hello
+spec:
+  replicas: 1
+  selector: // Une des manières possibles. Exemple Label Selector avec matchLabels et matchExpressions
+    matchLabels: 
+      app: hello
+      environement: dev
+      release: stable
+    matchExpressions:  
+      - {key: partition, operator: In, values: [training-k8s, training-treeptik-k8s, super-students]}
+      - {key: tier, operator: NotIn, values: [authentification, frontssl]} 
+  template:
+    metadata:
+      labels:
+        app: hello
+        environement: dev
+        partition: training-k8s
+        release: stable
+        tier: webserver
+    spec:
+      containers:
+        - name: hello
+          image: "kelseyhightower/hello:1.0.0"
+          ports:
+            - name: http
+              containerPort: 80
+            - name: health
+              containerPort: 81
+          resources:
+            limits:
+              cpu: 0.2
+              memory: "10Mi"
+          livenessProbe:
+            httpGet:
+              path: /healthz
+              port: 81
+              scheme: HTTP
+            initialDelaySeconds: 5
+            periodSeconds: 15
+            timeoutSeconds: 5
+          readinessProbe:
+            httpGet:
+              path: /readiness
+              port: 81
+              scheme: HTTP
+            initialDelaySeconds: 5
+            timeoutSeconds: 1

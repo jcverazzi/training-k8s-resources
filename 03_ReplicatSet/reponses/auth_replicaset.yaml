@@ -1,50 +1,34 @@
 apiVersion: apps/v1
 kind: ReplicaSet
 metadata:
-  name: auth
+  name: auth-replica
 spec:
-  replicas: 1
-  selector: // Une des manières possibles. Exemple Label Selector avec matchLabels et matchExpressions
+  replicas: 3
+  selector:
     matchLabels:
       app: auth
+      realease: stable
+      tier: authentification
       environement: dev
-      release: stable
-    matchExpressions:  
-      - {key: partition, operator: In, values: [training-k8s, training-treeptik-k8s, super-students]}
-      - {key: tier, operator: NotIn, values: [frontssl, webserver]} 
+      partition: training-k8s
   template:
     metadata:
       labels:
         app: auth
+        realease: stable
+        tier: authentification
         environement: dev
         partition: training-k8s
-        release: stable
-        tier: authentification
     spec:
       containers:
-        - name: auth
-          image: "kelseyhightower/auth:1.0.0"
-          ports:
-            - name: http
-              containerPort: 80
-            - name: health
-              containerPort: 81
-          resources:
-            limits:
-              cpu: 0.2
-              memory: "10Mi"
-          livenessProbe:
-            httpGet:
-              path: /healthz
-              port: 81
-              scheme: HTTP
-            initialDelaySeconds: 5
-            periodSeconds: 15
-            timeoutSeconds: 5
-          readinessProbe:
-            httpGet:
-              path: /readiness
-              port: 81
-              scheme: HTTP
-            initialDelaySeconds: 5
-            timeoutSeconds: 1
+      - name: auth
+        image: "kelseyhightower/auth:1.0.0"
+        ports:
+        - name: http
+          containerPort: 80
+        - name: health
+          containerPort: 81
+        resources:
+          limits:
+            cpu: 200m # 0.2 works too
+            memory: 20Mi
