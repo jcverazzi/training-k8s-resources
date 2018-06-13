@@ -34,7 +34,7 @@ Se connecter au Cluster K8s de votre environnement de lab provisionné précedem
 1. Lister toutes les options disponibles avec la commande kubectl.
 2. Lister tous les objets disponibles en option de `kubectl get`
 3. Utiliser *kubectl* pour lancer un *Pod* avec les options :
-* nom du POD : nginx_pod
+* nom du POD : nginx
 * image : nginx
 * port : 80
 
