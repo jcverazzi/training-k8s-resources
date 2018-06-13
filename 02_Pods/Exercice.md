@@ -58,9 +58,9 @@ metadata:
 
 1. Completer le fichier afin de configurer le Pod tel que : 
 - Le nom du Pod est "auth" 
-- Le Pod aura les labels "app = auth" et "track = stable_1.0.0"
+- Le Pod aura les labels "app = auth" et "track = stable"
 - L'image du container à déployer est : kelseyhightower/auth:1.0.0
-- Le container ecoute HTTP sur le port 8080 
+- Le container ecoute HTTP sur le port 80
 - BONUS : Le container utilisera un maximum de ressources telles que : 20% de 1 CPU et 20Mi de Mémoire
 
 2. Créer le Pod en fournissant le fichier de configuration .yaml précédent en paramètres 
@@ -76,7 +76,7 @@ Le container "hello" n'utilise pas de volume pour du stockage persistant.
 
 7. Créer le fichier .yaml afin de configurer le Pod tel que : 
 - Le nom du Pod est "hello" 
-- Le Pod aura les labels "app = hello" et "track = stable_1.0.0"
+- Le Pod aura les labels "app = hello" et "track = stable"
 - L'image du container à déployer est : kelseyhightower/hello:1.0.0
 - Le container ecoute HTTP sur le port 80 
 - BONUS : Le container utilisera un maximum de ressources telles que : 30% de 1 CPU et 50Mi de Mémoire

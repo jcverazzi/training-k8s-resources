@@ -7,11 +7,11 @@ spec:
   selector:
     matchLabels:
       app: auth
-      track: stable_1.0.0
+      track: stable
   template:
     metadata:
       labels:
-        track: stable_1.0.0
+        track: stable
         app: auth
     spec:
       containers:
