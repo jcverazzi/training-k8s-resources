@@ -12,8 +12,8 @@
 ## 6. Ce ReplicatSet est-il destiné à la Production ?
 - Non, Le selector exlu la production et notre pod a le label : track: dev.
 ## 7. Contruire le fichier de configuration du ReplicatSet pour le Pod "auth" 
-- cf .reponses/auth_replicatset.yaml
+- cf ../reponses/auth_replicatset.yaml
 ## 8. Contruire le fichier de configuration du ReplicatSet pour le Pod "hello"
-- cf .reponses/hello_replicatset.yaml
+- cf ../reponses/hello_replicatset.yaml
 ## 9. Contruire le fichier de configuration du ReplicatSet pour le Pod "frontend"
-- cf .reponses/frontend_replicatset.yaml
+- cf ../reponses/frontend_replicatset.yaml
