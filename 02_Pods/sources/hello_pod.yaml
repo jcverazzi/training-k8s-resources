@@ -3,22 +3,16 @@ kind: Pod
 metadata:
   name: hello
   labels:
+    track: stable_1.0.0
     app: hello
-    realease: stable
-    tier: webserver
-    environement: dev
-    partition: training-k8s
 spec:
   containers:
     - name: hello
       image: kelseyhightower/hello:1.0.0
       ports:
-        - name: http
-          containerPort: 80
+        - name: auth-port
+          containerPort: 8080
       resources:
         limits:
-          cpu: 0.3
-          memory: "50Mi"
-
-
-
+          cpu: 300m
+          memory: 50Mi

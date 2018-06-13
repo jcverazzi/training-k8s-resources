@@ -3,19 +3,16 @@ kind: Pod
 metadata:
   name: auth
   labels:
+    track: stable_1.0.0
     app: auth
-    realease: stable
-    tier: authentification
-    environement: dev
-    partition: training-k8s   
 spec:
   containers:
     - name: auth
       image: kelseyhightower/auth:1.0.0
       ports:
-        - name: http
+        - name: auth-port
           containerPort: 8080
       resources:
         limits:
-          cpu: 0.2
-          memory: "10Mi"
+          cpu: 200m # 0.2 works too
+          memory: 20Mi
