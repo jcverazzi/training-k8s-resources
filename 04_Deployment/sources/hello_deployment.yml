@@ -1,0 +1,26 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: hello
+spec:
+  replicas: 3
+  selector:
+    matchLabels:
+      app: hello
+      track: stable_1.0.0
+  template:
+    metadata:
+      labels:
+        track: stable_1.0.0
+        app: hello
+    spec:
+      containers:
+      - name: hello
+        image: kelseyhightower/hello:1.0.0
+        ports:
+          - name: hello-port
+            containerPort: 80
+        resources:
+          limits:
+            cpu: 300m
+            memory: 50Mi
