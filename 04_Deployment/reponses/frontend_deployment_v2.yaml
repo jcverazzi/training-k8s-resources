@@ -1,7 +1,7 @@
 apiVersion: apps/v1
-kind: ReplicaSet
+kind: Deployment
 metadata:
-  name: frontend
+  name: frontendv2
 spec:
   replicas: 3
   selector:
@@ -9,19 +9,26 @@ spec:
       app: frontend
       realease: stable
       tier: fronthttps
-      environement: dev
+      environement: production
       partition: training-k8s
+      version: 2.0.0  
   template:
     metadata:
       labels:
         app: frontend
         realease: stable
         tier: fronthttps
-        environement: dev
+        environement: production
         partition: training-k8s
+        version: 2.0.0  
     spec:
       containers:
       - name: nginx
         image: nginx:1.9.14
         ports:
         - containerPort: 80
+        resources:
+          limits:
+            cpu: 300m
+            memory: 50Mi
+
