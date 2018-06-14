@@ -1,22 +1,30 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: auth
+  name: authv2
 spec:
-  replicas: 3
+  replicas: 5
   selector:
     matchLabels:
       app: auth
-      track: stable
+      environement: production
+      partition: training-k8s
+      release: stable
+      tier: authentification
+      version: 2.0.0  
   template:
     metadata:
       labels:
-        track: stable
         app: auth
+        environement: production
+        partition: training-k8s
+        release: stable
+        tier: authentification
+        version: 2.0.0  
     spec:
       containers:
       - name: auth
-        image: kelseyhightower/auth:1.0.0
+        image: kelseyhightower/auth:2.0.0
         ports:
           - name: auth-port
             containerPort: 80
