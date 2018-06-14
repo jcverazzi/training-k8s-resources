@@ -101,15 +101,16 @@ On rappelle que
 - Dans le fichier de configuration d'un Deployment, le champ **.spec.template** décrit le template d'un Pod (celui décrit dans le fichier de configuration du Pod)
 
 
-7. Contruire le fichier de configuration du Deployment pour le Pod "auth" : Avec Replica: 1  
-8. Contruire le fichier de configuration du Deployment pour le Pod "hello" : Avec Replica: 1  
-9. Contruire le fichier de configuration du Deployment pour le Pod "frontend" : Avec Replica: 1  
+7. Contruire le fichier de configuration du Deployment pour le Pod "auth" - Avec Replica: 1  
+8. Contruire le fichier de configuration du Deployment pour le Pod "hello" - Avec Replica: 1  
+9. Contruire le fichier de configuration du Deployment pour le Pod "frontend" - Avec Replica: 1  
 
 10. Creér les 3 Deployments avec les fichiers de configurations complétés précedement.   
 11. Quel est le resultat de la commande : `kubectl get pods --show-labels`
 12. Quel est le resultat de la commande : `kubectl get deployments`
 
-13. Quel est les resultats des commandes : `kubectl describe rs/auth` && `kubectl describe rs/hello` && `kubectl describe rs/frontend`
+13. Quel est le resultat de la commande : `kubectl describe deployments` pour chaque deployment précedemment lancé 
+
 
 
 ### Scalabilité 
