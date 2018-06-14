@@ -7,7 +7,7 @@ spec:
   selector:
     matchLabels:
       app: hello
-      realease: stable
+      release: stable
       tier: helloapp
       environement: production
       partition: training-k8s
@@ -15,7 +15,7 @@ spec:
     metadata:
       labels:
         app: hello
-        realease: stable
+        release: stable
         tier: helloapp
         environement: production
         partition: training-k8s

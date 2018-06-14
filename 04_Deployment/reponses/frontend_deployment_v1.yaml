@@ -7,7 +7,7 @@ spec:
   selector:
     matchLabels:
       app: frontend
-      realease: stable
+      release: stable
       tier: fronthttps
       environement: production
       partition: training-k8s
@@ -16,7 +16,7 @@ spec:
     metadata:
       labels:
         app: frontend
-        realease: stable
+        release: stable
         tier: fronthttps
         environement: production
         partition: training-k8s

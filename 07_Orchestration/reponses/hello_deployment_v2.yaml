@@ -1,13 +1,13 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: hello-deployment
+  name: hello-canary-deployment
 spec:
   replicas: 1
   selector:
     matchLabels:
       app: hello
-      release: stable
+      release: canary
       tier: helloapp
       environement: production
       partition: training-k8s
@@ -15,14 +15,14 @@ spec:
     metadata:
       labels:
         app: hello
-        release: stable
+        release: canary
         tier: helloapp
         environement: production
-        partition: training-k8s 
+        partition: training-k8s
     spec:
       containers:
       - name: hello
-        image: kelseyhightower/hello:1.0.0
+        image: kelseyhightower/hello:2.0.0
         ports:
           - name: hello-port
             containerPort: 80
