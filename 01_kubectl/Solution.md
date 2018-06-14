@@ -18,17 +18,17 @@ cronjob                    job                        poddisruptionbudget       
 daemonset                  namespace                  podsecuritypolicy          serviceaccount   
 ```
 
-## 3. Création du pod Nginx
-`kubectl run mynginx --image=nginx:1.15 --port=80`
+## 3. Création du pod Tomcat
+`kubectl run mytomcat --image=tomcat --port=8080`
 
 ## 4. Quel est le résultat de la commande *kubectl get pods* ?
 - La commande kubectl get pods renvoie la liste des pods actuellement sur le cluster (running ou non).
-- On y retrouve notre pod nginx suffixé de son identifiant (UID) unique géneré par k8s.
+- On y retrouve notre pod tomcat suffixé de son identifiant (UID) unique géneré par k8s.
 - On retrouve aussi son nombre d'occurance (ready or not..) , son status , le nombe de restart, et sa durée de vie depuis son dernier lancement.
 
-`nginx-6d9cc98df6-2cg74   1/1       Running   0          18h`
+`tomcat-6d9cc98df6-2cg74   1/1       Running   0          18h`
 
-## 5. Identifier la Colonne "NAME", à votre avis que représente la première ligne *nginx-.....* ?
+## 5. Identifier la Colonne "NAME", à votre avis que représente la première ligne *tomcat-.....* ?
 - Identifiant (UID) unique géneré par k8s
 https://kubernetes.io/docs/concepts/workloads/pods/pod/
 ``` Like individual application containers, pods are considered to be relatively ephemeral (rather than durable) entities. As discussed in life of a pod, pods are created, assigned a unique ID (UID), and scheduled to nodes where they remain until termination (according to restart policy) or deletion. If a node dies, the pods scheduled to that node are scheduled for deletion, after a timeout period. A given pod (as defined by a UID) is not “rescheduled” to a new node; instead, it can be replaced by an identical pod, with even the same name if desired, but with a new UID (see replication controller for more details).
@@ -61,8 +61,8 @@ Here are the possible values for phase:
 
 - Unknown: For some reason the state of the Pod could not be obtained, typically due to an error in communicating with the host of the Pod.
 ```
-## 8. Trouver la commande qui affiche les logs temps reels du pod "nginx"
-`kubectl logs nginx-6d9cc98df6-2cg74 -f`
+## 8. Trouver la commande qui affiche les logs temps reels du pod "tomcat"
+`kubectl logs tomcat-6d9cc98df6-2cg74 -f`
 
-## 9. Est-il possible de voir les logs du conteneur executé dans le pod "nginx" - comment ? Trouver la commande.
+## 9. Est-il possible de voir les logs du conteneur executé dans le pod "tomcat" - comment ? Trouver la commande.
 `kubectl logs ${POD_NAME} ${CONTAINER_NAME}`
