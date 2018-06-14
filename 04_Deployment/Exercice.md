@@ -106,11 +106,9 @@ On rappelle que
 9. Contruire le fichier de configuration du Deployment pour le Pod "frontend" - Avec Replica: 1  
 
 10. Creér les 3 Deployments avec les fichiers de configurations complétés précedement.   
-11. Quel est le resultat de la commande : `kubectl get pods --show-labels`
-12. Quel est le resultat de la commande : `kubectl get deployments`
+11. Quel est le resultat de la commande : `kubectl get deployments`
 
-13. Quel est le resultat de la commande : `kubectl describe deployments` pour chaque deployment précedemment lancé 
-
+12. Quel est le resultat de la commande : `kubectl describe deployments` pour chaque deployment précedemment lancé ? Trouver le nom du PrelicatSet associé au Deployment. 
 
 
 ### Scalabilité 
@@ -123,21 +121,24 @@ Les Deployments pour la version 1.0.0 de la stack applicative seront scalés tel
 - Un replica de 5 POD "auth"
 - Un replica de 5 POD "hello"
 
-14. Mettre à jour les fichiers de Configurations pour les 3 Deployments
-15. Que faut-il faire pour que les nouvelles valeures cibles de replicas soient prises en compte ? 
-16. Decrivez précisement les nouveaux groupes de PODs : quel est le nom des pods, sur quels noeuds sont-ils executés ?  
-17. Quel est les resultats des commandes : `kubectl describe rs/auth` && `kubectl describe rs/hello` && `kubectl describe rs/frontend`. Combien de ReplicaSets chaque Deployment a t-il crée ? 
+13. Mettre à jour les fichiers de Configurations pour les 3 Deployments
+14. Que faut-il faire pour que les nouvelles valeures cibles de replicas soient prises en compte ? 
+15. Decrivez précisement les nouveaux groupes de PODs : quel est le nom des pods, sur quels noeuds sont-ils executés ?  
+16. Combien de ReplicaSet(s) chaque Deployment a t-il crée ? 
 
 ### Montée en version Applicative - Rolling Update 
 
 Il est également facile de faire une rolling update à la volée - montée en version - dans notre cas avec un Deployment.
 
-La version 1.0.0 de APP est lancée. On veut déployer la __version 2.0.0__  à la volée avec les Deployments suivants 
+La version 1.0.0 de APP est lancée. On veut déployer la __version 2.0.0__  à la volée avec les Deployments suivants :
 - Un replica de 3 POD "frontend"
 - Un replica de 5 POD "auth"
 - Un replica de 5 POD "hello"
 
+C'est à dire mettre à jour les container auth et hello qui actuellement tournent en **version 1.0.0** vers la **version 2.0.0**
+- auth v2.0.0 image: "kelseyhightower/auth:2.0.0"
+- hello v2.0.0 image: "kelseyhightower/hello:2.0.0"
 
-18. Mettre à jour les Deployments
-19. Quelle commande pouvez-vous utiliser pour vérifier le déroulement des mises à jour ( rollout status ) ? 
+17. Mettre à jour les Deployments et les composants applicatifs 
+18. Quelle commande pouvez-vous utiliser pour vérifier le déroulement des mises à jour ( rollout status ) ? 
 
