@@ -81,29 +81,29 @@ Comme tous les objets de l'API Kubernetes, un Deployment est defini avec les cha
 
 ### Configuration du Deployment pour les Pods "auth", "hello" et "frontend". 
 
-Pour construire les fichiers de configuration des 3 Deployment nous allons nous appuyer sur les fichiers de configuration des Pod "auth", "hello" et "frontend". 
+Pour construire les fichiers de configuration des 3 Deployments nous allons nous appuyer sur les fichiers de configuration des Pod "auth", "hello" et "frontend". 
 Ces fichiers ont été explicité dans l'exercice 03_ReplicatSet. On les rappelle :  
 
 le fichier de configuration du __Pod "auth"__ est disponible ici 
 
-`https://github.com/Treeptik/training-k8s-resources/blob/master/04_auth/sources/auth_pod.yaml`
+`https://github.com/Treeptik/training-k8s-resources/blob/master/00_Treeptik/Sources/auth_pod.yaml`
 
 le fichier de configuration du __Pod "hello"__ ,construit dans l'exercice précédent, est disponible ici :
 
-`https://github.com/Treeptik/training-k8s-resources/blob/master/03_ReplicatSet/sources/hello_pod.yaml`
+`https://github.com/Treeptik/training-k8s-resources/blob/master/00_Treeptik/Sources/hello_pod.yaml`
 
 le fichier de configuration du __Pod "frontend"__ est donné ici :
 
-`https://github.com/Treeptik/training-k8s-resources/blob/master/03_ReplicatSet/sources/frontend_pod.yaml`
+`https://github.com/Treeptik/training-k8s-resources/blob/master/00_Treeptik/Sources/frontend_pod.yaml`
 
 
 On rappelle que 
 - Dans le fichier de configuration d'un Deployment, le champ **.spec.template** décrit le template d'un Pod (celui décrit dans le fichier de configuration du Pod)
 
 
-7. Contruire le fichier de configuration du Deployment pour le Pod "auth"
-8. Contruire le fichier de configuration du Deployment pour le Pod "hello"
-9. Contruire le fichier de configuration du Deployment pour le Pod "frontend"
+7. Contruire le fichier de configuration du Deployment pour le Pod "auth" : Avec Replica: 1  
+8. Contruire le fichier de configuration du Deployment pour le Pod "hello" : Avec Replica: 1  
+9. Contruire le fichier de configuration du Deployment pour le Pod "frontend" : Avec Replica: 1  
 
 10. Creér les 3 Deployments avec les fichiers de configurations complétés précedement.   
 11. Quel est le resultat de la commande : `kubectl get pods --show-labels`
