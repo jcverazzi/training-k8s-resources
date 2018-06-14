@@ -127,12 +127,7 @@ le fichier de configuration du __Pod "frontend"__ est donné ici :
 
 `https://github.com/Treeptik/training-k8s-resources/blob/master/00_Treeptik/Sources/frontend_pod.yaml`
 
-Nous avons ajouté des déclarations supplementaires dans le fichier de configuration du Pod "frontend" : le template du Pod décrit un volume persistant permettant de stocker 
-- Le fichier de configuration de nginx pour ecouter sur le port 443 avec une couche SSL/TLS
-- Les certificats SSL/TLS ( ! Dépot public ! )
-
-Cette partie sera détaillée dans la suite de la Formation.  
-
+ 
 Les ReplicatSets orchestrerons pour commencer:
 - Un replica de 1 POD "frontend"
 - Un replica de 1 POD "auth"
