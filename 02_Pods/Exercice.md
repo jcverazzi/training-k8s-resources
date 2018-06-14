@@ -61,7 +61,7 @@ metadata:
 - Le Pod aura les labels "app = auth" et "track = stable"
 - L'image du container à déployer est : kelseyhightower/auth:1.0.0
 - Le container ecoute HTTP sur le port 80
-- BONUS : Le container utilisera un maximum de ressources telles que : 20% de 1 CPU et 20Mi de Mémoire
+- BONUS : Le container utilisera un maximum de ressources telles que : 5% de 1 CPU et 20Mi de Mémoire
 
 2. Créer le Pod en fournissant le fichier de configuration .yaml précédent en paramètres 
 3. Quelle est l'adresse IP du Pod "auth" ?
@@ -79,7 +79,7 @@ Le container "hello" n'utilise pas de volume pour du stockage persistant.
 - Le Pod aura les labels "app = hello" et "track = stable"
 - L'image du container à déployer est : kelseyhightower/hello:1.0.0
 - Le container ecoute HTTP sur le port 80 
-- BONUS : Le container utilisera un maximum de ressources telles que : 30% de 1 CPU et 50Mi de Mémoire
+- BONUS : Le container utilisera un maximum de ressources telles que : 5% de 1 CPU et 50Mi de Mémoire
 
 8. Créer le Pod en fournissant le fichier de configuration .yaml précédent en paramètres 
 9. Quelle est l'adresse IP du Pod "hello" ?
