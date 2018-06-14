@@ -139,6 +139,6 @@ C'est à dire mettre à jour les container auth et hello qui actuellement tourne
 - auth v2.0.0 image: "kelseyhightower/auth:2.0.0"
 - hello v2.0.0 image: "kelseyhightower/hello:2.0.0"
 
-17. Mettre à jour les Deployments et les composants applicatifs 
+17. Mettre à jour les fichiers de configuration des Deployments ainsi que l'application dans sa version 2.0.0. 
 18. Quelle commande pouvez-vous utiliser pour vérifier le déroulement des mises à jour ( rollout status ) ? 
 

@@ -163,6 +163,8 @@ Les ReplicatSets seront scalés tels que :
 15. Que faut il faire pour que les nouvelles valeures cibles de replicas soient prises en compte ? 
 16. Decrivez précisement les nouveaux groupes de PODs : quel est le nom des pods, sur quels noeuds sont-ils executés ?  
 17. A votre avis, que ce passe t'il si un Node tombe en panne ? //
+18. Fin de l'exercice : veiller à bien effacer les ReplicatSets !  
+
 
 __Perpectives__ : 
 

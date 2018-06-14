@@ -86,7 +86,7 @@ Le container "hello" n'utilise pas de volume pour du stockage persistant.
 10. Sur quel Node le Pod "hello" est-il lancé ? 
 11. Quel est le nom du container lancé dans le Pod "hello" ?
 12. Quels sont les labels attachés au Pod ?
-
+18. Fin de l'exercice : veiller à bien effacer les Pods !  
 
 
 
