@@ -41,5 +41,9 @@ hellov1-deployment      1         1         1            0           18m
 `kubectl get pod -o wide |grep deployment`
 ## 16. Quel est le résultat de la commande : `kubectl rollout history deployment` ? 
 ## 17. Mettre à jour les Deployments vers la v2 
-
+`kubectl apply -f auth_deployment_v2.yaml --record`
 ## 18. Quelle commande pouvez-vous utiliser pour vérifier le déroulement des mises à jour ( rollout status ) ?
+```
+kubectl rollout status deployment auth-deployment
+Waiting for rollout to finish: 3 out of 5 new replicas have been updated...
+```
