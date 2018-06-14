@@ -117,23 +117,15 @@ Pour construire les fichiers de configuration des 3 ReplicatSets nous allons nou
 
 le fichier de configuration du __Pod "auth"__ est disponible ici 
 
-`https://github.com/Treeptik/training-k8s-resources/blob/master/03_ReplicatSet/sources/auth_pod.yaml`
+`https://github.com/Treeptik/training-k8s-resources/blob/master/00_Treeptik/Sources/auth_pod.yaml`
 
 le fichier de configuration du __Pod "hello"__ ,construit dans l'exercice précédent, est disponible ici :
 
-`https://github.com/Treeptik/training-k8s-resources/blob/master/03_ReplicatSet/sources/hello_pod.yaml`
-
-Pour "auth" et hello" nous avons ajouté dans les spécifications du Container : 
-- La sonde **livenessProbe** 
-- La sonde **readinessProbe**
-
-**kubelet** utilise ces sondes pour superviser le Pod
-- __livenessProbe__ : Pur rendre compte de la disponibilité du/des container(s) dans les Pods. **kubelet** fait un GET sur cette sonde, dans notre cas sur **/healthz** en HTTP:81 (TCP disponibile). Si le code de retour est compris entre 200 et 399 alors la sonde considère le système comme disponible. Pour tout autre code de retour kubelet commande un "kill" & "Restart" du contaianer
-- __readinessProbe__ : Cette sonde renseigne sur la capacité d'un container du Pod a traiter les requêtes applicatves. En exposant sur la terminaison **/readiness** en HTTP:81 (TCP disponibile) un code entre 200 et 399, chaque container du Pod informe **kubelet** qu'il est __prêts__ à recevoir des requetes applicatives (via les services qui seront abordés plus tard) Pour tout autre code de retour, le trafic sera routé sur un autre container. 
+`https://github.com/Treeptik/training-k8s-resources/blob/master/00_Treeptik/Sources/hello_pod.yaml`
 
 le fichier de configuration du __Pod "frontend"__ est donné ici :
 
-`https://github.com/Treeptik/training-k8s-resources/blob/master/03_ReplicatSet/sources/frontend_pod.yaml`
+`https://github.com/Treeptik/training-k8s-resources/blob/master/00_Treeptik/Sources/frontend_pod.yaml`
 
 Nous avons ajouté des déclarations supplementaires dans le fichier de configuration du Pod "frontend" : le template du Pod décrit un volume persistant permettant de stocker 
 - Le fichier de configuration de nginx pour ecouter sur le port 443 avec une couche SSL/TLS

@@ -18,7 +18,7 @@ Image docker ( fournie en deux versions ) : `kelseyhightower/auth`
 
 Image docker ( fournie en deux versions ) : `kelseyhightower/hello`  
 
-- A ces deux modules, se rajoute un frontend Nginx qui route le traffic HTTPS aux composants "auth" et "hello"
+- A ces deux modules, se rajoute un frontend Nginx qui route le traffic HTTP aux composants "auth" et "hello"
 
 
 A la fin de l'exercice nous aurons : 
@@ -26,7 +26,7 @@ A la fin de l'exercice nous aurons :
 - Lancer les Pods. 
 - Inspecter les Pods en utilisant **kubectl** .
 
-Les Pods sont pour le moment indépendants. Dans les parties suivantes nous étudierons les objets qui permettrons d'orchestrer ces Pods entre eux et ainsi de remplir la fonction applicative : retourner "hello" à une requête HTTPS d'un utilisateur.     
+Les Pods sont pour le moment indépendants. Dans les parties suivantes nous étudierons les objets qui permettrons d'orchestrer ces Pods entre eux et ainsi de remplir la fonction applicative : retourner "hello" à une requête HTTP d'un utilisateur.     
 
 ## Pod "auth"
 
