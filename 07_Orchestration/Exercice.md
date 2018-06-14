@@ -12,7 +12,7 @@ Kubernetes permet de mettre en oeuvre facilement cette techique d'échantillonag
 - Le 1er Deployement de 3 pods representera la version "historique" : en version 1.0.0 
 - Le 2nd Deployement de 1 pod representera la version "canary" : en version 2.0.0 
 
-![Canary](https://github.com/Treeptik/training-k8s-resources/blob/master/07_Deployment/images/canary.png?raw=true "Canary")
+![Canary](https://github.com/Treeptik/training-k8s-resources/blob/master/07_Orchestration/images/canary.png "Canary")
 
 Nous utiliserons dans cet exercice le Pod "hello" : 
 
