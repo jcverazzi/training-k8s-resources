@@ -21,7 +21,7 @@ Cet exercice se focalise sur le set de commandes *kubectl* et nous soumettrons d
 
 ## Objectifs
 
-A la fin de l'exercice nous aurons déployé __en ligne de commande via *kubectl*__ un groupe de containers Nginx sur Kubernetes telle que :
+A la fin de l'exercice nous aurons déployé __en ligne de commande via *kubectl*__ un groupe de containers Tomcat sur Kubernetes telle que :
 
 ![Architecture Cible de l'exercice](https://github.com/Treeptik/training-k8s-resources/blob/master/01_kubectl/images/Treeptik-training-k8s-exo1.jpg?raw=true "Architecture Cible de l'exercice")
 
@@ -34,15 +34,15 @@ Se connecter au Cluster K8s de votre environnement de lab provisionné précedem
 1. Lister toutes les options disponibles avec la commande kubectl.
 2. Lister tous les objets disponibles en option de `kubectl get`
 3. Utiliser *kubectl* pour lancer un *Pod* avec les options :
-* nom du POD : nginx
-* image : nginx
-* port : 80
+* nom du POD : tomcat
+* image : tomcat
+* port : 8080
 
 La sortie de la commande devrait afficher :
 
-`deployment.apps "nginx" created `
+`deployment.apps "tomcat" created `
 
-Kubernetes a crée automatiquement un "Deployment". Cet objet, qui sera etudié plus tard, est utilisé pour orchestrer le pod Nginx tout au long de son cycle de vie : create, scale... .
+Kubernetes a crée automatiquement un "Deployment". Cet objet, qui sera etudié plus tard, est utilisé pour orchestrer le pod Tomcat tout au long de son cycle de vie : create, scale... .
 
 4. Quel est le résultat de la commande :  
 
@@ -50,10 +50,10 @@ Kubernetes a crée automatiquement un "Deployment". Cet objet, qui sera etudié 
 
 Etudions les informations données par la sortie de ces commandes - en particulier :
 
-5. Identifier la Colonne "NAME", à votre avis que représente la première ligne *nginx-.....* ?
+5. Identifier la Colonne "NAME", à votre avis que représente la première ligne *tomcat-.....* ?
 6. Identifier la Colonne "READY", à votre avis à quoi correspondent les chiffres : "1/1" ?
 
 - Le Status du POD est normalement en mode '"Running". En vous aidant de la documentation (trouvée sur Internet)
 7. Trouver la liste de tous les *status* possible dans le cycle de vie d'un POD.
-8. Trouver la commande qui affiche les logs temps reels du pod "nginx"
-9. Est-il possible de voir les logs du conteneur executé dans le pod "nginx" - comment ? Trouver la commande.
+8. Trouver la commande qui affiche les logs temps reels du pod "tomcat"
+9. Est-il possible de voir les logs du conteneur executé dans le pod "tomcat" - comment ? Trouver la commande.
