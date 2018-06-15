@@ -107,11 +107,9 @@ spec:
 
 12. Lancer le service "hello-service-blue"
 13. Quels sont les endpoints de ce service ?
-14. Verfier la description des deployments "Blue" et "Green" : vers quelles IPs le service route t-il le flux ?
-15. Quel commande utiliser pour mettre à jour le Service pour router les flux vers la version "Green" 
-kubectl apply -f hello_service_green.yaml
-16. Mettre à jour le service 
-17. vers quelles IPs le service "hello-service-blue" route t-il le flux ?
+14. Quel commande utiliser pour mettre à jour le Service pour router les flux vers la version "Green" : faire la mise à jour . 
+15. Vers quelles IPs le service "hello-service-blue" route t-il le flux ?
+
  
 
 
