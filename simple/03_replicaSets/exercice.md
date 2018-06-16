@@ -1,5 +1,11 @@
 ## Utiliser les ReplicaSets
 
+### Nettoyer l'environnement précédent
+
+`kubectl delete daemonsets,replicasets,services,deployments,pods,rc --all`
+
+## Comment multiplier les pods
+
 Un ReplicaSet est un superviseur pour les pods qui doivent absolument fonctionner. Il lancera autant de pods que spécifié.
 
 Si un pod survient au niveau d'un pod, il sera automatiquement relancé.
