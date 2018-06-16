@@ -12,4 +12,13 @@ Obtenir l'IP du pod :
 
 `kubectl describe pod mytomcat-66948985cf-q92hq | grep IP:`
 
+Vous pouvez remarquer qu'un **Deployment** vient également d'être créé:
+
+`kubectl get deployment`
+
+Vous pouvez accéder en local à l'application via 
+
+`curl 10.233.69.80:8080`
+
+
 
