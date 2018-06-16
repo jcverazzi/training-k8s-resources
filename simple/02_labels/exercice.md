@@ -40,3 +40,11 @@ mytomcat   1/1       Running   0          2m        env=development,owner=nicola
 
 ```
 
+Afficher seulement les pods ayant un certain label :
+
+````
+kubectl get pods -l env=development
+NAME       READY     STATUS    RESTARTS   AGE
+mytomcat   1/1       Running   0          3m
+```
+
