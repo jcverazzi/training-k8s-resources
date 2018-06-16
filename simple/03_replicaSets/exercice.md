@@ -133,7 +133,23 @@ NAME                             DESIRED   CURRENT   READY     AGE
 replicaset.extensions/frontend   3         3         3         12m
 ```
 
+### Supprimer le ReplicaSet
 
+Comme attendu, la suppression du ReplicaSet implique la suppression des pods.
+
+```
+kubectl delete rs/frontend
+replicaset.extensions "frontend" deleted
+
+kubectl get pod,rs
+NAME                 READY     STATUS        RESTARTS   AGE
+pod/frontend-6xdbh   0/1       Terminating   0          4m
+pod/frontend-dwmwd   0/1       Terminating   0          1m
+pod/frontend-s9lrl   0/1       Terminating   0          8m
+
+kubectl get pod,rs
+No resources found.
+```
 
 
 
