@@ -75,4 +75,7 @@ kubectl get pods --selector 'env in (production)'
 kubectl get pods -l 'env in (production)'
 ```
 
+## Remarques
+
+Les labels s'appliquent à tout type de ressources évidemment et pas seulement aux pods
 
