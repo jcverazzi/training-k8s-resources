@@ -151,6 +151,14 @@ kubectl get pod,rs
 No resources found.
 ```
 
+### Bonus 
+
+Pour exposer un tel RS sur l'extérieur, vous pouvez déployer le fichier suivant.
+La notion de *Service* sera vue ultérieurement.
+
+Pour accéder à l'application, vous devez utilisez l'IP d'un de vos noeuds Worker:31000
+
+`kubectrl -f https://raw.githubusercontent.com/Treeptik/training-k8s-resources/master/simple/03_replicaSets/service.yaml`
 
 
 
