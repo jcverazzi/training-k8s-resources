@@ -36,7 +36,7 @@ Comme vu pendant la formation, le fichier de configuration du Pod décrit :
 - Les métadatas associées au Pod (name, label)
 - Les specifications du Pod : en particulier l'image du container, les ports du container à publier. Egalement il est utile de préciser les ressources (CPU,Memoire) allouable au container. 
 
-Le squellette de fichier de configuration du Pod "auth" est donné ci-après 
+Le squelette de fichier de configuration du Pod "auth" est donné ci-après 
 
 ```
 apiVersion: v1
@@ -56,7 +56,7 @@ metadata:
 ```
 
 
-1. Completer le fichier afin de configurer le Pod tel que : 
+1. Compléter le fichier afin de configurer le Pod tel que : 
 - Le nom du Pod est "auth" 
 - Le Pod aura les labels "app = auth" et "track = stable"
 - L'image du container à déployer est : kelseyhightower/auth:1.0.0
@@ -72,7 +72,6 @@ metadata:
 ## Pod "hello"
 
 Le container "hello" n'utilise pas de volume pour du stockage persistant. 
-
 
 7. Créer le fichier .yaml afin de configurer le Pod tel que : 
 - Le nom du Pod est "hello" 
