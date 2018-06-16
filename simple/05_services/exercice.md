@@ -148,9 +148,25 @@ Votre application doit être accessible sur chaque IP de vos noeuds WORKER:30000
 
 Vous pouvez soit éditer le fichier **vote-deployment.yaml** et le redéployer ou bien l'éditer directement en ligne:
 
+Passer le nombre de **replicas** à 10 par exemple.
+
 ```
 kubectl edit deployment vote
 deployment.extensions "vote" edited
+
+kubectl get pods
+NAME                     READY     STATUS    RESTARTS   AGE
+redis-659469b86b-fczsr   1/1       Running   0          8m
+vote-54f5f76b95-55rnn    1/1       Running   0          6m
+vote-54f5f76b95-5flbg    1/1       Running   0          2m
+vote-54f5f76b95-96ql6    1/1       Running   0          2m
+vote-54f5f76b95-cqwnl    1/1       Running   0          2m
+vote-54f5f76b95-d6mq4    1/1       Running   0          2m
+vote-54f5f76b95-d84bw    1/1       Running   0          2m
+vote-54f5f76b95-nwdjx    1/1       Running   0          2m
+vote-54f5f76b95-q6r4f    1/1       Running   0          2m
+vote-54f5f76b95-r4sp4    1/1       Running   0          2m
+vote-54f5f76b95-zpnhm    1/1       Running   0          2m
 ```
 
 Vous pouvez voir sur la page web que les ID des containers changent désormais.
