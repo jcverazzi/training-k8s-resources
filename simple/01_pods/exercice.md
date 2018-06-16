@@ -1,4 +1,4 @@
-## Démarrer une image Tomcat simplement
+## Démarrer une image Tomcat simplement via la ligne de commande
 
 Lancer une instance Tomcat sur le port standard.
 
@@ -31,7 +31,37 @@ Vous pouvez lister les variables d'environnement :
 
 `kubectl exec mytomcat-66948985cf-q92hq -- printenv`
 
-# Déployer une image sur base d'un fichier avec contraintes
+## Déployer une image sur base d'un fichier avec contraintes
+
+Créer un fichier `pod-tomcat.yaml` sur base de ceci :
+
+```
+apiVersion: v1
+kind: Pod
+metadata:
+  name: mytomcat
+spec:
+  containers:
+  - name: rawtomcat
+    image: tomcat:8.0.52-jre8
+  - name: shell
+    image: centos:7
+    command:
+      - "bin/bash"
+      - "-c"
+      - "sleep 10000"
+```
+
+Vous remarquerez que l'on crée désormais deux containers au sein du même pod.
+
+```
+kubectl exec mytomcat -c shell -i -t -- bash
+[root@mytomcat /]# ps -ef
+[root@mytomcat /]# curl localhost:8080
+```
+
+On remarque bien que l'on est dans le container shell mais que l'on peut accéder en localhost au tomcat.
+
 
 
 
