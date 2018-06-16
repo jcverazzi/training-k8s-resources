@@ -54,6 +54,14 @@ NAME                                       DESIRED   CURRENT   READY     AGE
 replicaset.apps/tomcat-deploy-5777588498   2         2         2         6s
 ```
 
+Afficher la valeur de la variable d'environnement :
+
+```
+kubectl exec -it tomcat-deploy-5777588498-qrbvs env | grep URL_WS
+URL_WS=https://foo.01.ws.com
+```
+
+
 Editer le fichier "dep.yaml" pour y changer de la variable d'environnement URL_WS
 
 ```
@@ -105,6 +113,42 @@ tomcat-deploy-7d54877fdd-blrg2   1/1       Running   0          1m
 tomcat-deploy-7d54877fdd-snnws   1/1       Running   0          1m
 ```
 
+Afficher la valeur de la variable d'environnement :
+
+```
+kubectl exec -it tomcat-deploy-7d54877fdd-blrg2 env | grep URL_WS
+URL_WS=https://foo.02.ws.com
+```
+
+### Faire un RollBack
+
+Pour lister les versions disponibles :
+
+```
+kubectl rollout history deployment
+
+deployments "tomcat-deploy"
+REVISION  CHANGE-CAUSE
+1         <none>
+2         <none>
+3         <none>
+```
+
+C'est moche de ne pas avoir de cause. Nous verrons ceci plus tard.
+Il est possible de revenir en arrière avec :
+
+```
+kubectl rollout undo deploy/tomcat-deploy --to-revision=1
+deployment "tomcat-deploy" rolled back
+
+kubectl get pods
+NAME                             READY     STATUS    RESTARTS   AGE
+tomcat-deploy-85b96964c8-ts64h   1/1       Running   0          1m
+tomcat-deploy-85b96964c8-wftnn   1/1       Running   0          1m
+
+kubectl exec -it tomcat-deploy-85b96964c8-ts64h env | grep WS
+URL_WS=https://foo.01.ws.com
+```
 
 
 
