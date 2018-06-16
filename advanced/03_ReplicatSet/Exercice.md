@@ -9,7 +9,7 @@ A la fin de l'exercice nous aurons :
 - Crée les : ReplicaSet pour chaque composant applicatif
 - Abordé la scalabilité grâce aux ReplicatSets .
 
-![Application APP](https://github.com/Treeptik/training-k8s-resources/blob/master/03_ReplicatSet/images/Treeptik-training-k8s-exo3-1.jpg?raw=true "Application APP")
+![Application APP](https://github.com/Treeptik/training-k8s-resources/blob/master/advanced/03_ReplicatSet/images/Treeptik-training-k8s-exo3-1.jpg?raw=true "Application APP")
 
 
 Les différentes parties ne seront pas exposées : 
