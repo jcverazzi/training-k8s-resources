@@ -36,6 +36,23 @@ spec:
           value: "8.0.52"
 ```
 
+On peut voir toutes les ressources créées :
+
+```
+kubectl get all
+NAME                                 READY     STATUS    RESTARTS   AGE
+pod/tomcat-deploy-7487b7bf6b-7k2cl   1/1       Running   0          18s
+pod/tomcat-deploy-7487b7bf6b-md98v   1/1       Running   0          18s
+
+NAME                 TYPE        CLUSTER-IP   EXTERNAL-IP   PORT(S)   AGE
+service/kubernetes   ClusterIP   10.233.0.1   <none>        443/TCP   1m
+
+NAME                            DESIRED   CURRENT   UP-TO-DATE   AVAILABLE   AGE
+deployment.apps/tomcat-deploy   2         2         2            2           18s
+
+NAME                                       DESIRED   CURRENT   READY     AGE
+replicaset.apps/tomcat-deploy-7487b7bf6b   2         2         2         18s
+```
 
 
 
