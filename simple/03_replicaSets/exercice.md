@@ -117,7 +117,21 @@ NAME                             DESIRED   CURRENT   READY     AGE
 replicaset.extensions/frontend   3         3         3         11m
 ```
 
+Comme précédemment, la suppression d'un pod provoque sa regénération :
 
+```
+kubectl delete pod/frontend-qcd65
+pod "frontend-qcd65" deleted
+
+kubectl get pod,rs
+NAME                 READY     STATUS    RESTARTS   AGE
+pod/frontend-6xdbh   1/1       Running   0          2m
+pod/frontend-dwmwd   1/1       Running   0          6s
+pod/frontend-s9lrl   1/1       Running   0          7m
+
+NAME                             DESIRED   CURRENT   READY     AGE
+replicaset.extensions/frontend   3         3         3         12m
+```
 
 
 
