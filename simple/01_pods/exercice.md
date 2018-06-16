@@ -1,4 +1,4 @@
-## Démarrer une image Tomcat
+## Démarrer une image Tomcat simplement
 
 Lancer une instance Tomcat sur le port standard.
 
@@ -31,7 +31,7 @@ Vous pouvez lister les variables d'environnement :
 
 `kubectl exec mytomcat-66948985cf-q92hq -- printenv`
 
-
+# Déployer une image sur base d'un fichier avec contraintes
 
 
 
