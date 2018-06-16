@@ -9,6 +9,8 @@
 Application exemple fournie par Docker dont le FrontEnd nécessite une base de données REDIS.
 Commençons par la déployer en premier:
 
+## Service ClusterIP
+
 Créer le fichier **redis-deployment.yaml**
 
 ```
@@ -91,7 +93,7 @@ replicaset.apps/redis-659469b86b   1         1         1         40s
 
 Désormais **redis** est accessible sur le ClusterIp pour la future application **vote**.
 
-## Utiliser NodePort
+## Service NodePort
 
 Nous allons commencer par l'exposition la plus simple.
 
