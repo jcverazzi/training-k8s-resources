@@ -24,13 +24,13 @@ https://raw.githubusercontent.com/Treeptik/training-k8s-resources/master/advance
 
 1. En ce basant sur le fichier précédent : écrire le fichier de configuration du deployment pour la version "Canary" 
 __Indications__ : 
-- Remplacer le label 'release: stable' avec la valeur "canary"
+- Remplacer le label 'release: stable' avec la valeur "canary" partout
 - La version Canary lancera 1 pod unique 
 
 Le Service Kubernetes est en charge de distribuer les requêtes utilisateurs sur les 2 versions applicatives qui coexistent en production. 
 Nous allons écrire le fichier de configuration de ce service de telle facon à ce que la selection soit à la fois sur les Pods de l'application dans sa version 1.0.0 et sur le pod de la version Canary . 
 
-Rappel : Un serivice utilise les **selectors** pour identifier les pods et monter les endpoints pour router les flux vers ces Pods selectionner. 
+Rappel : Un service utilise les **selectors** pour identifier les pods et monter les endpoints pour router les flux vers ces Pods selectionner. 
 
 2. Ecrire le fichier de configuration du service en se basant sur le squelette : 
 
