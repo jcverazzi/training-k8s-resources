@@ -34,7 +34,7 @@ spec:
         emptyDir: {}
 ```
 
-Créer le fichier **redis-service.yaml*
+Créer le fichier **redis-service.yaml**
 
 ```
 apiVersion: v1
@@ -70,7 +70,7 @@ replicaset.apps/redis-659469b86b   1         1         1         5s
 
 ```
 
-Puis déployer le service REDIS
+Puis déployer le service **redis
 ```
 kubectl create -f redis-service.yaml
 
@@ -89,7 +89,7 @@ NAME                               DESIRED   CURRENT   READY     AGE
 replicaset.apps/redis-659469b86b   1         1         1         40s
 ```
 
-Désormais REDIS est accessible sur le ClusterIp pour la future application VOTE.
+Désormais **redis** est accessible sur le ClusterIp pour la future application **vote**.
 
 ## Utiliser NodePort
 
@@ -139,6 +139,9 @@ spec:
   selector:
     app: vote
 ```
+
+Votre application doit être accessible sur chaque IP de vos noeuds WORKER:30000
+
 
 
 
