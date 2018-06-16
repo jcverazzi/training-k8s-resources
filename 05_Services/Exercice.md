@@ -1,18 +1,18 @@
 # Exercice : les Services 
 
-Dans cet exercice nous allons créer des fichiers de configuraton de type "Service" pour mettre en ligne  une application appellée "pokemon" - en réalité qui permet de présenter une démo de Sozu Proxy 
+Dans cet exercice nous allons créer des fichiers de configuration de type "Service" pour mettre en ligne une application appelée "pokemon".
 
 `https://github.com/sozu-proxy`
 
 A la fin de l'exercice nous aurons : 
 - Ecrit les fichiers de configuration pour les services exposant "pikachu, mewtwo, nidoqueen" à une requete HTTP depuis l'internet. 
 - Crée les services.
-- Abordé les controllers Ingress qui permetront dexpposer les services sur Internet.
+- Abordé les controllers Ingress qui permetront d'exposer les services sur Internet.
 
-On se donne le fichier de deployments suivant : 
+On se donne le fichier de deployment suivant : 
 
-1. Combien de Deployments vont être lancé ? Détaillez votre réponse. 
-2. Combien de pod vont être lancé ? Détaillez votre réponse.
+1. Combien de Deployment vont être lancés ? Détaillez votre réponse. 
+2. Combien de pod vont être lancés ? Détaillez votre réponse.
 3. En analysant les champs {spec.template.spec.container.port} pour chaque type de deployment, déterminer quelle sera la réponse de chaque type de Pod à une requête HTTP port 80 ? 
 4. Lancer les deployments
 5. Decrivez chacun des deployments 
