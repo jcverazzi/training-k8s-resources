@@ -24,7 +24,7 @@ Vous pouvez également rentrer dans le container et y accéder en local :
 
 ```
 kubectl exec mytomcat-66948985cf-q92hq -c shell -i -t -- bash
-curl localhost:8080
+root@mytomcat-66948985cf-q92hq:/usr/local/tomcat# curl localhost:8080
 ```
 
 Vous pouvez lister les variables d'environnement :
