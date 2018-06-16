@@ -96,7 +96,7 @@ Comme tous les objets de l'API Kubernetes, un ReplicaSet est defini avec les cha
 - Une spécificité introduite avec le ReplicatSet est le champs **.spec.selector.**. Le ReplicatSet gère les Pods dont le label correspond au selector défini dans ce champs : il est essentiel de noter que lors de la création du ReplicatSet, l'API sera interrogée pour savoir si des Pods déjà existants sont déjà labelisés suivant le valeur du Selector. Si de tel Pod existent, alors le Replicaset en prendra le contrôle. 
 - La bonne pratique est d'utiliser ce "Label Selector" et de le préférer au "Label" uniquement. En effet, l'usine logicielle est succeptible d'utiliser de nombreux pipelines et il est essentiel de pouvoir filtrer/selectionner les labels précisement pour l'orchestration de Pod. La figure suivante permet d'illuster un pipeline complexe et la nécessite de selectionner judicieusement les Labels : 
 
-![Label Selector](https://github.com/Treeptik/training-k8s-resources/blob/master/03_ReplicatSet/images/Labels_Selector.png?raw=true "Label Selector")
+![Label Selector](https://github.com/Treeptik/training-k8s-resources/blob/master/advanced/03_ReplicatSet/images/Labels_Selector.png?raw=true "Label Selector")
 
 - Le champ **.spec.template** décrit le template d'un Pod, qui est encapsulé dans la configuration du ReplicaSet. On remarque qu'il s'agit du même shéma que le fichier de configuration d'un Pod. 
 - En particulier on retrouve le champ **.spec.template.metadata.labels** . Le selector recherche dans ce champs les valeurs qui correpondent à celle du **.spec.selector.**. Si aucune correpondance n'est trouvée, l'API rejetera la configuration.
@@ -117,15 +117,15 @@ Pour construire les fichiers de configuration des 3 ReplicatSets nous allons nou
 
 le fichier de configuration du __Pod "auth"__ est disponible ici 
 
-`https://github.com/Treeptik/training-k8s-resources/blob/master/00_Treeptik/Sources/auth_pod.yaml`
+`https://github.com/Treeptik/training-k8s-resources/blob/master/advanced/00_Treeptik/Sources/auth_pod.yaml`
 
 le fichier de configuration du __Pod "hello"__ ,construit dans l'exercice précédent, est disponible ici :
 
-`https://github.com/Treeptik/training-k8s-resources/blob/master/00_Treeptik/Sources/hello_pod.yaml`
+`https://github.com/Treeptik/training-k8s-resources/blob/master/advanced/00_Treeptik/Sources/hello_pod.yaml`
 
 le fichier de configuration du __Pod "frontend"__ est donné ici :
 
-`https://github.com/Treeptik/training-k8s-resources/blob/master/00_Treeptik/Sources/frontend_pod.yaml`
+`https://github.com/Treeptik/training-k8s-resources/blob/master/advanced/00_Treeptik/Sources/frontend_pod.yaml`
 
  
 Les ReplicatSets orchestrerons pour commencer:
