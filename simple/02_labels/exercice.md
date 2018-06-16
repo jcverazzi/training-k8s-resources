@@ -21,3 +21,22 @@ spec:
     image: tomcat:8.0.52-jre8
 ````
 
+Afficher désormais les labels associés aux pods :
+
+````
+kubectl get pods mytomcat --show-labels
+NAME       READY     STATUS    RESTARTS   AGE       LABELS
+mytomcat   1/1       Running   0          35s       env=development
+````
+
+Ajouter un nouvel label au pod 
+
+```
+kubectl label pods mytomcat owner=nicolas
+
+kubectl get pods mytomcat --show-labels
+NAME       READY     STATUS    RESTARTS   AGE       LABELS
+mytomcat   1/1       Running   0          2m        env=development,owner=nicolas
+
+```
+
