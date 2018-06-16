@@ -134,7 +134,6 @@ REVISION  CHANGE-CAUSE
 3         <none>
 ```
 
-C'est moche de ne pas avoir de cause. Nous verrons ceci plus tard.
 Il est possible de revenir en arrière avec :
 
 ```
@@ -150,6 +149,17 @@ kubectl exec -it tomcat-deploy-85b96964c8-ts64h env | grep WS
 URL_WS=https://foo.01.ws.com
 ```
 
+### Suppression des ressources
+
+Comme attendu, la suppression de la ressource **Deployment** implique la suppression de toutes ses dépendances.
+
+```
+kubectl delete deploy tomcat-deploy
+deployment.extensions "tomcat-deploy" deleted
+
+kubectl get pods
+No resources found.
+```
 
 
 
