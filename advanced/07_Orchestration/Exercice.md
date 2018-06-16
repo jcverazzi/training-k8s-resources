@@ -18,7 +18,9 @@ Nous utiliserons dans cet exercice le Pod "hello" :
 
 Pour la version "historique" nous nous baserons sur ce deployment : 
 
-`https://github.com/Treeptik/training-k8s-resources/blob/master/advanced/07_Orchestration/sources/hello_deployment_v1.yaml`
+```
+https://raw.githubusercontent.com/Treeptik/training-k8s-resources/master/advanced/07_Orchestration/sources/hello_deployment_v1.yaml
+```
 
 1. En ce basant sur le fichier précédent : écrire le fichier de configuration du deployment pour la version "Canary" 
 __Indications__ : 
@@ -28,10 +30,9 @@ __Indications__ :
 Le Service Kubernetes est en charge de distribuer les requêtes utilisateurs sur les 2 versions applicatives qui coexistent en production. 
 Nous allons écrire le fichier de configuration de ce service de telle facon à ce que la selection soit à la fois sur les Pods de l'application dans sa version 1.0.0 et sur le pod de la version Canary . 
 
-Rappel : Un serivice utilise les **selectors** pour identifier les pod et monter les endpoint pour router les flux vers ces Pods selectionner. 
+Rappel : Un serivice utilise les **selectors** pour identifier les pods et monter les endpoints pour router les flux vers ces Pods selectionner. 
 
-
-2. Ecrire le fichier de configuration du service en se basanr sur le squelette : 
+2. Ecrire le fichier de configuration du service en se basant sur le squelette : 
 
 ```
 apiVersion: v1
