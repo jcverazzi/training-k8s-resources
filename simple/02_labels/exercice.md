@@ -60,3 +60,10 @@ NAME         READY     STATUS    RESTARTS   AGE       LABELS
 mytomcat     1/1       Running   0          8m        env=development,owner=nicolas
 realtomcat   1/1       Running   0          12s       env=production,owner=kevin
 ````
+
+On peut désormais cibler les pods en fonction des labels avec l'option `--selector` ou `-l` en abrégé.
+
+```
+kubectl get pods --selector 'env in (production, development)'
+kubectl get pods -l 'env in (production, development)'
+```
