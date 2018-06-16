@@ -79,6 +79,31 @@ spec:
           value: "https://foo.02.ws.com"
 ```
 
+Pour déployer la modification, vous ne devez pas utiliser la commande **create** mais bien **apply**.
+
+```
+kubectl apply -f dep.yaml
+deployment.apps "tomcat-deploy" configured
+
+kubectl get pods
+NAME                             READY     STATUS              RESTARTS   AGE
+tomcat-deploy-7d54877fdd-blrg2   1/1       Running             0          2s
+tomcat-deploy-7d54877fdd-snnws   0/1       ContainerCreating   0          1s
+tomcat-deploy-849cd86d55-8zmmb   1/1       Terminating         0          2m
+tomcat-deploy-849cd86d55-jdm8h   1/1       Running             0          2m
+
+kubectl get pods
+NAME                             READY     STATUS        RESTARTS   AGE
+tomcat-deploy-7d54877fdd-blrg2   1/1       Running       0          3s
+tomcat-deploy-7d54877fdd-snnws   1/1       Running       0          2s
+tomcat-deploy-849cd86d55-8zmmb   0/1       Terminating   0          2m
+tomcat-deploy-849cd86d55-jdm8h   1/1       Terminating   0          2m
+
+kubectl get pods
+NAME                             READY     STATUS    RESTARTS   AGE
+tomcat-deploy-7d54877fdd-blrg2   1/1       Running   0          1m
+tomcat-deploy-7d54877fdd-snnws   1/1       Running   0          1m
+```
 
 
 
