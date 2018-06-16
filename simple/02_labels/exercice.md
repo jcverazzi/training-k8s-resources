@@ -42,7 +42,7 @@ mytomcat   1/1       Running   0          2m        env=development,owner=nicola
 
 Afficher seulement les pods ayant un certain label :
 
-````
+```
 kubectl get pods -l env=development
 NAME       READY     STATUS    RESTARTS   AGE
 mytomcat   1/1       Running   0          3m
@@ -50,7 +50,9 @@ mytomcat   1/1       Running   0          3m
 
 ## Utiliser les **Selector**
 
-Lancer un second Tomcat avec nouveau propriétaire (owner=kevin) pour un environnement de production
+Lancer un second Tomcat avec nouveau propriétaire (owner=kevin) pour un environnement de production.
 
-`kubectl create -f https://raw.githubusercontent.com/Treeptik/training-k8s-resources/master/simple/02_labels/tomcat-kevin.yaml`
+````
+kubectl create -f https://raw.githubusercontent.com/Treeptik/training-k8s-resources/master/simple/02_labels/tomcat-kevin.yaml
+````
 
