@@ -11,7 +11,7 @@ Pour faire une action de rolling-update ou de rollout sur un ReplicaSet, il est 
 
 ## Créer son premier Deployment
 
-Copier le contenu dans le fichier **dp.yaml**
+Copier le contenu dans le fichier **dep.yaml**
 
 ```
 apiVersion: apps/v1beta1
