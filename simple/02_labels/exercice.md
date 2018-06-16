@@ -48,3 +48,9 @@ NAME       READY     STATUS    RESTARTS   AGE
 mytomcat   1/1       Running   0          3m
 ```
 
+## Utiliser les **Selector**
+
+Lancer un second Tomcat avec nouveau propriétaire (owner=kevin) pour un environnement de production
+
+`kubectl create -f https://raw.githubusercontent.com/Treeptik/training-k8s-resources/master/simple/02_labels/tomcat-kevin.yaml`
+
