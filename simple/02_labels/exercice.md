@@ -67,3 +67,12 @@ On peut désormais cibler les pods en fonction des labels avec l'option `--selec
 kubectl get pods --selector 'env in (production, development)'
 kubectl get pods -l 'env in (production, development)'
 ```
+
+Pour ne choisir que celui de production
+
+```
+kubectl get pods --selector 'env in (production)'
+kubectl get pods -l 'env in (production)'
+```
+
+
