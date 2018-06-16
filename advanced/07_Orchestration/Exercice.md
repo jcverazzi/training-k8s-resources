@@ -12,13 +12,13 @@ Kubernetes permet de mettre en oeuvre facilement cette techique d'échantillonag
 - Le 1er Deployment de 3 pods representera la version "historique" : en version 1.0.0 
 - Le 2nd Deployment de 1 pod representera la version "canary" : en version 2.0.0 
 
-![Canary](https://github.com/Treeptik/training-k8s-resources/blob/master/07_Orchestration/images/canary.png "Canary")
+![Canary](https://github.com/Treeptik/training-k8s-resources/blob/master/advanced/07_Orchestration/images/canary.png "Canary")
 
 Nous utiliserons dans cet exercice le Pod "hello" : 
 
 Pour la version "historique" nous nous baserons sur ce deployment : 
 
-`https://github.com/Treeptik/training-k8s-resources/blob/master/07_Orchestration/sources/hello_deployment_v1.yaml`
+`https://github.com/Treeptik/training-k8s-resources/blob/master/advanced/07_Orchestration/sources/hello_deployment_v1.yaml`
 
 1. En ce basant sur le fichier précédent : écrire le fichier de configuration du deployment pour la version "Canary" 
 __Indications__ : 
@@ -66,13 +66,13 @@ Dans cette technique, le deployment :
 - __Blue__ est la version à mettre à jour, qui restera en production jusqu'à la bascule complète vers : 
 - __Green__ qui est la nouvelle version.  
 
-![Blue_Green](https://github.com/Treeptik/training-k8s-resources/blob/master/07_Orchestration/images/blue-green.png "Blue_Green")
+![Blue_Green](https://github.com/Treeptik/training-k8s-resources/blob/master/advanced/07_Orchestration/images/blue-green.png "Blue_Green")
 
 Il s'agit alors de router le trafic vers la version "Green" en mettant à jour le Service correpondant. 
 
 On se base pour la version "Blue" à mettre à jour sur le fichier de configuration suivant : 
 
-`https://github.com/Treeptik/training-k8s-resources/blob/master/07_Orchestration/sources/hello_deployment_blue.yaml`
+`https://github.com/Treeptik/training-k8s-resources/blob/master/advanced/07_Orchestration/sources/hello_deployment_blue.yaml`
 
 8. En ce basant sur le fichier précédent : écrire le fichier de configuration du deployment pour la version "Green" 
 __Indications__ : 
