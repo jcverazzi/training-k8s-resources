@@ -100,6 +100,25 @@ NAME                       DESIRED   CURRENT   READY     AGE
 replicaset.apps/frontend   1         1         1         6m
 ```
 
+### Multiplier les pods
+
+Désormais on va demander au superviseur d'en lancer en plusieurs instances :
+
+```
+kubectl scale --replicas=3 replicaset.apps/frontend
+
+kubectl get pod,rs
+NAME                 READY     STATUS    RESTARTS   AGE
+pod/frontend-6xdbh   1/1       Running   0          1m
+pod/frontend-qcd65   1/1       Running   0          1m
+pod/frontend-s9lrl   1/1       Running   0          6m
+
+NAME                             DESIRED   CURRENT   READY     AGE
+replicaset.extensions/frontend   3         3         3         11m
+```
+
+
+
 
 
 
