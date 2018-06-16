@@ -67,7 +67,6 @@ Pour vous prouver que quelqu'un gère bien votre infrastructure, veuillez suppri
 
 ```
 kubectl delete pods --all
-kubectl get all
 ```
 
 Vous pouvez voir que le pod précédent est en train d'être supprimé et qu'un nouveau apparaît
