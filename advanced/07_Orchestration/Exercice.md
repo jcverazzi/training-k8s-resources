@@ -2,7 +2,7 @@
 
 ## Créer un déploiement "Canary"
 
-Un déploiement Canary consiste à déployer une nouvelle version applicative en parralèle,sur les plateformes de production et de la distribuer à un echantillion choisi d'utilisateurs tout en gardant la version historique de l'applicative en production.  
+Un déploiement Canary consiste à déployer une nouvelle version applicative en parralèle,sur les plateformes de production et de la distribuer à un échantillon choisi d'utilisateurs tout en gardant la version historique de l'applicative en production.  
 
 Par exemple 
 - 5% d'utilisateur seront basculés sur la version Canary. 
