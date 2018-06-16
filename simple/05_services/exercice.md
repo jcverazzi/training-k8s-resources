@@ -72,7 +72,7 @@ replicaset.apps/redis-659469b86b   1         1         1         5s
 
 ```
 
-Puis déployer le service **redis
+Puis déployer le service **redis**
 ```
 kubectl create -f redis-service.yaml
 
