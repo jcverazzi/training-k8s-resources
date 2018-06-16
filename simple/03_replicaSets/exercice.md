@@ -57,7 +57,20 @@ Lancer le RS via `kubectl create -f rs.yaml`
 
 Désormais vous pouvez afficher tous les objets :
 
-`kubectl get all`
+```
+kubectl get all
+
+NAME                 READY     STATUS    RESTARTS   AGE
+pod/frontend-ggqjn   1/1       Running   0          18s
+
+NAME                 TYPE        CLUSTER-IP   EXTERNAL-IP   PORT(S)   AGE
+service/kubernetes   ClusterIP   10.233.0.1   <none>        443/TCP   16s
+
+NAME                       DESIRED   CURRENT   READY     AGE
+replicaset.apps/frontend   1         1         1         18s
+```
+
+
 
 
 
