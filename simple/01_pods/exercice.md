@@ -31,7 +31,7 @@ Vous pouvez lister les variables d'environnement :
 
 `kubectl exec mytomcat-66948985cf-q92hq -- printenv`
 
-## Déployer une image sur base d'un fichier avec contraintes
+## Déployer un pod sur base d'un fichier 
 
 Créer un fichier `pod-tomcat.yaml` sur base de ceci :
 
