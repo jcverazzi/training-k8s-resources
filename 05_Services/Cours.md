@@ -1,15 +1,8 @@
-# Exercice : Les Services 
+# Cours : Les Services 
 
 Dans les parties précedentes nous avons lancé des ReplicatSets et des Deployments (qui eux-mêmes s'appuis sur des ReplicatSets ) pour executer les Pods de containers qui constituent les composants de l'application. 
 
-Dans cet exercice nous allons __mettre en ligne l'application APP__ en utilisant les Services Kubernetes pour exposer chaque Pod : 
-- Sur Internet pour le Pod "frontend", 
-- En interne pour les Pods "auth" et "hello". 
 
-A la fin de cet exercice nous aurons 
-- Ecrit les fichier de configuration des Services 
-- ..
-- ..
 
 
 ## Introduction 
