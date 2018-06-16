@@ -61,6 +61,49 @@ NAME                       DESIRED   CURRENT   READY     AGE
 replicaset.apps/frontend   1         1         1         18s
 ```
 
+### Supprimer le pod
+
+Pour vous prouver que quelqu'un gère bien votre infrastructure, veuillez supprimer le pod directement
+
+```
+kubectl delete pods --all
+kubectl get all
+```
+
+Vous pouvez voir que le pod précédent est en train d'être supprimé et qu'un nouveau apparaît
+
+```
+kubectl get all
+
+NAME                 READY     STATUS              RESTARTS   AGE
+pod/frontend-s9lrl   0/1       ContainerCreating   0          1s
+pod/frontend-vf9cs   1/1       Terminating         0          12s
+
+NAME                 TYPE        CLUSTER-IP   EXTERNAL-IP   PORT(S)   AGE
+service/kubernetes   ClusterIP   10.233.0.1   <none>        443/TCP   5m
+
+NAME                       DESIRED   CURRENT   READY     AGE
+replicaset.apps/frontend   1         1         0         5m
+```
+
+Puis finalement :
+
+```
+kubectl get all
+
+NAME                 READY     STATUS    RESTARTS   AGE
+pod/frontend-s9lrl   1/1       Running   0          46s
+
+NAME                 TYPE        CLUSTER-IP   EXTERNAL-IP   PORT(S)   AGE
+service/kubernetes   ClusterIP   10.233.0.1   <none>        443/TCP   6m
+
+NAME                       DESIRED   CURRENT   READY     AGE
+replicaset.apps/frontend   1         1         1         6m
+```
+
+
+
+
 
 
 
