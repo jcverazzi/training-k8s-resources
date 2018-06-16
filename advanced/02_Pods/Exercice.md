@@ -6,7 +6,7 @@ Nous allons nous servir de l'application "App, A sample 12 Facter Application", 
 
 `https://github.com/kelseyhightower/app`
 
-![Application APP](https://github.com/Treeptik/training-k8s-resources/blob/master/02_Pods/images/Treeptik-training-k8s-exo2-app.jpg?raw=true "Application APP")
+![Application APP](https://github.com/Treeptik/training-k8s-resources/blob/master/advanced/02_Pods/images/Treeptik-training-k8s-exo2-app.jpg?raw=true "Application APP")
 
 Elle est composée : 
 
