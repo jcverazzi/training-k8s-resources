@@ -7,9 +7,35 @@
 ## Pourquoi utiliser les Deployments ?
 
 Un ReplicaSet ne peut fournir de service de rolling-update que les ReplicationController savent faire.
-Pour faire une action de rolling-update ou de rollout sur un ReplicaSet, il est nécessaire d'utiliser un Deployment de façon déclarative et non pas impérative.
+Pour faire une action de rolling-update ou de rollout sur un ReplicaSet, il est nécessaire d'utiliser un Deployment de façon déclarative.
 
-## 
+## Créer son premier Deployment
+
+Copier le contenu dans le fichier **dp.yaml**
+
+```
+apiVersion: apps/v1beta1
+kind: Deployment
+metadata:
+  name: tomcat-deploy
+spec:
+  replicas: 2
+  template:
+    metadata:
+      labels:
+        env: dev
+        owner: nicolas
+    spec:
+      containers:
+      - name: sise
+        image: tomcat:8.0.52-jre8
+        ports:
+        - containerPort: 8080
+        env:
+        - name: TOMCAT_VERSION
+          value: "8.0.52"
+```
+
 
 
 
