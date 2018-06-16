@@ -1,165 +1,148 @@
-## Utiliser les Deployments
+## Utiliser les Services pour exposer les pods
 
 ### Nettoyer l'environnement précédent
 
 `kubectl delete daemonsets,replicasets,services,deployments,pods,rc --all`
 
-## Pourquoi utiliser les Deployments ?
+## Application Voting APP
 
-Un ReplicaSet ne peut fournir de service de rolling-update que les ReplicationController savent faire.
-Pour faire une action de rolling-update ou de rollout sur un ReplicaSet, il est nécessaire d'utiliser un Deployment de façon déclarative.
+Application exemple fournie par Docker dont le FrontEnd nécessite une base de données REDIS.
+Commençons par la déployer en premier:
 
-## Créer son premier Deployment
-
-Copier le contenu dans le fichier **dep.yaml**
+Créer le fichier **redis-deployment.yaml*
 
 ```
-apiVersion: apps/v1beta1
+apiVersion: extensions/v1beta1
 kind: Deployment
 metadata:
-  name: tomcat-deploy
+  name: redis
 spec:
-  replicas: 2
+  replicas: 1
   template:
     metadata:
       labels:
-        env: dev
-        owner: nicolas
+        app: redis
     spec:
       containers:
-      - name: sise
-        image: tomcat:8.0.52-jre8
-        ports:
-        - containerPort: 8080
-        env:
-        - name: URL_WS
-          value: "https://foo.01.ws.com"
+      - image: redis:alpine
+        name: redis
+        volumeMounts:
+        - mountPath: /data
+          name: redis-data
+      volumes:
+      - name: redis-data
+        emptyDir: {}
 ```
 
-On peut voir toutes les ressources créées :
+Créer le fichier **redis-service.yaml*
 
 ```
+apiVersion: v1
+kind: Service
+metadata:
+  name: redis
+spec:
+  type: ClusterIP
+  ports:
+  - port: 6379
+    targetPort: 6379
+  selector:
+    app: redis
+```
+
+Déployer Redis et rendez le accessible
+
+```
+kubectl create -f redis-deployment.yaml
+
 kubectl get all
-NAME                                 READY     STATUS    RESTARTS   AGE
-pod/tomcat-deploy-5777588498-lxm4q   1/1       Running   0          6s
-pod/tomcat-deploy-5777588498-qrbvs   1/1       Running   0          6s
+NAME                         READY     STATUS    RESTARTS   AGE
+pod/redis-659469b86b-fczsr   1/1       Running   0          5s
 
 NAME                 TYPE        CLUSTER-IP   EXTERNAL-IP   PORT(S)   AGE
-service/kubernetes   ClusterIP   10.233.0.1   <none>        443/TCP   14s
+service/kubernetes   ClusterIP   10.233.0.1   <none>        443/TCP   22m
 
-NAME                            DESIRED   CURRENT   UP-TO-DATE   AVAILABLE   AGE
-deployment.apps/tomcat-deploy   2         2         2            2           6s
+NAME                    DESIRED   CURRENT   UP-TO-DATE   AVAILABLE   AGE
+deployment.apps/redis   1         1         1            1           5s
 
-NAME                                       DESIRED   CURRENT   READY     AGE
-replicaset.apps/tomcat-deploy-5777588498   2         2         2         6s
-```
-
-Afficher la valeur de la variable d'environnement :
+NAME                               DESIRED   CURRENT   READY     AGE
+replicaset.apps/redis-659469b86b   1         1         1         5s
 
 ```
-kubectl exec -it tomcat-deploy-5777588498-qrbvs env | grep URL_WS
-URL_WS=https://foo.01.ws.com
+
+Puis déployer le service REDIS
+```
+kubectl create -f redis-service.yaml
+
+kubectl get all
+NAME                         READY     STATUS    RESTARTS   AGE
+pod/redis-659469b86b-fczsr   1/1       Running   0          40s
+
+NAME                 TYPE        CLUSTER-IP      EXTERNAL-IP   PORT(S)    AGE
+service/kubernetes   ClusterIP   10.233.0.1      <none>        443/TCP    22m
+service/redis        ClusterIP   10.233.41.239   <none>        6379/TCP   1s
+
+NAME                    DESIRED   CURRENT   UP-TO-DATE   AVAILABLE   AGE
+deployment.apps/redis   1         1         1            1           40s
+
+NAME                               DESIRED   CURRENT   READY     AGE
+replicaset.apps/redis-659469b86b   1         1         1         40s
 ```
 
+Désormais REDIS est accessible sur le ClusterIp pour la future application VOTE.
 
-Editer le fichier "dep.yaml" pour y changer de la variable d'environnement URL_WS
+## Utiliser NodePort
+
+Nous allons commencer par l'exposition la plus simple.
+
+Commencer par créer le fichier **vote-deployment.yaml**
 
 ```
-apiVersion: apps/v1beta1
+apiVersion: extensions/v1beta1
 kind: Deployment
 metadata:
-  name: tomcat-deploy
+  name: vote
 spec:
-  replicas: 2
+  replicas: 1
   template:
     metadata:
       labels:
-        env: dev
-        owner: nobody
+        app: vote
     spec:
       containers:
-      - name: sise
-        image: tomcat:8.0.52-jre8
-        ports:
-        - containerPort: 8080
-        env:
-        - name: URL_WS
-          value: "https://foo.02.ws.com"
+      - image: dockersamples/examplevotingapp_vote:before
+        name: vote
 ```
 
-Pour déployer la modification, vous ne devez pas utiliser la commande **create** mais bien **apply**.
+Puis déployer le avec la commande :
 
 ```
-kubectl apply -f dep.yaml
-deployment.apps "tomcat-deploy" configured
-
-kubectl get pods
-NAME                             READY     STATUS              RESTARTS   AGE
-tomcat-deploy-7d54877fdd-blrg2   1/1       Running             0          2s
-tomcat-deploy-7d54877fdd-snnws   0/1       ContainerCreating   0          1s
-tomcat-deploy-849cd86d55-8zmmb   1/1       Terminating         0          2m
-tomcat-deploy-849cd86d55-jdm8h   1/1       Running             0          2m
-
-kubectl get pods
-NAME                             READY     STATUS        RESTARTS   AGE
-tomcat-deploy-7d54877fdd-blrg2   1/1       Running       0          3s
-tomcat-deploy-7d54877fdd-snnws   1/1       Running       0          2s
-tomcat-deploy-849cd86d55-8zmmb   0/1       Terminating   0          2m
-tomcat-deploy-849cd86d55-jdm8h   1/1       Terminating   0          2m
-
-kubectl get pods
-NAME                             READY     STATUS    RESTARTS   AGE
-tomcat-deploy-7d54877fdd-blrg2   1/1       Running   0          1m
-tomcat-deploy-7d54877fdd-snnws   1/1       Running   0          1m
+kubectl create -f vote-deployment.yaml
 ```
 
-Afficher la valeur de la variable d'environnement :
+Désormais nous allons essayer de l'exposer sur l'extérieur. La solution la plus simple est d'utiliser un NodePort pour exposer sur chaque noeud slave un port d'écoute.
+
+Commencer par créer le fichier **vote-service.yaml**
 
 ```
-kubectl exec -it tomcat-deploy-7d54877fdd-blrg2 env | grep URL_WS
-URL_WS=https://foo.02.ws.com
+apiVersion: v1
+kind: Service
+metadata:
+  name: vote
+spec:
+  type: NodePort
+  ports:
+  - name: "vote-service"
+    port: 5000
+    targetPort: 80
+    nodePort: 31000
+  selector:
+    app: vote
 ```
 
-### Faire un RollBack
 
-Pour lister les versions disponibles :
 
-```
-kubectl rollout history deployment
 
-deployments "tomcat-deploy"
-REVISION  CHANGE-CAUSE
-1         <none>
-2         <none>
-3         <none>
-```
-
-Il est possible de revenir en arrière avec :
-
-```
-kubectl rollout undo deploy/tomcat-deploy --to-revision=1
-deployment "tomcat-deploy" rolled back
-
-kubectl get pods
-NAME                             READY     STATUS    RESTARTS   AGE
-tomcat-deploy-85b96964c8-ts64h   1/1       Running   0          1m
-tomcat-deploy-85b96964c8-wftnn   1/1       Running   0          1m
-
-kubectl exec -it tomcat-deploy-85b96964c8-ts64h env | grep WS
-URL_WS=https://foo.01.ws.com
-```
-
-### Suppression des ressources
-
-Comme attendu, la suppression de la ressource **Deployment** implique la suppression de toutes ses dépendances.
-
-```
-kubectl delete deploy tomcat-deploy
-deployment.extensions "tomcat-deploy" deleted
-
-kubectl get pods
-No resources found.
-```
 
 
 
