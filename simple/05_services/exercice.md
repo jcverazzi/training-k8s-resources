@@ -144,6 +144,16 @@ spec:
 
 Votre application doit être accessible sur chaque IP de vos noeuds WORKER:30000
 
+### Scaler le service Vote
+
+Vous pouvez soit éditer le fichier **vote-deployment.yaml** et le redéployer ou bien l'éditer directement en ligne:
+
+```
+kubectl edit deployment vote
+deployment.extensions "vote" edited
+```
+
+Vous pouvez voir sur la page web que les ID des containers changent désormais.
 
 
 
