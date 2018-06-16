@@ -9,7 +9,7 @@
 Application exemple fournie par Docker dont le FrontEnd nécessite une base de données REDIS.
 Commençons par la déployer en premier:
 
-Créer le fichier **redis-deployment.yaml*
+Créer le fichier **redis-deployment.yaml**
 
 ```
 apiVersion: extensions/v1beta1
