@@ -1,18 +1,18 @@
-# 1. Donner le nombre de POD qui sera lancé lors de la creation du Deployment avec ce fichier de configuration
+## 1. Donner le nombre de POD qui sera lancé lors de la creation du Deployment avec ce fichier de configuration
 `5`
-# 2. Trouver la commande kubectl pour créer ce Deployment.
+## 2. Trouver la commande kubectl pour créer ce Deployment.
 `kubectl create -f  fichier.yml`
-# 3. Quelle Image Docker est utilisée  ?
+## 3. Quelle Image Docker est utilisée  ?
 `nickchase/soaktest`
-# 4. Quel sont les labels associés au Pod qui sera orchestré par ce Deployment ?
+## 4. Quel sont les labels associés au Pod qui sera orchestré par ce Deployment ?
 `soaktest`
-# 5. Quel est le selector pour ce Deployment ? A comparer avec la réponse du 4.
+## 5. Quel est le selector pour ce Deployment ? A comparer avec la réponse du 4.
 `soaktest | est identique au Label du Pod - obligatoire pour que le deployment puisse être crée. Au préalable le Deployement interrogera le Cluster pour vois si un ou plusieurs pod possède(nt) déjà un tel label`
-# 7. Contruire le fichier de configuration du Deployment pour le Pod "auth"
+## 7. Contruire le fichier de configuration du Deployment pour le Pod "auth"
 `cf :  ../reponses/auth_deployment_v1.yaml`
-# 8. Contruire le fichier de configuration du Deployment pour le Pod "hello"
+## 8. Contruire le fichier de configuration du Deployment pour le Pod "hello"
 `cf :  ../reponses/auth_deployment_v1.yaml`
-# 9. Contruire le fichier de configuration du Deployment pour le Pod "frontend"
+## 9. Contruire le fichier de configuration du Deployment pour le Pod "frontend"
 `cf :  ../reponses/hello_deployment_v1.yaml`
 
 ## 10. Creér les 3 Deployments avec les fichiers de configurations complétés précedement.   
