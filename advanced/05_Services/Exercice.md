@@ -13,9 +13,9 @@ On se donne le fichier de deployment suivant :
 
 `https://github.com/sozu-proxy/sozu-demo/blob/master/kubernetes-using-tube-cheese/pokemon-deployments.yaml`
 
-1. Combien de Deployment vont être lancés ? Détaillez votre réponse. 
-2. Combien de pod vont être lancés ? Détaillez votre réponse.
-3. En analysant les champs {spec.template.spec.container.port} pour chaque type de deployment, déterminer quelle sera la réponse de chaque type de Pod à une requête HTTP port 80 ? 
+1. Combien de Deployment vont être lancés ? 
+2. Combien de pod vont être lancés pour chaque Deployment? 
+3. En analysant les champs {spec.template.spec.container.port} pour chaque type de deployment, déterminer quelle sera la réponse de chaque type de Pod à une requête HTTP port 80. 
 4. Lancer les deployments
 5. Decrivez chacun des deployments 
 
