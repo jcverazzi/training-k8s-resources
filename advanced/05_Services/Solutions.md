@@ -26,8 +26,9 @@
 ## 8. Lancer le Ingress Controller 
 `kubectl create -f https://github.com/sozu-proxy/sozu-demo/blob/master/kubernetes-using-tube-cheese/pokemon-ingress.yaml`
 
-## 9. Déterminer sur quelle IP publique l'application est lancée 
+## 9. 10. Quelle commande utilisez vous pour décrire l'état et les détails du Ingress
+`kubectl describe ing`
 
-## 10. Connectez vous sur http://ip_publique/pikachu, http://ip_publique/mewtwo, http://ip_publique/nidoqueen
+## 10. Connectez vous sur http://207.154.253.118.xip.io/pikachu, http://207.154.253.118.xip.io/mewtwo, http://207.154.253.118.xip.io/nidoqueen
 
 

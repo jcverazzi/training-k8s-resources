@@ -41,6 +41,9 @@ spec:
 8. Quelle commande utilisez vous pour décrire l'état et les détails du service ? 
 
 
+__Partie OPTIONNELLE__ : Utilise le "Nginx INGRESS Controler" 
+
+
 On se donne le fichier de Ingress controller suivant : 
 
 ``` 
@@ -50,7 +53,7 @@ metadata:
   name: pokemon
 spec:
   rules:
-  - host: pikachu.local
+  - host: 207.154.253.118.xip.io
     http:
       paths:
       - path: /
@@ -58,14 +61,14 @@ spec:
           serviceName: pikachu
           servicePort: 80
   - host: mewtwo.local
-    http:
+    http: 207.154.253.118.xip.io
       paths:
       - path: /
         backend:
           serviceName: mewtwo
           servicePort: 80
   - host: nidoqueen.local
-    http:
+    http: 207.154.253.118.xip.io
       paths:
       - path: /
         backend:
@@ -74,7 +77,8 @@ spec:
 ```
 
 9. Lancer le Ingress Controller 
-10. Déterminer sur quelle IP publique l'application est lancée 
-11. Connectez vous sur http://ip_publique/pikachu, http://ip_publique/mewtwo, http://ip_publique/nidoqueen
+10. Quelle commande utilisez vous pour décrire l'état et les détails du Ingress
+kubectl describe ing
+11. Connectez vous sur http://207.154.253.118.xip.io/pikachu, http://207.154.253.118.xip.io/mewtwo, http://207.154.253.118.xip.io/nidoqueen
 
 
