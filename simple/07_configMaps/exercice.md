@@ -1,4 +1,4 @@
-## Se protéger avec les secrets 
+## Bien configurer ses livrables
 
 ### Nettoyer l'environnement précédent
 
