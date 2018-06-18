@@ -1,4 +1,3 @@
-<<<<<<< HEAD
 
 ## 1. Combien de Deployment vont être lancés ? 
 - 1er  deployment : "pikachu"
