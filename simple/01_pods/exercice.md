@@ -23,7 +23,7 @@ Vous pouvez accéder en local à l'application via
 Vous pouvez également rentrer dans le container et y accéder en local :
 
 ```
-kubectl exec mytomcat-66948985cf-q92hq -c shell -i -t -- bash
+kubectl exec mytomcat-66948985cf-q92hq  -i -t -- bash
 root@mytomcat-66948985cf-q92hq:/usr/local/tomcat# curl localhost:8080
 ```
 
