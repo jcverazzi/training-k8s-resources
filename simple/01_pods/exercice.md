@@ -55,6 +55,7 @@ spec:
 Vous remarquerez que l'on crée désormais deux containers au sein du même pod.
 
 ```
+kubectl create -f pod-tomcat.yaml
 kubectl exec mytomcat -c shell -i -t -- bash
 [root@mytomcat /]# ps -ef
 [root@mytomcat /]# curl localhost:8080
