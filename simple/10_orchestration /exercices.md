@@ -4,10 +4,12 @@
 
 Obtenez la liste des Nodes 
 `kubectl get nodes`
+```
 NAME                           STATUS     ROLES          AGE       VERSION
 APHP-form-k8s-userX-master-1   Ready      master         8d        v1.10.2
 APHP-form-k8s-userX-node-1     Ready   ingress,node   	 8d        v1.10.2
 APHP-form-k8s-userX-node-2     Ready   ingress,node      8d        v1.10.2
+```
 
 Comme toutes ressources il est possible de la labeliser. Ce ou Ces labels serviront au kube-scheduler pour lancer un Pod porteur du label. 
 Ajoutons le Label "schedulePodName"="hello-pod" . 
