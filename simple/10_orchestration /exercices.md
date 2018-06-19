@@ -221,7 +221,7 @@ Lancer les Pods
 apiVersion: v1
 kind: Pod
 metadata:
-  name: hello-pod-north
+  name: hello-pod-south
   labels:
     app: hello
     realease: stable
@@ -237,8 +237,8 @@ spec:
           - key: AvailZone
             operator: In
             values:
-            - az-North
-            - az-North-East 
+            - az-South
+            - az-South-East 
   containers:
     - name: hello
       image: "kelseyhightower/hello:1.0.0"
@@ -253,9 +253,44 @@ spec:
           memory: 50Mi
 ```
 
-Créer un fichier de configuration Pod "hello-nodeselector.yaml"
+**pod-middle.yaml**
 
-
+```
+apiVersion: v1
+kind: Pod
+metadata:
+  name: hello-pod-middle
+  labels:
+    app: hello
+    realease: stable
+    tier: webserver
+    environement: dev
+    partition: training-k8s
+spec:
+  affinity:
+    nodeAffinity: 
+      preferredDuringSchedulingIgnoredDuringExecution: 
+      - weight: 1 
+        preference:
+          matchExpressions:
+          - key: AvailZone
+            operator: In 
+            values:
+            - az-North 
+            - az-South
+  containers:
+    - name: hello
+      image: "kelseyhightower/hello:1.0.0"
+      ports:
+      - name: http
+        containerPort: 80
+      - name: health
+        containerPort: 81
+      resources:
+        limits:
+          cpu: 50m
+          memory: 50Mi
+```
 
 Lancer les Pods 
 
@@ -270,5 +305,22 @@ kubectl create -f pod-middle.yaml
 pod "hello-pod-middle" created
 ```
 
+Obtenenir la description des Pods : vérfier le placement des Pod 
 
+```
+kubectl describe pod  hello-pod-north
+...
+Node:         APHP-form-k8s-userX-node-1/207.154.237.15
+...
+
+kubectl describe pod  hello-pod-south
+...
+Node:         APHP-form-k8s-userX-node-2/207.154.237.16
+...
+
+kubectl describe pod  hello-pod-middle
+...
+Node:         APHP-form-k8s-userX-node-2/207.154.237.16 // Ici le scheduler a choisit "Node2"
+...
+```
 
