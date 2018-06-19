@@ -51,7 +51,7 @@ spec:
         containerPort: 81
       resources:
         limits:
-          cpu: 50m
+          cpu: 25m
           memory: 50Mi
   nodeSelector:
   	schedulePodName: hello-pod
@@ -96,10 +96,10 @@ Containers:
     Ready:          True
     Restart Count:  0
     Limits:
-      cpu:     50m
+      cpu:     25m
       memory:  50Mi
     Requests:
-      cpu:        50m
+      cpu:        25m
       memory:     50Mi
     Environment:  <none>
     Mounts:
@@ -179,7 +179,7 @@ kind: Pod
 metadata:
   name: hello-pod-north
   labels:
-    app: hello
+    app: hello-pod-north
     realease: stable
     tier: webserver
     environement: dev
@@ -205,7 +205,7 @@ spec:
         containerPort: 81
       resources:
         limits:
-          cpu: 50m
+          cpu: 25m
           memory: 50Mi
 ```
 
@@ -223,7 +223,7 @@ kind: Pod
 metadata:
   name: hello-pod-south
   labels:
-    app: hello
+    app: hello-pod-south
     realease: stable
     tier: webserver
     environement: dev
@@ -249,7 +249,7 @@ spec:
         containerPort: 81
       resources:
         limits:
-          cpu: 50m
+          cpu: 25m
           memory: 50Mi
 ```
 
@@ -288,7 +288,7 @@ spec:
         containerPort: 81
       resources:
         limits:
-          cpu: 50m
+          cpu: 25m
           memory: 50Mi
 ```
 
@@ -305,7 +305,7 @@ kubectl create -f pod-middle.yaml
 pod "hello-pod-middle" created
 ```
 
-Obtenenir la description des Pods : vérfier le placement des Pods 
+Obtenir la description des Pods : vérfier le placement des Pods 
 
 ```
 kubectl describe pod  hello-pod-north
@@ -332,4 +332,109 @@ Pour commencer vérifier que les 2 Pods de l'exercice précendent sont bien lanc
 
 Dans cet exerice nous allons configurer 2 nouveaux Pod qui se lanceront en fonction de leur affinité (ou non) avec les Pods précedents
 - Le Pod hello-pod-north-east aura une affinity avec le pod "hello-pod-north" et se lancera donc sur le même Node
-- Le Pod hello-pod-south-east aura une "antiaffinity
+- Le Pod hello-pod-south-east aura une "anti"-affinity avec les pod du nord "hello-pod-north" "hello-pod-north-east" et se lancera donc un autre Node - ici avec le mecanisme preferred et la pondération "weight"
+
+Créer le fichier de configuration de ces 2 pods tels que : 
+
+**pod-affinity-north.yaml**
+
+```
+apiVersion: v1
+kind: Pod
+metadata:
+  name: hello-pod-north-east
+  labels:
+    app: hello
+    realease: stable
+    tier: webserver
+    environement: dev
+    partition: training-k8s
+spec:
+  affinity:
+    podAffinity: 
+      requiredDuringSchedulingIgnoredDuringExecution: 
+      - labelSelector:
+          matchExpressions:
+          - key: app
+            operator: In 
+            values:
+            - hello-pod-north 
+  containers:
+    - name: hello
+      image: "kelseyhightower/hello:1.0.0"
+      ports:
+      - name: http
+        containerPort: 80
+      - name: health
+        containerPort: 81
+      resources:
+        limits:
+          cpu: 25m
+          memory: 50Mi
+```
+
+**pod-anti-affinity-north.yaml** 
+
+```
+apiVersion: v1
+kind: Pod
+metadata:
+  name: hello-pod-south-east
+  labels:
+    app: hello-pod-north-east
+    realease: stable
+    tier: webserver
+    environement: dev
+    partition: training-k8s
+spec:
+  affinity:
+    podAntiAffinity: 
+      preferredDuringSchedulingIgnoredDuringExecution: 
+      - weight: 100 
+        podAffinityTerm:
+          labelSelector:
+            matchExpressions:
+            - key: app 
+              operator: In 
+              values:
+              - hello-pod-north
+              - hello-pod-north-east
+  containers:
+    - name: hello
+      image: "kelseyhightower/hello:1.0.0"
+      ports:
+      - name: http
+        containerPort: 80
+      - name: health
+        containerPort: 81
+      resources:
+        limits:
+          cpu: 25m
+          memory: 50Mi
+```
+
+Lancer les Pods 
+
+```
+kubectl create -f pod-affinity-north.yaml 
+pod "hello-pod-north-east" created
+
+kubectl create -f pod-anti-affinity-north.yaml
+pod "hello-pod-south-east" created
+```
+
+Obtenir la description des Pods : vérfier le placement des Pods 
+
+```
+kubectl describe pod hello-pod-north-east 
+...
+Node:         APHP-form-k8s-userX-node-1/207.154.237.15
+...
+
+kubectl describe pod  hello-pod-south-east
+...
+Node:         APHP-form-k8s-userX-node-2/207.154.237.16
+...
+```
+
+
