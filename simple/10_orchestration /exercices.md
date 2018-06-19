@@ -157,13 +157,17 @@ kubectl label nodes APHP-form-k8s-userX-node-2 AvailZone=az-South`
 node "kevindp-form-k8s-user1-node-2" labeled
 ```
 
+
 Vérifier les labels : (regarder à la fin de la liste)
 ```
 kubectl get nodes --show-labels
-kevindp-form-k8s-user1-node-1     NotReady   ingress,node   8d        v1.10.2   beta.kubernetes.io/arch=amd64,beta.kubernetes.io/os=linux,kubernetes.io/hostname=kevindp-form-k8s-user1-node-1,node-role.kubernetes.io/ingress=true,node-role.kubernetes.io/node=true,schedulePodName=hello-pod
+kevindp-form-k8s-user1-node-1     NotReady   ingress,node   8d        v1.10.2   beta.kubernetes.io/arch=amd64,beta.kubernetes.io/os=linux,kubernetes.io/hostname=kevindp-form-k8s-user1-node-1,node-role.kubernetes.io/ingress=true,node-role.kubernetes.io/node=true
 ```
 
-Il s'agit maintenant de configurer le Pod pour avoir le label correpondant dans le champs qui specifiera le **NodeSelector** :
+Il s'agit maintenant de configurer 3 Pods
+- Pod-North qui devra se lancer sur un Node avec le Label az-North - Affinité = Required 
+- Pod-South qui devra se lancer sur un Node avec le Label az-South - Affinité = Required 
+- Pod-Middle qui se lancera 
 
 Créer un fichier de configuration Pod "hello-nodeselector.yaml"
 
