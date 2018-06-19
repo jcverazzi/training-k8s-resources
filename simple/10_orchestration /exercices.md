@@ -6,16 +6,16 @@ Obtenez la liste des Nodes
 `kubectl get nodes`
 ```
 NAME                           STATUS     ROLES          AGE       VERSION
-APHP-form-k8s-userX-master-1   Ready      master         8d        v1.10.2
-APHP-form-k8s-userX-node-1     Ready   ingress,node   	 8d        v1.10.2
-APHP-form-k8s-userX-node-2     Ready   ingress,node      8d        v1.10.2
+demo1   					   	Ready      master         8d        v1.10.2
+slave1     						Ready   ingress,node   	 8d        v1.10.2
+slave2   						Ready   ingress,node      8d        v1.10.2
 ```
 
 Comme toutes ressources il est possible de la labeliser. Ce ou Ces labels serviront au kube-scheduler pour lancer un Pod porteur du label. 
 Ajoutons le Label **"schedulePodName"="hello-pod"** . 
 
 ```
-kubectl label nodes APHP-form-k8s-userX-node-1 schedulePodName=hello-pod`
+kubectl label nodes slave1 schedulePodName=hello-pod`
 node "kevindp-form-k8s-user1-node-1" labeled
 ```
 
@@ -69,12 +69,12 @@ Observer sur quel Node le Pod a été orchestré :
 kubectl describe pod hello-nodeselector
 ```
 
-Ce qui amènera la sortie suivante : On vérifie bien que le Pod a été crée sur le Node **APHP-form-k8s-userX-node-1**
+Ce qui amènera la sortie suivante : On vérifie bien que le Pod a été crée sur le Node **slave1**
 
 ```
 Name:         hello-nodeselector
 Namespace:    default
-Node:         APHP-form-k8s-userX-node-1/207.154.237.15
+Node:         slave1/207.154.237.15
 Start Time:   Tue, 19 Jun 2018 19:43:49 +0000
 Labels:       app=hello
               environement=dev
@@ -120,11 +120,11 @@ Tolerations:     <none>
 Events:
   Type     Reason                 Age                 From                                      Message
   ----     ------                 ----                ----                                      -------
-  Normal   SuccessfulMountVolume  9s                  kubelet, APHP-form-k8s-userX-node-1  MountVolume.SetUp succeeded for volume "default-token-gbtnw"
-  Normal   Pulling                8s                  kubelet, APHP-form-k8s-userX-node-1  pulling image "kelseyhightower/hello:1.0.0"
-  Normal   Pulled                 5s                  kubelet, APHP-form-k8s-userX-node-1  Successfully pulled image "kelseyhightower/hello:1.0.0"
-  Normal   Created                5s                  kubelet, APHP-form-k8s-userX-node-1  Created container
-  Normal   Started                5s                  kubelet, APHP-form-k8s-userX-node-1  Started container
+  Normal   SuccessfulMountVolume  9s                  kubelet, slave1  MountVolume.SetUp succeeded for volume "default-token-gbtnw"
+  Normal   Pulling                8s                  kubelet, slave1  pulling image "kelseyhightower/hello:1.0.0"
+  Normal   Pulled                 5s                  kubelet, slave1  Successfully pulled image "kelseyhightower/hello:1.0.0"
+  Normal   Created                5s                  kubelet, slave1  Created container
+  Normal   Started                5s                  kubelet, slave1  Started container
 ```
 
 
@@ -134,26 +134,26 @@ Obtenez la liste des Nodes
 `kubectl get nodes`
 ```
 NAME                           STATUS     ROLES          AGE       VERSION
-APHP-form-k8s-userX-master-1   Ready      master         8d        v1.10.2
-APHP-form-k8s-userX-node-1     Ready   ingress,node   	 8d        v1.10.2
-APHP-form-k8s-userX-node-2     Ready   ingress,node      8d        v1.10.2
+demo1   	Ready     		 master         8d        v1.10.2
+slave1     Ready   			ingress,node   	 8d        v1.10.2
+slave2     Ready  		 ingress,node      8d        v1.10.2
 ```
 
 Ajoutons les labels suivants aux 2 Nodes : 
-- APHP-form-k8s-userX-node-1 : "AvailZone=az-North"
-- APHP-form-k8s-userX-node-2 : "AvailZone=az-South"
+- slave1 : "AvailZone=az-North"
+- slave2 : "AvailZone=az-South"
 
 **Node 1**
 
 ```
-kubectl label nodes APHP-form-k8s-userX-node-1 AvailZone=az-North`
+kubectl label nodes slave1 AvailZone=az-North`
 node "kevindp-form-k8s-user1-node-1" labeled
 ```
 
 **Node 2**
 
 ```
-kubectl label nodes APHP-form-k8s-userX-node-2 AvailZone=az-South`
+kubectl label nodes slave2 AvailZone=az-South`
 node "kevindp-form-k8s-user1-node-2" labeled
 ```
 
@@ -208,12 +208,6 @@ spec:
           cpu: 25m
           memory: 50Mi
 ```
-
-Lancer les Pods 
-
-`kubectl create -f pod-north.yaml `
-`kubectl create -f pod-south.yaml `
-`kubectl create -f pod-middle.yaml `
 
 **pod-south.yaml**
 
@@ -310,17 +304,17 @@ Obtenir la description des Pods : vérfier le placement des Pods
 ```
 kubectl describe pod  hello-pod-north
 ...
-Node:         APHP-form-k8s-userX-node-1/207.154.237.15
+Node:         slave1/207.154.237.15
 ...
 
 kubectl describe pod  hello-pod-south
 ...
-Node:         APHP-form-k8s-userX-node-2/207.154.237.16
+Node:         slave2/207.154.237.16
 ...
 
 kubectl describe pod  hello-pod-middle
 ...
-Node:         APHP-form-k8s-userX-node-2/207.154.237.16 // Ici le scheduler a choisit "Node2"
+Node:         slave2/207.154.237.16 // Ici le scheduler a choisit "Node2"
 ...
 ```
 
@@ -344,7 +338,7 @@ kind: Pod
 metadata:
   name: hello-pod-north-east
   labels:
-    app: hello
+    app: hello-pod-north-east
     realease: stable
     tier: webserver
     environement: dev
@@ -358,7 +352,8 @@ spec:
           - key: app
             operator: In 
             values:
-            - hello-pod-north 
+            - hello-pod-north
+        topologyKey: failure-domain.beta.kubernetes.io/zone
   containers:
     - name: hello
       image: "kelseyhightower/hello:1.0.0"
@@ -399,6 +394,7 @@ spec:
               values:
               - hello-pod-north
               - hello-pod-north-east
+          topologyKey: kubernetes.io/hostname
   containers:
     - name: hello
       image: "kelseyhightower/hello:1.0.0"
@@ -428,12 +424,12 @@ Obtenir la description des Pods : vérfier le placement des Pods
 ```
 kubectl describe pod hello-pod-north-east 
 ...
-Node:         APHP-form-k8s-userX-node-1/207.154.237.15
+Node:         slave1/207.154.237.15
 ...
 
 kubectl describe pod  hello-pod-south-east
 ...
-Node:         APHP-form-k8s-userX-node-2/207.154.237.16
+Node:         slave2/207.154.237.16
 ...
 ```
 
