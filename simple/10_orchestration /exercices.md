@@ -1,6 +1,6 @@
 # Stratégies de placement
 
-## Node Selector 
+## Node Selector : nodeSelector
 
 Obtenez la liste des Nodes 
 `kubectl get nodes`
@@ -128,6 +128,43 @@ Events:
 ```
 
 
+## Node Afinity : nodeAfinity 
 
+Obtenez la liste des Nodes 
+`kubectl get nodes`
+```
+NAME                           STATUS     ROLES          AGE       VERSION
+APHP-form-k8s-userX-master-1   Ready      master         8d        v1.10.2
+APHP-form-k8s-userX-node-1     Ready   ingress,node   	 8d        v1.10.2
+APHP-form-k8s-userX-node-2     Ready   ingress,node      8d        v1.10.2
+```
+
+Ajoutons les labels suivants au 2 Nodes : 
+- APHP-form-k8s-userX-node-1 : "AvailZone=az-North"
+- APHP-form-k8s-userX-node-2 : "AvailZone=az-South"
+
+**Node 1**
+
+```
+kubectl label nodes APHP-form-k8s-userX-node-1 AvailZone=az-North`
+node "kevindp-form-k8s-user1-node-1" labeled
+```
+
+**Node 2**
+
+```
+kubectl label nodes APHP-form-k8s-userX-node-2 AvailZone=az-South`
+node "kevindp-form-k8s-user1-node-2" labeled
+```
+
+Vérifier les labels : (regarder à la fin de la liste)
+```
+kubectl get nodes --show-labels
+kevindp-form-k8s-user1-node-1     NotReady   ingress,node   8d        v1.10.2   beta.kubernetes.io/arch=amd64,beta.kubernetes.io/os=linux,kubernetes.io/hostname=kevindp-form-k8s-user1-node-1,node-role.kubernetes.io/ingress=true,node-role.kubernetes.io/node=true,schedulePodName=hello-pod
+```
+
+Il s'agit maintenant de configurer le Pod pour avoir le label correpondant dans le champs qui specifiera le **NodeSelector** :
+
+Créer un fichier de configuration Pod "hello-nodeselector.yaml"
 
 
