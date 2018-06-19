@@ -324,6 +324,12 @@ Node:         APHP-form-k8s-userX-node-2/207.154.237.16 // Ici le scheduler a ch
 ...
 ```
 
-## Pod Afinity : podAfinity & podAfinity
+## Pod Afinity : podAfinity & podAntiAffinity
 
+Pour commencer vérifier que les 2 Pods de l'exercice précendent sont bien lancés : 
+- Pod : "hello-pod-north" 
+- Pod : "hello-pod-south" 
 
+Dans cet exerice nous allons configurer 2 nouveaux Pod qui se lanceront en fonction de leur affinité (ou non) avec les Pods précedents
+- Le Pod hello-pod-north-east aura une affinity avec le pod "hello-pod-north" et se lancera donc sur le même Node
+- Le Pod hello-pod-south-east aura une "antiaffinity
