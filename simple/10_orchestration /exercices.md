@@ -23,8 +23,32 @@ kubectl get nodes --show-labels
 kevindp-form-k8s-user1-node-1     NotReady   ingress,node   8d        v1.10.2   beta.kubernetes.io/arch=amd64,beta.kubernetes.io/os=linux,kubernetes.io/hostname=kevindp-form-k8s-user1-node-1,node-role.kubernetes.io/ingress=true,node-role.kubernetes.io/node=true,schedulePodName=hello-pod
 ```
 
-Il s'agit maintenant de configurer le Pod pour avoir le label correpondant dan le champs qui specifiera le NodeSelector :
+Il s'agit maintenant de configurer le Pod pour avoir le label correpondant dans le champs qui specifiera le **NodeSelector** :
 
 ```
-
+apiVersion: v1
+kind: Pod
+metadata:
+  name: hello-toleration-1
+  labels:
+    app: hello
+    realease: stable
+    tier: webserver
+    environement: dev
+    partition: training-k8s
+spec:
+  containers:
+    - name: hello
+      image: "kelseyhightower/hello:1.0.0"
+      ports:
+      - name: http
+        containerPort: 80
+      - name: health
+        containerPort: 81
+      resources:
+        limits:
+          cpu: 50m
+          memory: 50Mi
+  nodeSelector:
+  	schedulePodName: hello-pod
 ```
