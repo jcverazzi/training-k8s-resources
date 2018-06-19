@@ -29,7 +29,7 @@ Il s'agit maintenant de configurer le Pod pour avoir le label correpondant dans 
 apiVersion: v1
 kind: Pod
 metadata:
-  name: hello-toleration-1
+  name: hello-nodeselector
   labels:
     app: hello
     realease: stable
