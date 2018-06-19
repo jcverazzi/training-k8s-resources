@@ -1,5 +1,104 @@
 # Exercice : Orchestration 
 
+
+## Stratégie de placement
+
+1. Quel est le resultat de la commande : `kubectl get nodes` ?
+2. Créer les taints suivantes sur le node "APHP-form-k8s-userX-node-1" telles que : 
+```
+kubectl taint nodes APHP-form-k8s-userX-node-1 key1=value1:NoSchedule  
+kubectl taint nodes APHP-form-k8s-userX-node-1 key1=value1:NoExecute  
+kubectl taint nodes APHP-form-k8s-userX-node-1 key2=value2:NoSchedule
+```
+
+Vérifier que la sortie est bien `node "APHP-form-k8s-userX-node-1" tainted`
+
+3. Quels est le résulat de la commande : `kubectl describe node APHP-form-k8s-userX-node-1` ? Vérifier que les Taints sont été prises en compte. 
+4. Créer le fichier pod_toleration_1.yaml en utilisant le contenu ci-dessous :  
+
+```
+apiVersion: v1
+kind: Pod
+metadata:
+  name: hello-toleration-1
+  labels:
+    app: hello
+    realease: stable
+    tier: webserver
+    environement: dev
+    partition: training-k8s
+spec:
+  containers:
+    - name: hello
+      image: "kelseyhightower/hello:1.0.0"
+      ports:
+      - name: http
+        containerPort: 80
+      - name: health
+        containerPort: 81
+      resources:
+        limits:
+          cpu: 50m
+          memory: 50Mi
+  tolerations:
+  - key: "key1"
+    operator: "Equal"
+    value: "value1"
+    effect: "NoSchedule"
+  - key: "key1"
+    operator: "Equal"
+    value: "value1"
+    effect: "NoExecute"
+```
+
+5. Lancer le Pod suivant avec la commande : `kubectl create -f pod_toleration_1.yaml`
+6. Quel est le résulat de la commande : `kubectl get pods | grep hello-toleration-1` ? 
+Indication : le scheduler ne trouve pas de Node avec les Taints correspondant aux Tolerations - le Pod n'est pas shédulé, en PENDING . 
+7. Créer le fichier pod_toleration_2.yaml en utilisant le contenu ci-dessous 
+
+```
+apiVersion: v1
+kind: Pod
+metadata:
+  name: hello-toleration-2
+  labels:
+    app: hello
+    realease: stable
+    tier: webserver
+    environement: dev
+    partition: training-k8s
+spec:
+  containers:
+    - name: hello
+      image: "kelseyhightower/hello:1.0.0"
+      ports:
+      - name: http
+        containerPort: 80
+      - name: health
+        containerPort: 81
+      resources:
+        limits:
+          cpu: 30m
+          memory: 50Mi
+  tolerations:
+  - key: "key1"
+    operator: "Equal"
+    value: "value1"
+    effect: "NoSchedule"
+  - key: "key1"
+    operator: "Equal"
+    value: "value1"
+    effect: "NoExecute"
+  - key: "key2"
+    operator: "Equal"
+    value: "value2"
+    effect: "NoExecute"
+```
+
+8. Quel est le résulat de la commande : `kubectl get pods | grep hello-toleration-2` ? 
+
+
+
 ## Créer un déploiement "Canary"
 
 Un déploiement Canary consiste à déployer une nouvelle version applicative en parralèle,sur les plateformes de production et de la distribuer à un échantillon choisi d'utilisateurs tout en gardant la version historique de l'applicative en production.  
@@ -75,15 +174,15 @@ On se base pour la version "Blue" à mettre à jour sur le fichier de configurat
 
 `https://github.com/Treeptik/training-k8s-resources/blob/master/advanced/07_Orchestration/sources/hello_deployment_blue.yaml`
 
-8. En ce basant sur le fichier précédent : écrire le fichier de configuration du deployment pour la version "Green" 
+1. En ce basant sur le fichier précédent : écrire le fichier de configuration du deployment pour la version "Green" 
 __Indications__ : 
 - Remplacer le label 'version: 1.0.0' avec la valeur "2.0.0"
 - Bien vérifier que l'image du container dans le template est la version 2.0.0. 
 
-9. Lancer le deployment "Blue"
-10. Lancer le deployment "Green"
+2. Lancer le deployment "Blue"
+3. Lancer le deployment "Green"
 
-11. Ecrire le fichier de configuration du service qui routera vers la version 1.0.0 (Blue) en se basant sur le squelette : 
+4. Ecrire le fichier de configuration du service qui routera vers la version 1.0.0 (Blue) en se basant sur le squelette : 
 
 ```
 apiVersion: v1
@@ -106,10 +205,10 @@ spec:
 ```
 
 
-12. Lancer le service "hello-service-blue"
-13. Quels sont les endpoints de ce service ?
-14. Quel commande utiliser pour mettre à jour le Service pour router les flux vers la version "Green" : faire la mise à jour . 
-15. Vers quelles IPs le service "hello-service-blue" route t-il le flux ?
+5. Lancer le service "hello-service-blue"
+6. Quels sont les endpoints de ce service ?
+7. Quel commande utiliser pour mettre à jour le Service pour router les flux vers la version "Green" : faire la mise à jour . 
+8. Vers quelles IPs le service "hello-service-blue" route t-il le flux ?
 
  
 
