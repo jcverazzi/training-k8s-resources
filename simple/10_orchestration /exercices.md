@@ -25,7 +25,7 @@ kubectl get nodes --show-labels
 kevindp-form-k8s-user1-node-1     NotReady   ingress,node   8d        v1.10.2   beta.kubernetes.io/arch=amd64,beta.kubernetes.io/os=linux,kubernetes.io/hostname=kevindp-form-k8s-user1-node-1,node-role.kubernetes.io/ingress=true,node-role.kubernetes.io/node=true,schedulePodName=hello-pod
 ```
 
-Il s'agit maintenant de configurer le Pod pour avoir le label correpondant dans le champs qui specifiera le **NodeSelector** :
+Il s'agit maintenant de configurer le Pod pour avoir le label correpondant dans le champ qui specifiera le **NodeSelector** :
 
 Créer un fichier de configuration Pod "hello-nodeselector.yaml"
 
@@ -139,7 +139,7 @@ APHP-form-k8s-userX-node-1     Ready   ingress,node   	 8d        v1.10.2
 APHP-form-k8s-userX-node-2     Ready   ingress,node      8d        v1.10.2
 ```
 
-Ajoutons les labels suivants au 2 Nodes : 
+Ajoutons les labels suivants aux 2 Nodes : 
 - APHP-form-k8s-userX-node-1 : "AvailZone=az-North"
 - APHP-form-k8s-userX-node-2 : "AvailZone=az-South"
 
@@ -305,7 +305,7 @@ kubectl create -f pod-middle.yaml
 pod "hello-pod-middle" created
 ```
 
-Obtenenir la description des Pods : vérfier le placement des Pod 
+Obtenenir la description des Pods : vérfier le placement des Pods 
 
 ```
 kubectl describe pod  hello-pod-north
@@ -323,4 +323,7 @@ kubectl describe pod  hello-pod-middle
 Node:         APHP-form-k8s-userX-node-2/207.154.237.16 // Ici le scheduler a choisit "Node2"
 ...
 ```
+
+## Pod Afinity : podAfinity & podAfinity
+
 
