@@ -33,7 +33,7 @@ pod "rightpod" created
 kubectl describe pod rightpod
 ```
 
-## Lancer un port qui bogue
+### Lancer un port qui bogue
 
 Créer le fichier **nitro.yml**
 
@@ -90,7 +90,7 @@ rightpod   1/1       Running   0          1m
 
 ```
 
-## READYNESS PROBE
+### Are you ready ?
 
 Créer le fichier ready.yml
 
