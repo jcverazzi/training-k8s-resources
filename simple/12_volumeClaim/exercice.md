@@ -1,4 +1,4 @@
-## S'assurer que les applications travaillent bien
+## Travail en équipe même avec les HDD/SSD
 
 ### Nettoyer l'environnement précédent
 
