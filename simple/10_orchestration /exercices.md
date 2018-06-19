@@ -167,8 +167,108 @@ kevindp-form-k8s-user1-node-1     NotReady   ingress,node   8d        v1.10.2   
 Il s'agit maintenant de configurer 3 Pods
 - Pod-North qui devra se lancer sur un Node avec le Label az-North - Affinité = Required 
 - Pod-South qui devra se lancer sur un Node avec le Label az-South - Affinité = Required 
-- Pod-Middle qui se lancera 
+- Pod-Middle qui se lancera sur un Node Présentant soit le Label az-North soit le Label az-South - Affinité = Prefered ( le kube-scheduler choisit le Node en se basant sur un score calculé en fonction de plusieurs paramètres )
+
+Créer les fichiers de configuration des Pods suivants 
+
+**pod-north.yaml**
+
+```
+apiVersion: v1
+kind: Pod
+metadata:
+  name: hello-pod-north
+  labels:
+    app: hello
+    realease: stable
+    tier: webserver
+    environement: dev
+    partition: training-k8s
+spec:
+  affinity:
+    nodeAffinity:
+      requiredDuringSchedulingIgnoredDuringExecution:
+        nodeSelectorTerms:
+        - matchExpressions:
+          - key: AvailZone
+            operator: In
+            values:
+            - az-North
+            - az-North-East 
+  containers:
+    - name: hello
+      image: "kelseyhightower/hello:1.0.0"
+      ports:
+      - name: http
+        containerPort: 80
+      - name: health
+        containerPort: 81
+      resources:
+        limits:
+          cpu: 50m
+          memory: 50Mi
+```
+
+Lancer les Pods 
+
+`kubectl create -f pod-north.yaml `
+`kubectl create -f pod-south.yaml `
+`kubectl create -f pod-middle.yaml `
+
+**pod-south.yaml**
+
+```
+apiVersion: v1
+kind: Pod
+metadata:
+  name: hello-pod-north
+  labels:
+    app: hello
+    realease: stable
+    tier: webserver
+    environement: dev
+    partition: training-k8s
+spec:
+  affinity:
+    nodeAffinity:
+      requiredDuringSchedulingIgnoredDuringExecution:
+        nodeSelectorTerms:
+        - matchExpressions:
+          - key: AvailZone
+            operator: In
+            values:
+            - az-North
+            - az-North-East 
+  containers:
+    - name: hello
+      image: "kelseyhightower/hello:1.0.0"
+      ports:
+      - name: http
+        containerPort: 80
+      - name: health
+        containerPort: 81
+      resources:
+        limits:
+          cpu: 50m
+          memory: 50Mi
+```
 
 Créer un fichier de configuration Pod "hello-nodeselector.yaml"
+
+
+
+Lancer les Pods 
+
+```
+kubectl create -f pod-north.yaml 
+pod "hello-pod-north" created
+
+kubectl create -f pod-south.yaml
+pod "hello-pod-south" created
+
+kubectl create -f pod-middle.yaml
+pod "hello-pod-middle" created
+```
+
 
 
