@@ -23,7 +23,7 @@ Vous pouvez accéder en local à l'application via
 Vous pouvez également rentrer dans le container et y accéder en local :
 
 ```
-kubectl exec mytomcat-66948985cf-q92hq -c shell -i -t -- bash
+kubectl exec mytomcat-66948985cf-q92hq  -i -t -- bash
 root@mytomcat-66948985cf-q92hq:/usr/local/tomcat# curl localhost:8080
 ```
 
@@ -55,6 +55,7 @@ spec:
 Vous remarquerez que l'on crée désormais deux containers au sein du même pod.
 
 ```
+kubectl create -f pod-tomcat.yaml
 kubectl exec mytomcat -c shell -i -t -- bash
 [root@mytomcat /]# ps -ef
 [root@mytomcat /]# curl localhost:8080
