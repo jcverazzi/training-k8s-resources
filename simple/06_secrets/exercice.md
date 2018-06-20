@@ -63,8 +63,12 @@ spec:
       secretName: chanson
 ```
 
-Lancer le pod (et non pas le container :-))
+Lancer le pod :
+```
+kubectl create -f pod.yml
+```
 
+Puis se connecter au container :
 ```
 kubectl exec melomane -c shell -i -t -- bash
 ```
