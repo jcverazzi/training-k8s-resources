@@ -1,5 +1,9 @@
 # Stratégies de placement
 
+### Nettoyer l'environnement précédent
+
+`kubectl delete daemonsets,replicasets,services,deployments,pods,rc --all`
+
 ## Node Selector : nodeSelector
 
 Obtenez la liste des Nodes 
@@ -14,6 +18,8 @@ slave2   						Ready   ingress,node      8d        v1.10.2
 Comme toutes ressources il est possible de la labeliser. Ce ou Ces labels serviront au kube-scheduler pour lancer un Pod porteur du label. 
 Ajoutons le Label **"schedulePodName"="hello-pod"** . 
 
+### Labeliser le Node : Slave1 
+
 ```
 kubectl label nodes slave1 schedulePodName=hello-pod`
 node "kevindp-form-k8s-user1-node-1" labeled
@@ -26,6 +32,8 @@ kevindp-form-k8s-user1-node-1     NotReady   ingress,node   8d        v1.10.2   
 ```
 
 Il s'agit maintenant de configurer le Pod pour avoir le label correpondant dans le champ qui specifiera le **NodeSelector** :
+
+### Creer le fichier de configuration 
 
 Créer un fichier de configuration Pod "hello-nodeselector.yaml"
 
@@ -57,7 +65,7 @@ spec:
   	schedulePodName: hello-pod
 ```
 
-Lancer le Pod 
+### Lancer le Pod 
 
 ```
 kubectl create -f hello-nodeselector.yaml
@@ -139,6 +147,9 @@ slave1     Ready   			ingress,node   	 8d        v1.10.2
 slave2     Ready  		 ingress,node      8d        v1.10.2
 ```
 
+### Labeliser les Nodes : slave1 et slave2
+
+
 Ajoutons les labels suivants aux 2 Nodes : 
 - slave1 : "AvailZone=az-North"
 - slave2 : "AvailZone=az-South"
@@ -158,11 +169,13 @@ node "kevindp-form-k8s-user1-node-2" labeled
 ```
 
 
-Vérifier les labels : (regarder à la fin de la liste)
+### Vérifier les labels : (regarder à la fin de la liste)
 ```
 kubectl get nodes --show-labels
 kevindp-form-k8s-user1-node-1     NotReady   ingress,node   8d        v1.10.2   beta.kubernetes.io/arch=amd64,beta.kubernetes.io/os=linux,kubernetes.io/hostname=kevindp-form-k8s-user1-node-1,node-role.kubernetes.io/ingress=true,node-role.kubernetes.io/node=true
 ```
+
+### Configuration des Pods à scheduler
 
 Il s'agit maintenant de configurer 3 Pods
 - Pod-North qui devra se lancer sur un Node avec le Label az-North - Affinité = Required 
@@ -171,7 +184,9 @@ Il s'agit maintenant de configurer 3 Pods
 
 Créer les fichiers de configuration des Pods suivants 
 
-**pod-north.yaml**
+### Pod "hello-pod-north"
+
+Editer un nouveau fichier de configuration :  **pod-north.yaml**
 
 ```
 apiVersion: v1
@@ -209,7 +224,9 @@ spec:
           memory: 50Mi
 ```
 
-**pod-south.yaml**
+### Pod "hello-pod-south"
+
+Editer un nouveau fichier de configuration : **pod-south.yaml**
 
 ```
 apiVersion: v1
@@ -247,7 +264,9 @@ spec:
           memory: 50Mi
 ```
 
-**pod-middle.yaml**
+### Pod "hello-pod-middle"
+
+Editer un nouveau fichier de configuration : **pod-middle.yaml**
 
 ```
 apiVersion: v1
@@ -286,7 +305,7 @@ spec:
           memory: 50Mi
 ```
 
-Lancer les Pods 
+### Lancer les Pods 
 
 ```
 kubectl create -f pod-north.yaml 
@@ -299,7 +318,9 @@ kubectl create -f pod-middle.yaml
 pod "hello-pod-middle" created
 ```
 
-Obtenir la description des Pods : vérfier le placement des Pods 
+### Obtenir la description des Pods : 
+
+Vérifier le placement des Pods 
 
 ```
 kubectl describe pod  hello-pod-north
@@ -324,13 +345,30 @@ Pour commencer vérifier que les 2 Pods de l'exercice précendent sont bien lanc
 - Pod : "hello-pod-north" 
 - Pod : "hello-pod-south" 
 
+```
+kubectl get pod hello-pod-north
+NAME              READY     STATUS    RESTARTS   AGE
+hello-pod-north   1/1       Running   0          5h
+```
+
+```
+kubectl get pod hello-pod-south
+NAME              READY     STATUS    RESTARTS   AGE
+hello-pod-south   1/1       Running   0          5h
+```
+
+### Configuration des nouveaux Pods
+
 Dans cet exerice nous allons configurer 2 nouveaux Pod qui se lanceront en fonction de leur affinité (ou non) avec les Pods précedents
 - Le Pod hello-pod-north-east aura une affinity avec le pod "hello-pod-north" et se lancera donc sur le même Node
-- Le Pod hello-pod-south-east aura une "anti"-affinity avec les pod du nord "hello-pod-north" "hello-pod-north-east" et se lancera donc un autre Node - ici avec le mecanisme preferred et la pondération "weight"
+- Le Pod hello-pod-south-east aura une "anti"-affinity avec les pods du nord "hello-pod-north" "hello-pod-north-east" et se lancera donc un autre Node - ici avec le mecanisme preferred et la pondération "weight"
 
 Créer le fichier de configuration de ces 2 pods tels que : 
 
-**pod-affinity-north.yaml**
+
+### Pod "hello-pod-north-east"
+
+Editer un nouveau fichier de configuration : **pod-affinity-north.yaml**
 
 ```
 apiVersion: v1
@@ -353,7 +391,8 @@ spec:
             operator: In 
             values:
             - hello-pod-north
-        topologyKey: failure-domain.beta.kubernetes.io/zone
+            - hello-pod-north-east
+        topologyKey: kubernetes.io/hostname
   containers:
     - name: hello
       image: "kelseyhightower/hello:1.0.0"
@@ -368,7 +407,9 @@ spec:
           memory: 50Mi
 ```
 
-**pod-anti-affinity-north.yaml** 
+### Pod "hello-pod-south-east"
+
+Editer un nouveau fichier de configuration : **pod-anti-affinity-north.yaml** 
 
 ```
 apiVersion: v1
@@ -409,7 +450,7 @@ spec:
           memory: 50Mi
 ```
 
-Lancer les Pods 
+### Lancer les Pods 
 
 ```
 kubectl create -f pod-affinity-north.yaml 
@@ -419,7 +460,7 @@ kubectl create -f pod-anti-affinity-north.yaml
 pod "hello-pod-south-east" created
 ```
 
-Obtenir la description des Pods : vérfier le placement des Pods 
+### Obtenir la description des Pods : vérifier le placement des Pods 
 
 ```
 kubectl describe pod hello-pod-north-east 
