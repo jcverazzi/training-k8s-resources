@@ -15,20 +15,20 @@ slave1     						Ready   ingress,node   	 8d        v1.10.2
 slave2   						Ready   ingress,node      8d        v1.10.2
 ```
 
-Comme toutes ressources il est possible de la labeliser. Ce ou Ces labels serviront au kube-scheduler pour lancer un Pod porteur du label. 
-Ajoutons le Label **"schedulePodName"="hello-pod"** . 
+Comme toutes ressources il est possible de la labeliser. Ce ou ces labels serviront au kube-scheduler pour lancer un Pod porteur du label. 
+Ajoutons le Label **"schedulePodName"="hello-pod"** au node slave1. 
 
 ### Labeliser le Node : Slave1 
 
 ```
 kubectl label nodes slave1 schedulePodName=hello-pod`
-node "kevindp-form-k8s-user1-node-1" labeled
+node "slave1" labeled
 ```
 
 Vérifier les labels : (regarder à la fin de la liste)
 ```
 kubectl get nodes --show-labels
-kevindp-form-k8s-user1-node-1     NotReady   ingress,node   8d        v1.10.2   beta.kubernetes.io/arch=amd64,beta.kubernetes.io/os=linux,kubernetes.io/hostname=kevindp-form-k8s-user1-node-1,node-role.kubernetes.io/ingress=true,node-role.kubernetes.io/node=true,schedulePodName=hello-pod
+slave1     NotReady   ingress,node   8d        v1.10.2   beta.kubernetes.io/arch=amd64,beta.kubernetes.io/os=linux,kubernetes.io/hostname=slave1,node-role.kubernetes.io/ingress=true,node-role.kubernetes.io/node=true,schedulePodName=hello-pod
 ```
 
 Il s'agit maintenant de configurer le Pod pour avoir le label correpondant dans le champ qui specifiera le **NodeSelector** :
@@ -158,7 +158,7 @@ Ajoutons les labels suivants aux 2 Nodes :
 
 ```
 kubectl label nodes slave1 AvailZone=az-North`
-node "kevindp-form-k8s-user1-node-1" labeled
+node "slave1" labeled
 ```
 
 **Node 2**
@@ -172,7 +172,7 @@ node "kevindp-form-k8s-user1-node-2" labeled
 ### Vérifier les labels : (regarder à la fin de la liste)
 ```
 kubectl get nodes --show-labels
-kevindp-form-k8s-user1-node-1     NotReady   ingress,node   8d        v1.10.2   beta.kubernetes.io/arch=amd64,beta.kubernetes.io/os=linux,kubernetes.io/hostname=kevindp-form-k8s-user1-node-1,node-role.kubernetes.io/ingress=true,node-role.kubernetes.io/node=true
+slave1     NotReady   ingress,node   8d        v1.10.2   beta.kubernetes.io/arch=amd64,beta.kubernetes.io/os=linux,kubernetes.io/hostname=slave1,node-role.kubernetes.io/ingress=true,node-role.kubernetes.io/node=true
 ```
 
 ### Configuration des Pods à scheduler
