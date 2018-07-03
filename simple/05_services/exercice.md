@@ -142,7 +142,7 @@ spec:
     app: vote
 ```
 
-Votre application doit être accessible sur chaque IP de vos noeuds WORKER:30000
+Votre application doit être accessible sur chaque IP de vos noeuds WORKER:31000
 
 ### Scaler le service Vote
 
