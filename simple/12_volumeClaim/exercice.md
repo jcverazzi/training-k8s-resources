@@ -77,6 +77,6 @@ spec:
 Lancer et lister les fichiers locaux
 ```
 kubectl create -f mongo.yml
-ls /data/pv 
+slave# ls /data/pv 
 ```
 
