@@ -4,12 +4,11 @@ metadata:
   name: mysql-pvc
   labels:
     app: wordpress
-  annotations:
-    volume.beta.kubernetes.io/storage-class: standard
 spec:
+  storageClassName: manual
   accessModes:
     - ReadWriteOnce
   resources:
     requests:
-      storage: 2Gi
+      storage: 1Gi
 

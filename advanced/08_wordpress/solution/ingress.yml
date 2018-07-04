@@ -13,4 +13,3 @@ spec:
         backend:
           serviceName: wordpress-frontend
           servicePort: 80
-
