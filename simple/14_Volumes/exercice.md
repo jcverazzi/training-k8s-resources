@@ -207,6 +207,6 @@ Affichez le contenu du volume partagé entre les pods:
 Que voyez vous ? Pourquoi ?
 
 
-##Solution
+## Solution
 
 L'attribut accessMode spécifié dans le Persistent Volume et le Persistent Volume Claim assure au pods du premier déploiement l'accés en lecture écriture au volume. Cependant "ReadWriteOnce" implique que le deuxième déploiement ne peut obtenir ces droits. Il donc impossible de lire ou écrire sur le volume depuis un pod du deuxième déploiement.
