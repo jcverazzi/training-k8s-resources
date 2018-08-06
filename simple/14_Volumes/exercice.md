@@ -108,13 +108,14 @@ deployment-59ccfff984-nqqqh   1/1       Running   0          10m
 deployment-59ccfff984-rb279   1/1       Running   0          10m
 deployment-59ccfff984-vcnch   1/1       Running   0          10m
 ```
+
 Lancez un shell dans un des pods précédemment créé:
 
 `kubectl exec -it deployment-59ccfff984-4h4pd -- sh`
 
 Créez un fichier dans le volume monter:
 
-`/ # touch data/test`
+`touch /data/test`
 
 Sortez du shell (exit ou Ctrl D)
 
@@ -123,7 +124,7 @@ Lancez un shell dans un autre pod:
 
 Affichez le contenu du volume partagé entre les pods:
 
-`/ # ls data/`
+`ls /data/`
 
 Que voyez vous ? Pourquoi ?
 
@@ -186,13 +187,13 @@ Lancez un shell dans un des pods du deuxième déploiement:
 
 Affichez le contenu du volume partagé entre les pods:
 
-`/ # ls data/`
+`ls /data/`
 
 Que voyez vous ? Pourquoi ?
 
 Créez un fichier dans le volume monter:
 
-`/ # touch data/test2`
+`touch /data/test2`
 
 Sortez du shell (exit ou Ctrl D)
 
@@ -202,10 +203,9 @@ Lancez un shell dans un autre pod du deuxième déploiement:
 
 Affichez le contenu du volume partagé entre les pods:
 
-`/ # ls data/`
+`ls /data/`
 
 Que voyez vous ? Pourquoi ?
-
 
 ## Solution
 
