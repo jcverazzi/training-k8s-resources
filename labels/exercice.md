@@ -53,7 +53,7 @@ mytomcat   1/1       Running   0          3m
 Lancer un second Tomcat avec nouveau propriétaire (owner=kevin) pour un environnement de production.
 
 ````
-kubectl create -f https://raw.githubusercontent.com/Treeptik/training-k8s-resources/master/simple/02_labels/tomcat-kevin.yaml
+kubectl create -f https://raw.githubusercontent.com/Treeptik/training-k8s-resources/master/labels/tomcat-kevin.yaml
 
 kubectl get pods --show-labels
 NAME         READY     STATUS    RESTARTS   AGE       LABELS
