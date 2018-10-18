@@ -2,7 +2,7 @@
 
 ### Nettoyer l'environnement précédent
 
-`kubectl delete daemonsets,replicasets,services,deployments,pods,rc --all`
+`kubectl delete daemonsets,replicasets,services,deployments,pods,rc,pv,pvc --all`
 
 ### Creer un Persistent Volume
 
