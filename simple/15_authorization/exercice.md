@@ -93,6 +93,9 @@ subjects:
 - kind: User
   name: treeptik
   apiGroup: ""
+- kind: User
+  name: treeptik-group
+  apiGroup: ""
 roleRef:
   kind: Role 
   name: pod-reader
