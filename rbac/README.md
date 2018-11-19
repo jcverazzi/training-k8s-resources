@@ -1,10 +1,8 @@
-# Exercice
-
-## Contexte
+## Exercice
 
 Nous allons maintenant créer un "espace étanche" sur votre cluster pour l'utilisateur "treeptik". 
 
-## Génération des clés
+### Génération des clés
 
 - Se connecter en ssh au node master du cluster:
 ~~~
@@ -65,7 +63,7 @@ Vous allez avoir un message d'erreur comme quoi vous n'avez pas les droits requi
 kubectl config use-context treeptik-context
 ~~~
 
-## Créer le rôle et l'association
+### Créer le rôle et l'association
 
 ~~~bash
 kind: Role
@@ -100,34 +98,36 @@ roleRef:
   apiGroup: ""
 ~~~
 
-- Ajoutez les au cluster:
-
+Ajoutez les au cluster:
 ~~~bash
 kubectl create -f role.yaml -f role-binding.yaml
 ~~~
 
-- Lancez un deployment depuis votre machine:
+Lancez un deployment depuis votre machine:
 ~~~bash
 kubectl run --image bitnami/dokuwiki mydokuwiki
 ~~~
-- Affichez les ressources créees:
+
+Affichez les ressources créees:
 ~~~bash
 kubectl get pods,deployment
 ~~~
-- Vérifiez que vous ne pouvez pas afficher de ressources du namespace "default":
+
+Vérifiez que vous ne pouvez pas afficher de ressources du namespace "default":
 ~~~bash
 kubectl auth can-i get deployments --namespace default
 ~~~
 
-## Export vers un autre poste
+### Export vers un autre poste
 
-- Exportez la config dans un fichier :
+Exportez la config dans un fichier :
 ~~~bash
 kubectl config view --flatten > kubeconfig.cfg
 ~~~
 
-- Récupérez le fichier kubeconfig.cfg sur votre machine.
-- Configurez la variable d'environnement KUBECONFIG pour la faire pointer sur kubeconfig.cfg: 
+Récupérez le fichier kubeconfig.cfg sur votre machine via scp ou autre.
+
+Configurez la variable d'environnement KUBECONFIG pour la faire pointer sur kubeconfig.cfg: 
 ~~~bash
 export KUBECONFIG=<path>/kubeconfig.cfg
 ~~~
