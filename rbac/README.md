@@ -26,7 +26,7 @@ openssl req -new -key treeptik.key \
 ~~~bash
 sudo openssl x509 -req -in treeptik.csr \
                   -CA /etc/kubernetes/ssl/ca.pem \
-                  -CAkey /etc/kubernetes/ssl/ca-key.pem \ 
+                  -CAkey /etc/kubernetes/ssl/ca-key.pem \
                   -CAcreateserial \
                   -out treeptik.crt -days 500
 ~~~
@@ -49,7 +49,8 @@ Créez le contexte associé à notre nouvel utilisateur:
 ~~~bash
 kubectl config set-context treeptik-context \
                            --namespace=treeptik-namespace \
-                           --user=treeptik
+                           --user=treeptik \
+                           --cluster=cluster.local
 ~~~
 
 Tentez de lister les pods 
@@ -58,11 +59,6 @@ kubectl --context=treeptik-context get pods
 ~~~
 
 Vous allez avoir un message d'erreur comme quoi vous n'avez pas les droits requis.
-
-Changez de context pour celui nouvellement créez:
-~~~bash
-kubectl config use-context treeptik-context
-~~~
 
 ### Créer le rôle et l'association
 
@@ -77,7 +73,7 @@ metadata:
 rules:
 - apiGroups: ["", "extensions", "apps"]
   resources: ["deployments", "replicasets", "pods"]
-  verbs: ["get", "list", "watch", "create", "update", "patch", "delete"]
+  verbs: ["get", "list", "watch"]
 ~~~
 
 Créez l'association avec le fichier `role-reader-binding.yaml`
@@ -108,13 +104,22 @@ Lancez un deployment depuis le compte root par défaut:
 kubectl run --image nginx mybeautifulpod -n treeptik-namespace
 ~~~
 
-Affichez les ressources créees:
+Désormais vous pouvez afficher les ressources créees:
 ~~~bash
+kubectl --context=treeptik-context get pods,deployment
+~~~
+
+Ou même changez de context pour celui nouvellement créé:
+~~~bash
+kubectl config use-context treeptik-context
 kubectl get pods,deployment
 ~~~
 
-Vérifiez que vous ne pouvez pas afficher de ressources du namespace "default":
+Vérifiez que vous ne pouvez pas afficher de ressources du namespace "default" mais bien celles de votre namespace:
 ~~~bash
+kubectl get pods -n default
+
+kubectl auth can-i get deployments --namespace treeptik-namespace
 kubectl auth can-i get deployments --namespace default
 ~~~
 
