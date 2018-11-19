@@ -1,10 +1,14 @@
-#### Exercice
+# Exercice
+
+## Contexte
 
 Nous allons maintenant créer un "espace étanche" sur votre cluster pour l'utilisateur "treeptik". 
 
+## Génération des clés
+
 - Se connecter en ssh au node master du cluster:
 ~~~
-ssh -i <path du certificat> <nom d'utilisateur>@<ip du node master>
+ssh -i <path du certificat> root@<ip du node master>
 ~~~
 
 - Générez la clé privée du nouvel utilisateur:
@@ -14,15 +18,19 @@ openssl genrsa -out treeptik.key 2048
 
 - Créez une demande de certificat (attribut CN : group et O : utilisateur) :
 ~~~bash
-openssl req -new -key treeptik.key -out treeptik.csr \
--subj "/CN=treeptik-group/O=treeptik"
+openssl req -new -key treeptik.key \
+            -out treeptik.csr \
+            -subj "/CN=treeptik-group/O=treeptik"
 ~~~
 
 
 - Validez la demande de certificat avec le certificat administrateur (ca.pem, ca-key.pem) :
 ~~~bash
-sudo openssl x509 -req -in treeptik.csr -CA /etc/kubernetes/ssl/ca.pem \
--CAkey /etc/kubernetes/ssl/ca-key.pem -CAcreateserial -out treeptik.crt -days 500
+sudo openssl x509 -req -in treeptik.csr \
+                  -CA /etc/kubernetes/ssl/ca.pem \
+                  -CAkey /etc/kubernetes/ssl/ca-key.pem \ 
+                  -CAcreateserial \
+                  -out treeptik.crt -days 500
 ~~~
 
 - Créez le namespace sur lequel l'utilisateur treeptik pourra agir:
@@ -32,42 +40,32 @@ kubectl create namespace treeptik-namespace
 
 - Créez le nouvel utilisateur dans kubernetes:
 ~~~bash
-kubectl config set-credentials treeptik --client-certificate=/home/centos/treeptik.crt \
---client-key=/home/centos/treeptik.key
+kubectl config set-credentials treeptik \
+               --client-certificate=/root/treeptik.crt \
+               --client-key=/root/treeptik.key
 ~~~
 
 - Créez le contexte associé à notre nouvel utilisateur:
 ~~~bash
 kubectl config set-context treeptik-context \
---namespace=treeptik-namespace --user=treeptik
+                           --namespace=treeptik-namespace \
+                           --user=treeptik
 ~~~
+
+- Tentez de lister les pods 
+
+~~~bash
+kubectl --context=treeptik-context get pods
+~~~
+
+Vous allez avoir un message d'erreur comme quoi vous n'avez pas les droits requis.
 
 - Changez de context pour celui nouvellement créez:
 ~~~bash
 kubectl config use-context treeptik-context
 ~~~
 
-- Exportez la config dans un fichier :
-~~~bash
-kubectl config view --flatten > kubeconfig.cfg
-~~~
-
-- Récupérez l'adresse ip du serveur et le certificat administrateur:
-~~~bash
-sudo cat /etc/kubernetes/admin.conf | grep server
-sudo cat /etc/kubernetes/admin.conf | grep certificate-authority-data
-~~~
-
-- Dans le fichier kubeconfig.cfg remplacer la section clusters par :
-
-~~~bash
-clusters:
-- cluster:
-    certificate-authority-data: <le certificat administrateur>
-    server: <adresse du serveur>
-~~~
-
-- Créez le role :
+## Créer le rôle et l'association
 
 ~~~bash
 kind: Role
@@ -108,11 +106,6 @@ roleRef:
 kubectl create -f role.yaml -f role-binding.yaml
 ~~~
 
-- Récupérez le fichier kubeconfig.cfg sur votre machine.
-- Configurez la variable d'environnement KUBECONFIG pour la faire pointer sur kubeconfig.cfg: 
-~~~bash
-export KUBECONFIG=<path>/kubeconfig.cfg
-~~~
 - Lancez un deployment depuis votre machine:
 ~~~bash
 kubectl run --image bitnami/dokuwiki mydokuwiki
@@ -125,4 +118,18 @@ kubectl get pods,deployment
 ~~~bash
 kubectl auth can-i get deployments --namespace default
 ~~~
+
+## Export vers un autre poste
+
+- Exportez la config dans un fichier :
+~~~bash
+kubectl config view --flatten > kubeconfig.cfg
+~~~
+
+- Récupérez le fichier kubeconfig.cfg sur votre machine.
+- Configurez la variable d'environnement KUBECONFIG pour la faire pointer sur kubeconfig.cfg: 
+~~~bash
+export KUBECONFIG=<path>/kubeconfig.cfg
+~~~
+
 
