@@ -18,7 +18,7 @@ openssl genrsa -out treeptik.key 2048
 ~~~bash
 openssl req -new -key treeptik.key \
             -out treeptik.csr \
-            -subj "/CN=treeptik-group/O=treeptik"
+            -subj "/CN=treeptik-reader/O=treeptik"
 ~~~
 
 
@@ -65,42 +65,41 @@ kubectl config use-context treeptik-context
 
 ### Créer le rôle et l'association
 
+Créez l'association avec le fichier `role-reader.yaml`
+
 ~~~bash
 kind: Role
 apiVersion: rbac.authorization.k8s.io/v1
 metadata:
   namespace: treeptik-namespace
-  name: pod-reader
+  name: deployment-manager-binding
 rules:
 - apiGroups: ["", "extensions", "apps"]
   resources: ["deployments", "replicasets", "pods"]
   verbs: ["get", "list", "watch", "create", "update", "patch", "delete"]
 ~~~
 
-- Créez le roleBinding:
+Créez l'association avec le fichier `role-reader-binding.yaml`
 
 ~~~bash
 kind: RoleBinding
 apiVersion: rbac.authorization.k8s.io/v1
 metadata:
-  name: read-pod
+  name: deployment-manager-binding
   namespace: treeptik-namespace # Nom du namespace
 subjects:
 - kind: User
-  name: treeptik
-  apiGroup: ""
-- kind: User
-  name: treeptik-group
+  name: treeptik-reader
   apiGroup: ""
 roleRef:
   kind: Role 
-  name: pod-reader
+  name: deployment-manager-binding
   apiGroup: ""
 ~~~
 
 Ajoutez les au cluster:
 ~~~bash
-kubectl create -f role.yaml -f role-binding.yaml
+kubectl create -f role-reader.yaml -f role-reader-binding.yaml
 ~~~
 
 Lancez un deployment depuis votre machine:
