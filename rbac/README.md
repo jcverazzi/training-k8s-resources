@@ -31,34 +31,35 @@ sudo openssl x509 -req -in treeptik.csr \
                   -out treeptik.crt -days 500
 ~~~
 
-- Créez le namespace sur lequel l'utilisateur treeptik pourra agir:
+### Création Namespace et utilisateur dans K8S
+
+Créez le namespace sur lequel l'utilisateur treeptik pourra agir:
 ~~~bash
 kubectl create namespace treeptik-namespace
 ~~~
 
-- Créez le nouvel utilisateur dans kubernetes:
+Créez le nouvel utilisateur dans kubernetes:
 ~~~bash
 kubectl config set-credentials treeptik \
                --client-certificate=/root/treeptik.crt \
                --client-key=/root/treeptik.key
 ~~~
 
-- Créez le contexte associé à notre nouvel utilisateur:
+Créez le contexte associé à notre nouvel utilisateur:
 ~~~bash
 kubectl config set-context treeptik-context \
                            --namespace=treeptik-namespace \
                            --user=treeptik
 ~~~
 
-- Tentez de lister les pods 
-
+Tentez de lister les pods 
 ~~~bash
 kubectl --context=treeptik-context get pods
 ~~~
 
 Vous allez avoir un message d'erreur comme quoi vous n'avez pas les droits requis.
 
-- Changez de context pour celui nouvellement créez:
+Changez de context pour celui nouvellement créez:
 ~~~bash
 kubectl config use-context treeptik-context
 ~~~
@@ -102,9 +103,9 @@ Ajoutez les au cluster:
 kubectl create -f role-reader.yaml -f role-reader-binding.yaml
 ~~~
 
-Lancez un deployment depuis votre machine:
+Lancez un deployment depuis le compte root par défaut:
 ~~~bash
-kubectl run --image bitnami/dokuwiki mydokuwiki
+kubectl run --image nginx mybeautifulpod -n treeptik-namespace
 ~~~
 
 Affichez les ressources créees:
