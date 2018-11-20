@@ -36,6 +36,7 @@ service "example" deleted
 ```
 $ helm create mychart
 Creating mychart
+$ sudo yum install tree
 tree mychart
 mychart
 ├── charts
@@ -55,7 +56,7 @@ Le fichier **Chart.yaml** est le manifest.
 apiVersion: v1
 appVersion: "1.0"
 description: A Helm chart for Kubernetes
-name: first
+name: mychart
 version: 0.1.0
 ```
 
@@ -64,9 +65,13 @@ Il est nécessaire de supprimer les fichiers non utilisés
 * NOTES.txt
 
 ```
-$ cp manifests/* first/templates/
-$ rm first/templates/ingress.yaml
-$ rm first/templates/NOTES.txt
+$ cp -f resources/* mychart/templates/
+$ rm mychart/templates/ingress.yaml
+$ rm mychart/templates/NOTES.txt
+```
+
+```
+helm install -n my-first-chart mychart
 ```
 
 De même que précédemment, vous devez pouvoir accéder à la page NGINX.
@@ -83,7 +88,7 @@ release "my-first-chart" deleted
 
 ### Configuration des charts
 
-Editez le fichier *helm/values.yaml* pour qu'il soit
+Editez le fichier *mychart/values.yaml* pour qu'il soit
 ```
 replicaCount: 1
 image:
@@ -99,7 +104,7 @@ Désormais les valeurs sont accessibles dans les fichiers de ressources à trave
 
 **replicaCount** serait accessible selon **{{ .Values.replicaCount }}**
 
-Mettez à jour le fichier **first/templates/deployment.yaml** avec
+Mettez à jour le fichier **mychart/templates/deployment.yaml** avec
 ```
 apiVersion: apps/v1beta1
 kind: Deployment
@@ -151,7 +156,7 @@ spec:
 status: {}
 ```
 
-De même éditez le fichier **first/templates/service.yaml**
+De même éditez le fichier **mychart/templates/service.yaml**
 ```
 apiVersion: v1
 kind: Service
@@ -186,7 +191,7 @@ status:
 Désormais vous pouvez installer
 
 ```
-helm install -n second mychart
+helm install -n my-second-chart mychart
 ```    
 
 De même que précédemment, vous devez pouvoir accéder à la page NGINX.
@@ -200,9 +205,9 @@ kubectl get svc,po
 On va désormais remplacer NGINX par ApacheHTTPd à travers helm
 
 ```
-helm upgrade --set image.repository=httpd --set image.tag=2.2.34-alpine second mychart
+helm upgrade --set image.repository=httpd --set image.tag=2.2.34-alpine my-second-chart mychart
 
-Release "second" has been upgraded. Happy Helming!
+Release "my-second-chart" has been upgraded. Happy Helming!
 LAST DEPLOYED: Tue Nov  3 12:09:30 2018
 NAMESPACE: default
 STATUS: DEPLOYED
