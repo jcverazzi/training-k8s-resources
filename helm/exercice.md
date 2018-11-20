@@ -221,3 +221,46 @@ second  10.0.0.160  <nodes>      80:30254/TCP  9m
 NAME    DESIRED  CURRENT  UP-TO-DATE  AVAILABLE  AGE
 second  1        1        1           0          9m
 ```
+
+### Packaging de l'application
+
+Editez le fichier **mychart/templates/service.yaml** pour supprimer le NodePort hardcodé
+```
+  ...
+  ports:  
+  - port: 80
+    protocol: TCP
+    targetPort: 80
+  ...
+```
+
+Puis générez un export tar.gz
+
+```
+helm package ./mychart
+Successfully packaged chart and saved it to: /root/my-first-chart/mychart-0.1.0.tgz
+```
+
+Vous pouvez désormais réinstaller plusieurs fois l'application
+```
+helm install --name example3 mychart-0.1.0.tgz --set service.type=NodePort
+helm install --name example4 mychart-0.1.0.tgz
+```
+
+Vous pouvez accéder à la dernière application par exemple
+
+```
+export NODE_PORT=$(kubectl get --namespace default -o jsonpath="{.spec.ports[0].nodePort}" services example4)
+
+export NODE_IP=$(kubectl get nodes --namespace default -o jsonpath="{.items[0].status.addresses[0].address}")
+
+echo http://$NODE_IP:$NODE_PORT/
+```
+
+### Exposer ses packages
+
+Ceci est possible avec
+* GitHub
+* JFrog
+* Google Container Registry
+* Azure Container Registry
