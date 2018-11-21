@@ -14,7 +14,7 @@ chmod +x ~/bin/{cfssl,cfssljson}
 export PATH=$PATH:~/bin
 ```
 
-### Créer une clés et une demande de certificat
+### Créer une clé et une demande de certificat
 
 ```
 echo '{"CN":"treeptik.student","hosts":[""],"key":{"algo":"rsa","size":2048}}' | cfssl genkey  - | cfssljson -bare treeptik.student
@@ -106,7 +106,7 @@ Créer la ressource :
 kubectl create -f rolebinding.yaml
 ```
 
-### Récuperer le certificat de votre nouvel utilisateur
+### Récupérer le certificat du nouvel utilisateur
 
 ```
 kubectl get csr user-request-treeptik-student -o jsonpath='{.status.certificate}' | base64 -d > treeptik.student.pem
@@ -137,12 +137,12 @@ Changer de contexte :
 kubectl config use-context treeptik-context
 ```
 
-Tester si l'utilisateur peut travaillé dans le namespace default ( la réponse devrait être non) :
+Tester si l'utilisateur peut travailler dans le namespace default ( la réponse devrait être non) :
 ```
 kubectl auth can-i get deployments --namespace default
 ```
 
-Tester si l'utilisateur peut travaillé dans le namespace treeptik-namespace ( la réponse devrait être oui) :
+Tester si l'utilisateur peut travailler dans le namespace treeptik-namespace ( la réponse devrait être oui) :
 ```
 kubectl auth can-i get deployments --namespace treeptik-namespace
 ```
