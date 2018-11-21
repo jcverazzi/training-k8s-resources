@@ -165,6 +165,11 @@ kubectl config use-context --kubeconfig treeptik-student-config treeptik-context
 kubectl config set-cluster --kubeconfig treeptik-student-config <nom du cluster> --insecure-skip-tls-verify=true --server=<adresse du serveur>
 ```
 
+Le fichier kubeconfig est : "treeptik-student-config" pour l'utiliser:
+```
+export KUBECONFIG=<chemin du fichier>/treeptik-student-config
+```
+
 
 
 
