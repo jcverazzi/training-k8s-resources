@@ -70,7 +70,7 @@ cat treeptik.student.csr | base64 | tr -d '\n'
 
 Créer la ressource :
 ```
-kubectl create -f certsignrequest.yaml
+kubectl create -f certsinrequest.yaml
 ```
 
 ### Valider le certificat
