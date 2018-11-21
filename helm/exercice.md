@@ -256,11 +256,3 @@ export NODE_IP=$(kubectl get nodes --namespace default -o jsonpath="{.items[0].s
 
 echo http://$NODE_IP:$NODE_PORT/
 ```
-
-### Exposer ses packages
-
-Ceci est possible avec
-* GitHub
-* JFrog
-* Google Container Registry
-* Azure Container Registry
