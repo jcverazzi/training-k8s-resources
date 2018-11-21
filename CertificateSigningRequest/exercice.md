@@ -4,7 +4,15 @@
 
 `kubectl delete daemonsets,replicasets,services,deployments,pods,rc --all`
 
-### Installer cfssl
+### Générer une clé et une demande de certificat
+
+Deux possibilités :
+- Cfssl
+- Openssl
+
+#### CFSSl
+
+##### Installer cfssl
 
 ```
 mkdir ~/bin
@@ -14,10 +22,25 @@ chmod +x ~/bin/{cfssl,cfssljson}
 export PATH=$PATH:~/bin
 ```
 
-### Créer une clé et une demande de certificat
+##### Créer une clé et une demande de certificat
 
 ```
 echo '{"CN":"treeptik.student","hosts":[""],"key":{"algo":"rsa","size":2048}}' | cfssl genkey  - | cfssljson -bare treeptik.student
+```
+
+#### Openssl
+
+##### Générez la clé privée du nouvel utilisateur
+
+```
+openssl genrsa -out treeptik.student-key.pem 2048
+```
+
+##### Créez une demande de certificat
+
+```
+openssl req -new -key treeptik.student-key.pem -out treeptik.student.csr \
+-subj "/CN=treeptik.student/O=treeptik"
 ```
 
 ### Créer la demande de signature du certificat
