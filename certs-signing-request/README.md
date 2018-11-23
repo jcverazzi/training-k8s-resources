@@ -211,9 +211,9 @@ export KUBECONFIG=<chemin du fichier>/treeptik-student-config
 ## AKS
 
 Dans le cas de AKS, il faut aller chercher la valeur de l'adresse dans le fichier `~/.kube/config`
-Il faut garder https:// ainsi que le port.
-Exemple 
+Il faut garder **https://** ainsi que le port **443**
 
+*Exemple*
 ```
 apiVersion: v1
 clusters:
