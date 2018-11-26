@@ -1,0 +1,8 @@
+---
+# tasks file for create-user
+- name: Create user with cfssl
+  shell: echo '{"CN":"treeptik.student","hosts":[""],"key":{"algo":"rsa","size":2048}}' | cfssl genkey  - | cfssljson -bare files/treeptik.student
+
+- name: Set csr value
+  shell: cat files/treeptik.student.csr | base64 | tr -d '\n'
+  register: request

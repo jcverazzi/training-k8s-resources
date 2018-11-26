@@ -1,0 +1,28 @@
+---
+# tasks file for k8s-create-user-and-context
+
+- name: Credential creation
+  shell: >
+    kubectl config set-credentials treeptik.student
+    --kubeconfig treeptik-student-config
+    --embed-certs=true
+    --client-certificate=files/treeptik.student.pem
+    --client-key=files/treeptik.student-key.pem
+
+- name: Context creation
+  shell: >
+    kubectl config set-context
+    --kubeconfig treeptik-student-config treeptik-context
+    --cluster="{{ clusterName }}"
+    --user=treeptik.student
+    --namespace=treeptik-namespace
+
+- name: Context selection
+  shell: kubectl config use-context --kubeconfig treeptik-student-config treeptik-context
+
+- name: Cluster selection
+  shell: >
+    kubectl config set-cluster
+    --kubeconfig treeptik-student-config "{{ clusterName }}"
+    --insecure-skip-tls-verify=true
+    --server="{{ serverAddress }}"

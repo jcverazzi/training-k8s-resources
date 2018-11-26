@@ -1,0 +1,35 @@
+---
+# tasks file for k8s-cert-sign-req
+
+- name: Remove a k8s CertificateSigningRequest
+  k8s:
+    state: absent
+    kubeconfig: "{{ kubeconfig }}"
+    api_version: certificates.k8s.io/v1beta1
+    kind: CertificateSigningRequest
+    namespace: default
+    name: user-request-treeptik-student
+
+- name: Create a k8s CertificateSigningRequest
+  k8s:
+    state: present
+    kubeconfig: "{{ kubeconfig }}"
+    definition:
+      apiVersion: certificates.k8s.io/v1beta1
+      kind: CertificateSigningRequest
+      metadata:
+        name: user-request-treeptik-student
+      spec:
+        groups:
+        - system:authenticated
+        request: "{{ request.stdout }}"
+        usages:
+        - digital signature
+        - key encipherment
+        - client auth
+
+- name: Validate k8s CertificateSigningRequest
+  shell: kubectl --kubeconfig "{{ kubeconfig }}" certificate approve user-request-treeptik-student
+
+- name: Get the new certificate
+  shell: kubectl --kubeconfig "{{ kubeconfig }}" get csr user-request-treeptik-student -o jsonpath='{.status.certificate}' | base64 -d > files/treeptik.student.pem

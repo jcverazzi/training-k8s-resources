@@ -1,0 +1,36 @@
+---
+# tasks file for k8s-role-and-rolebinding-creation
+
+- name: Create a k8s Role "pod-reader"
+  k8s:
+    state: present
+    kubeconfig: "{{ kubeconfig }}"
+    definition:
+      apiVersion: rbac.authorization.k8s.io/v1
+      kind: Role
+      metadata:
+        namespace: treeptik-namespace
+        name: pod-reader
+      rules:
+      - apiGroups: ["", "extensions", "apps"]
+        resources: ["deployments", "replicasets", "pods"]
+        verbs: ["get", "list", "watch", "create", "update", "patch", "delete"]
+
+- name: Create a k8s RoleBinding "read-pod"
+  k8s:
+    state: present
+    kubeconfig: "{{ kubeconfig }}"
+    definition:
+      kind: RoleBinding
+      apiVersion: rbac.authorization.k8s.io/v1
+      metadata:
+        name: read-pod
+        namespace: treeptik-namespace # Nom du namespace
+      subjects:
+      - kind: User
+        name: treeptik.student
+        apiGroup: ""
+      roleRef:
+        kind: Role
+        name: pod-reader
+        apiGroup: ""

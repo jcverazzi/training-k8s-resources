@@ -1,0 +1,20 @@
+mdumont-form-k8s-user1-master-1 ansible_host=142.93.96.139
+mdumont-form-k8s-user1-node-1 ansible_host=142.93.110.153
+mdumont-form-k8s-user1-node-2 ansible_host=142.93.110.154
+
+[user1]
+mdumont-form-k8s-user1-master-1
+mdumont-form-k8s-user1-node-1
+mdumont-form-k8s-user1-node-2
+
+[master]
+mdumont-form-k8s-user1-master-1
+
+[node]
+mdumont-form-k8s-user1-node-1
+mdumont-form-k8s-user1-node-2
+
+[all:vars]
+ansible_ssh_user=centos
+ansible_ssh_private_key_file=id_rsa_formation_tp
+

@@ -1,0 +1,14 @@
+---
+# tasks file for prerequisites
+
+- name: Install pip, cfssl, cfssljson
+  apt:
+    name: "{{ item }}"
+  with_items:
+    - python-pip
+    - golang-cfssl
+
+#- name: Install openshift
+#  pip:
+#    name: openshift
+#    state: present
