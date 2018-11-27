@@ -3,7 +3,7 @@
 - name: Cluster and rbac from scratch
   hosts: localhost
   connection: local
-  become: no
+  become: yes
 
   vars:
     kubeconfig: "/home/malo/Documents/Kubeconfig/kube-prov.yaml"

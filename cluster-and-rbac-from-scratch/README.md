@@ -258,13 +258,7 @@ Mofifier le fichier plabooks/roles/k8s-create-user-and-context/task/main.yml
 
 ### Lancer le playbooks et admirer le résultat
 ```
-ansible-playbook playbooks/cluster-and-rbac-from-scratch.yaml
+sudo ansible-playbook playbooks/cluster-and-rbac-from-scratch.yaml
 ```
 
 Le nouveau kubeconfig créer est le fichier : playbooks/treeptik-student-config
-
-
-
-
-
-

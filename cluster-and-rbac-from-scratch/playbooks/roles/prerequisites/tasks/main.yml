@@ -5,10 +5,10 @@
   apt:
     name: "{{ item }}"
   with_items:
-    - python-pip
+    - python3-pip
     - golang-cfssl
 
-#- name: Install openshift
-#  pip:
-#    name: openshift
-#    state: present
+- name: Install openshift
+  pip:
+    name: openshift
+    state: present
