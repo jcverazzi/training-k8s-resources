@@ -250,13 +250,13 @@ spec:
 Mofifier le fichier plabooks/roles/helm-deployment/task/main.yml
 ```
 - name: Save old configuration
-  shell: mv $HOME/.kube/config $HOME/.kube/config.old
+  command: mv $HOME/.kube/config $HOME/.kube/config.old
 
 - name: Set Kubeconfig for helm
-  shell: cp {{ kubeconfig }} $HOME/.kube/config
+  command: cp {{ kubeconfig }} $HOME/.kube/config
 
 - name: Copy request value into rbac chart
-  shell: 'echo "cert:\n  request: {{request.stdout}}" >> files/rbac-chart/values.yaml'
+  command: 'echo "cert:\n  request: {{request.stdout}}" >> files/rbac-chart/values.yaml'
 
 - name: Install helm chart
   helm_shell:
@@ -267,7 +267,7 @@ Mofifier le fichier plabooks/roles/helm-deployment/task/main.yml
       location: "files/rbac-chart"
 
 - name: Reset configuration
-  shell: mv $HOME/.kube/config.old $HOME/.kube/config
+  command: mv $HOME/.kube/config.old $HOME/.kube/config
 
 - name: Validate k8s CertificateSigningRequest
   command: kubectl --kubeconfig "{{ kubeconfig }}" certificate approve user-request-treeptik-student
