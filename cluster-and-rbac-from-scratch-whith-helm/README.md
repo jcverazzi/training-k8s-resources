@@ -50,6 +50,18 @@ Créer un dossier plabooks/roles
 mkdir playbooks/roles
 ```
 
+Créer un dossier plabooks/library
+```
+mkdir playbooks/library
+```
+
+Ajouter le module helm_shell:
+```
+git clone https://github.com/hypi-universe/hypi-ansible-modules.git
+mv helm_args.json playbooks/library
+mv helm_shell playbooks/library
+```
+
 ### Playbook principal
 
 Créer un playbook cluster-and-rbac-from-scratch.yaml
