@@ -29,7 +29,7 @@
         - client auth
 
 - name: Validate k8s CertificateSigningRequest
-  shell: kubectl --kubeconfig "{{ kubeconfig }}" certificate approve user-request-treeptik-student
+  command: kubectl --kubeconfig "{{ kubeconfig }}" certificate approve user-request-treeptik-student
 
 - name: Get the new certificate
   shell: kubectl --kubeconfig "{{ kubeconfig }}" get csr user-request-treeptik-student -o jsonpath='{.status.certificate}' | base64 -d > files/treeptik.student.pem

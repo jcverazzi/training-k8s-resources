@@ -3,15 +3,18 @@
 
 - name: Install pip, openssl
   package:
+    state: present
     name: "{{ item }}"
   loop:
     - python3-pip
     - openssl
 
-- name: Install openshift, pyopenssl
+- name: Install grpcio, pyhelm, pyopenssl
   pip:
-    name: "{{ item }}"
     state: present
+    name: "{{ item }}"
   loop:
-    - openshift
+    - grpcio
+    - pyhelm
     - pyopenssl
+    - openshift

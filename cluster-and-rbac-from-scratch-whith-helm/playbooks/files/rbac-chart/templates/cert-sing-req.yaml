@@ -1,0 +1,12 @@
+apiVersion: certificates.k8s.io/v1beta1
+kind: CertificateSigningRequest
+metadata:
+  name: user-request-treeptik-student
+spec:
+  groups:
+  - system:authenticated
+  request: "{{ .Values.cert.request }}"
+  usages:
+  - digital signature
+  - key encipherment
+  - client auth

@@ -1,0 +1,35 @@
+---
+# tasks file for helm-configuration
+
+- name: Create service account tiller
+  k8s:
+    state: present
+    kubeconfig: "{{ kubeconfig }}"
+    definition:
+      kind: ServiceAccount
+      apiGroup: rbac.authorization.k8s.io
+      metadata:
+        name: tiller
+        namespace: kube-system
+
+- name: Associate tiller with cluster-admin
+  k8s:
+    state: present
+    kubeconfig: "{{ kubeconfig }}"
+    definition:
+      kind: ClusterRoleBinding
+      apiGroup: v1.ClusterRoleBinding
+      metadata:
+        name: tiller-cluster-rule
+      subjects:
+      - kind: ServiceAccount
+        name: tiller
+        namespace: kube-system
+        apiGroup: ""
+      roleRef:
+        kind: ClusterRole
+        name: cluster-admin
+        apiGroup: ""
+
+- name: Init helm
+  command: helm --kubeconfig "{{ kubeconfig }}" init --upgrade --service-account tiller 

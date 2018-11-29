@@ -1,0 +1,22 @@
+---
+
+- name: Cluster and rbac from scratch
+  hosts: localhost
+  connection: local
+
+  vars:
+    kubeconfig: "/home/malo/Documents/Kubeconfig/kube-prov.yaml"
+    clusterName: "cluster"
+    serverAddress: "https://142.93.96.139:6443"
+
+  roles:
+    - role: prerequisites
+      become: yes
+    - role: create-user
+      become: no
+    - role: helm-configuration
+      become: no
+    - role: helm-deployment
+      become: no
+    - role: k8s-create-user-and-context
+      become: no

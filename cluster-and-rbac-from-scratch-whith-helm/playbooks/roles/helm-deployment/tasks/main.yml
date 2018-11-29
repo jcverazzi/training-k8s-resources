@@ -1,0 +1,28 @@
+---
+# tasks file for helm-deployment
+
+- name: Save old configuration
+  shell: mv $HOME/.kube/config $HOME/.kube/config.old
+
+- name: Set Kubeconfig for helm
+  shell: cp {{ kubeconfig }} $HOME/.kube/config
+
+- name: Copy request value into rbac chart
+  shell: 'echo "cert:\n  request: {{request.stdout}}" >> files/rbac-chart/values.yaml'
+
+- name: Install helm chart
+  helm_shell:
+    name: rbac-chart
+    version: 0.1.0
+    source:
+      type: directory
+      location: "files/rbac-chart"
+
+- name: Reset configuration
+  shell: mv $HOME/.kube/config.old $HOME/.kube/config
+
+- name: Validate k8s CertificateSigningRequest
+  command: kubectl --kubeconfig "{{ kubeconfig }}" certificate approve user-request-treeptik-student
+
+- name: Get the new certificate
+  shell: kubectl --kubeconfig "{{ kubeconfig }}" get csr user-request-treeptik-student -o jsonpath='{.status.certificate}' | base64 -d > files/treeptik.student.pem

@@ -84,21 +84,17 @@ ansible-galaxy init prerequisites
 
 Mofifier le fichier plabooks/roles/prerequisites/task/main.yml
 ```
-- name: Install pip, openssl
-  package:
+- name: Install pip, cfssl, cfssljson
+  apt:
     name: "{{ item }}"
-  loop:
-    - python3-pip
-    - openssl
+  with_items:
+    - python-pip
+    - golang-cfssl
 
-- name: Install openshift, pyopenssl
+- name: Install openshift
   pip:
-    name: "{{ item }}"
+    name: openshift
     state: present
-  loop:
-    - openshift
-    - pyopenssl
-
 ```
 
 #### Role: create-user
@@ -110,21 +106,12 @@ ansible-galaxy init create-user
 
 Mofifier le fichier plabooks/roles/create-user/task/main.yml
 ```
-- name: Generate an user key
-  openssl_privatekey:
-    path: files/treeptik.student-key.pem
-    size: 2048
-
-- name: Generate the user csr
-  openssl_csr:
-    path: files/treeptik.student.csr
-    privatekey_path: files/treeptik.student-key.pem
-    common_name: treeptik.student
+- name: Create user with cfssl
+  shell: echo '{"CN":"treeptik.student","hosts":[""],"key":{"algo":"rsa","size":2048}}' | cfssl genkey  - | cfssljson -bare files/treeptik.student
 
 - name: Set csr value
   shell: cat files/treeptik.student.csr | base64 | tr -d '\n'
   register: request
-
 ```
 
 #### Role: k8s-namespace-creation
@@ -226,7 +213,7 @@ Mofifier le fichier plabooks/roles/k8s-cert-sign-req/task/main.yml
         - client auth
 
 - name: Validate k8s CertificateSigningRequest
-  command: kubectl --kubeconfig "{{ kubeconfig }}" certificate approve user-request-treeptik-student
+  shell: kubectl --kubeconfig "{{ kubeconfig }}" certificate approve user-request-treeptik-student
 
 - name: Get the new certificate
   shell: kubectl --kubeconfig "{{ kubeconfig }}" get csr user-request-treeptik-student -o jsonpath='{.status.certificate}' | base64 -d > files/treeptik.student.pem
@@ -243,7 +230,7 @@ ansible-galaxy init k8s-create-user-and-context
 Mofifier le fichier plabooks/roles/k8s-create-user-and-context/task/main.yml
 ```
 - name: Credential creation
-  command: >
+  shell: >
     kubectl config set-credentials treeptik.student
     --kubeconfig treeptik-student-config
     --embed-certs=true
@@ -251,7 +238,7 @@ Mofifier le fichier plabooks/roles/k8s-create-user-and-context/task/main.yml
     --client-key=files/treeptik.student-key.pem
 
 - name: Context creation
-  command: >
+  shell: >
     kubectl config set-context
     --kubeconfig treeptik-student-config treeptik-context
     --cluster="{{ clusterName }}"
@@ -259,10 +246,10 @@ Mofifier le fichier plabooks/roles/k8s-create-user-and-context/task/main.yml
     --namespace=treeptik-namespace
 
 - name: Context selection
-  command: kubectl config use-context --kubeconfig treeptik-student-config treeptik-context
+  shell: kubectl config use-context --kubeconfig treeptik-student-config treeptik-context
 
 - name: Cluster selection
-  command: >
+  shell: >
     kubectl config set-cluster
     --kubeconfig treeptik-student-config "{{ clusterName }}"
     --insecure-skip-tls-verify=true
