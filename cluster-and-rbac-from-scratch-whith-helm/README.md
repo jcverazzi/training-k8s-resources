@@ -57,20 +57,23 @@ Créer un playbook cluster-and-rbac-from-scratch.yaml
 - name: Cluster and rbac from scratch
   hosts: localhost
   connection: local
-  become: yes
 
   vars:
-    kubeconfig: "<chemin du fichier kubeconfig>"
-    clusterName: "<nom du cluster>"
-    serverAddress: "<adresse du serveur>"
+    kubeconfig: "/home/malo/Documents/Kubeconfig/kube-prov.yaml"
+    clusterName: "cluster"
+    serverAddress: "https://142.93.96.139:6443"
 
   roles:
-    - prerequisites
-    - create-user
-    - k8s-namespace-creation
-    - k8s-role-and-rolebinding-creation
-    - k8s-cert-sign-req
-    - k8s-create-user-and-context
+    - role: prerequisites
+      become: yes
+    - role: create-user
+      become: no
+    - role: helm-configuration
+      become: no
+    - role: helm-deployment
+      become: no
+    - role: k8s-create-user-and-context
+      become: no
 ```
 
 ### Crétation des roles
@@ -84,17 +87,23 @@ ansible-galaxy init prerequisites
 
 Mofifier le fichier plabooks/roles/prerequisites/task/main.yml
 ```
-- name: Install pip, cfssl, cfssljson
-  apt:
-    name: "{{ item }}"
-  with_items:
-    - python-pip
-    - golang-cfssl
-
-- name: Install openshift
-  pip:
-    name: openshift
+- name: Install pip, openssl
+  package:
     state: present
+    name: "{{ item }}"
+  loop:
+    - python3-pip
+    - openssl
+
+- name: Install grpcio, pyhelm, pyopenssl
+  pip:
+    state: present
+    name: "{{ item }}"
+  loop:
+    - grpcio
+    - pyhelm
+    - pyopenssl
+    - openshift
 ```
 
 #### Role: create-user
@@ -106,118 +115,165 @@ ansible-galaxy init create-user
 
 Mofifier le fichier plabooks/roles/create-user/task/main.yml
 ```
-- name: Create user with cfssl
-  shell: echo '{"CN":"treeptik.student","hosts":[""],"key":{"algo":"rsa","size":2048}}' | cfssl genkey  - | cfssljson -bare files/treeptik.student
+- name: Generate an user key
+  openssl_privatekey:
+    path: files/treeptik.student-key.pem
+    size: 2048
+
+- name: Generate the user csr
+  openssl_csr:
+    path: files/treeptik.student.csr
+    privatekey_path: files/treeptik.student-key.pem
+    common_name: treeptik.student
 
 - name: Set csr value
   shell: cat files/treeptik.student.csr | base64 | tr -d '\n'
   register: request
 ```
 
-#### Role: k8s-namespace-creation
+#### Role: helm-configuration
 
 Se placer dans le répertoire playbooks/roles puis lancer
 ```
-ansible-galaxy init k8s-namespace-creation
+ansible-galaxy init helm-configuration
 ```
 
-Mofifier le fichier plabooks/roles/k8s-namespace-creation/task/main.yml
+Mofifier le fichier plabooks/roles/helm-configuration/task/main.yml
 ```
-- name: Create a k8s namespace "treeptik-namespace"
-  k8s:
-    kubeconfig: "{{ kubeconfig }}"
-    name: treeptik-namespace
-    api_version: v1
-    kind: Namespace
-    state: present
-```
-
-#### Role: k8s-role-and-rolebinding-creation
-
-Se placer dans le répertoire playbooks/roles puis lancer
-```
-ansible-galaxy init k8s-role-and-rolebinding-creation
-```
-
-Mofifier le fichier plabooks/roles/k8s-role-and-rolebinding-creation/task/main.yml
-```
-- name: Create a k8s Role "pod-reader"
+- name: Create service account tiller
   k8s:
     state: present
     kubeconfig: "{{ kubeconfig }}"
     definition:
-      apiVersion: rbac.authorization.k8s.io/v1
-      kind: Role
+      kind: ServiceAccount
+      apiGroup: rbac.authorization.k8s.io
       metadata:
-        namespace: treeptik-namespace
-        name: pod-reader
-      rules:
-      - apiGroups: ["", "extensions", "apps"]
-        resources: ["deployments", "replicasets", "pods"]
-        verbs: ["get", "list", "watch", "create", "update", "patch", "delete"]
+        name: tiller
+        namespace: kube-system
 
-- name: Create a k8s RoleBinding "read-pod"
+- name: Associate tiller with cluster-admin
   k8s:
     state: present
     kubeconfig: "{{ kubeconfig }}"
     definition:
-      kind: RoleBinding
-      apiVersion: rbac.authorization.k8s.io/v1
+      kind: ClusterRoleBinding
+      apiGroup: v1.ClusterRoleBinding
       metadata:
-        name: read-pod
-        namespace: treeptik-namespace # Nom du namespace
+        name: tiller-cluster-rule
       subjects:
-      - kind: User
-        name: treeptik.student
+      - kind: ServiceAccount
+        name: tiller
+        namespace: kube-system
         apiGroup: ""
       roleRef:
-        kind: Role
-        name: pod-reader
+        kind: ClusterRole
+        name: cluster-admin
         apiGroup: ""
+
+- name: Init helm
+  command: helm --kubeconfig "{{ kubeconfig }}" init --upgrade --service-account tiller
 ```
 
-#### Role: k8s-cert-sign-req
+#### Role: helm-deployment
 
 Se placer dans le répertoire playbooks/roles puis lancer
 ```
-ansible-galaxy init k8s-cert-sign-req
+ansible-galaxy init helm-deployment
 ```
 
-Mofifier le fichier plabooks/roles/k8s-cert-sign-req/task/main.yml
+Se placer dans le répertoire playbooks/files puis lancer
 ```
-- name: Remove a k8s CertificateSigningRequest
-  k8s:
-    state: absent
-    kubeconfig: "{{ kubeconfig }}"
-    api_version: certificates.k8s.io/v1beta1
-    kind: CertificateSigningRequest
-    namespace: default
-    name: user-request-treeptik-student
+helm create rbac-chart
+```
 
-- name: Create a k8s CertificateSigningRequest
-  k8s:
-    state: present
-    kubeconfig: "{{ kubeconfig }}"
-    definition:
-      apiVersion: certificates.k8s.io/v1beta1
-      kind: CertificateSigningRequest
-      metadata:
-        name: user-request-treeptik-student
-      spec:
-        groups:
-        - system:authenticated
-        request: "{{ request.stdout }}"
-        usages:
-        - digital signature
-        - key encipherment
-        - client auth
+Se placer dans le répertoire playbooks/files/rbac-chart/charts puis lancer
+```
+helm create rbac-namespace-chart
+```
+
+Supprimer tout les fichiers que contient le dossier playbooks/files/rbac-chart/charts/rbac-namespace-chart/templates et y ajouter le fichier namespace.yaml
+```
+kind: Namespace
+apiVersion: v1
+metadata:
+  name: treeptik-namespace
+```
+
+Supprimer tout les fichiers que contient le dossier playbooks/files/rbac-chart/templates
+
+Ajouter le fichier playbooks/files/rbac-chart/templates/role.yaml
+```
+kind: Role
+apiVersion: rbac.authorization.k8s.io/v1
+metadata:
+  namespace: treeptik-namespace
+  name: pod-reader
+rules:
+- apiGroups: ["", "extensions", "apps"]
+  resources: ["deployments", "replicasets", "pods"]
+  verbs: ["get", "list", "watch", "create", "update", "patch", "delete"]
+```
+
+Ajouter le fichier playbooks/files/rbac-chart/templates/role-binding.yaml
+```
+kind: RoleBinding
+apiVersion: rbac.authorization.k8s.io/v1
+metadata:
+  name: read-pod
+  namespace: treeptik-namespace # Nom du namespace
+subjects:
+- kind: User
+  name: treeptik.student
+  apiGroup: ""
+roleRef:
+  kind: Role
+  name: pod-reader
+  apiGroup: ""
+```
+
+Ajouter le fichier playbooks/files/rbac-chart/templates/cert-sign-req.yaml
+```
+apiVersion: certificates.k8s.io/v1beta1
+kind: CertificateSigningRequest
+metadata:
+  name: user-request-treeptik-student
+spec:
+  groups:
+  - system:authenticated
+  request: "{{ .Values.cert.request }}"
+  usages:
+  - digital signature
+  - key encipherment
+  - client auth
+```
+
+Mofifier le fichier plabooks/roles/helm-deployment/task/main.yml
+```
+- name: Save old configuration
+  shell: mv $HOME/.kube/config $HOME/.kube/config.old
+
+- name: Set Kubeconfig for helm
+  shell: cp {{ kubeconfig }} $HOME/.kube/config
+
+- name: Copy request value into rbac chart
+  shell: 'echo "cert:\n  request: {{request.stdout}}" >> files/rbac-chart/values.yaml'
+
+- name: Install helm chart
+  helm_shell:
+    name: rbac-chart
+    version: 0.1.0
+    source:
+      type: directory
+      location: "files/rbac-chart"
+
+- name: Reset configuration
+  shell: mv $HOME/.kube/config.old $HOME/.kube/config
 
 - name: Validate k8s CertificateSigningRequest
-  shell: kubectl --kubeconfig "{{ kubeconfig }}" certificate approve user-request-treeptik-student
+  command: kubectl --kubeconfig "{{ kubeconfig }}" certificate approve user-request-treeptik-student
 
 - name: Get the new certificate
   shell: kubectl --kubeconfig "{{ kubeconfig }}" get csr user-request-treeptik-student -o jsonpath='{.status.certificate}' | base64 -d > files/treeptik.student.pem
-
 ```
 
 #### Role: k8s-create-user-and-context
