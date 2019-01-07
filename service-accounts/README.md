@@ -87,5 +87,118 @@ kubectl create -f api-reader-service-accounts.yaml
 kubectl get serviceaccounts
 ```
 
+### Créer les Cluster Roles
 
+Un ClusterRole définit un ensemble d'autorisations utilisé pour accéder aux ressources, telles que les pods et les secrets. Les ClusterRole sont étendus au cluster. Les ClusterRole définis ici sont attachés aux comptes de service via une liaison de rôle dans les étapes suivantes. 
+
+L'utilisation d'un RoleBinding au lieu d'un ClusterRoleBinding étend les autorisations à un namespace. 
+
+Créer le fichier **api-reader-cluster-roles.yaml**
+
+```
+---
+# A role with no access
+apiVersion: rbac.authorization.k8s.io/v1beta1
+kind: ClusterRole
+metadata:
+  name: no-access-cr
+rules:
+- apiGroups: [""] # "" indicates the core API group
+  resources: [""]
+  verbs: [""]
+
+---
+# A role for reading/listing secrets
+apiVersion: rbac.authorization.k8s.io/v1beta1
+kind: ClusterRole
+metadata:
+  name: secret-access-cr
+rules:
+- apiGroups: [""] # "" indicates the core API group
+  resources: ["secrets"]
+  verbs: ["get", "watch", "list"]
+```  
+
+Puis créer les ressources 
+
+```
+kubectl create -f api-reader-cluster-roles.yaml
+kubectl get clusterroles
+```
+
+### Créer les liaisons des rôles
+
+Pour appliquer des rôles de cluster aux comptes de service, créez des liaisons de rôle qui les connectent. Lorsque vous liez un rôle de serveur à un compte de service, les autorisations que vous avez définies dans un rôle sont accordées au compte.
+
+```
+---
+# The role binding to combine the no-access service account and role
+apiVersion: rbac.authorization.k8s.io/v1beta1
+kind: RoleBinding
+metadata:
+  name: no-access-rb
+subjects:
+- kind: ServiceAccount
+  name: no-access-sa
+roleRef:
+  kind: ClusterRole
+  name: no-access-cr
+  apiGroup: rbac.authorization.k8s.io
+
+---
+# The role binding to combine the secret-access service account and role
+apiVersion: rbac.authorization.k8s.io/v1beta1
+kind: RoleBinding
+metadata:
+  name: secret-access-rb
+subjects:
+- kind: ServiceAccount
+  name: secret-access-sa
+roleRef:
+  kind: ClusterRole
+  name: secret-access-cr
+  apiGroup: rbac.authorization.k8s.io
+```
+
+Créer les ressources 
+
+```
+kubectl create -f api-reader-role-bindings.yaml 
+kubectl get rolebindings
+```
+
+### Créer les pods
+
+Créer le fichier **api-reader-pods.yaml**
+
+```
+---
+# Create a pod with the no-access service account
+kind: Pod
+apiVersion: v1
+metadata:
+ name: no-access-pod
+spec:
+ serviceAccountName: no-access-sa
+ containers:
+ - name: no-access-container
+   image: ubuntu
+---
+# Create a pod with the secret-access service account
+kind: Pod
+apiVersion: v1
+metadata:
+ name: secret-access-pod
+spec:
+ serviceAccountName: secret-access-sa
+ containers:
+ - name: secret-access-container
+   image: ubuntu
+```
+
+Créer les pods:
+```
+kubectl create -f api-reader-pods.yaml
+kubectl get pods
+```
 
