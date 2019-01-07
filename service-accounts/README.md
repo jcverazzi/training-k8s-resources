@@ -1,6 +1,23 @@
 ## Service Accounts and Auditing in Kubernetes
 
-Service accounts and namespaces allow you to limit pod and user permission in Kubernetes. Audit logs provide insight into what accounts are accessing what resources. Learn how to use these Kubernetes features!
+ServiceAccounts et Namespaces vous permettent de limiter les pods et définir les permissions utilisateurs dans K8S.
+Les logs d'audit donnent une idée sur les activités des comptes sur les ressources.
 
-### Create the Namespace
+### Créer le Namespace
+
+Créer le fichier **api-reader-dev-namespace.yaml**
+
+```
+apiVersion: v1
+kind: Namespace
+metadata:
+  name: dev
+````
+
+Puis créer la ressource
+
+```
+kubectl create -f api-reader-dev-namespace.yaml 
+```
+
 
