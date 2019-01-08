@@ -125,7 +125,9 @@ Puis créer les ressources
 
 ```
 kubectl create -f api-reader-cluster-roles.yaml
-kubectl get clusterroles
+
+## Afficher les ClusterRoles triés par ordre de création
+kubectl get clusterroles --sort-by='{.metadata.creationTimestamp}'
 ```
 
 ### Créer les liaisons des rôles
