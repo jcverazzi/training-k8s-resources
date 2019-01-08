@@ -65,6 +65,8 @@ Leur contenu est basé sur le nom du compte de service que vous avez fourni.
 
 Remarque: les secrets affichés dans le répertoire /var/run/secrets/kubernetes.io/serviceaccount/ sont des secrets spécifiques au compte de service montés par le système Kubernetes, et non le secret que vous avez créé. L'accès à ce secret n'indique pas que le pod peut accéder à d'autres secrets avec ce jeton.
 
+Créer le fichier **api-reader-service-accounts.yaml**
+
 ```
 ---
 # Service account for preventing API access
