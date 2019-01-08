@@ -134,6 +134,8 @@ kubectl get clusterroles --sort-by='{.metadata.creationTimestamp}'
 
 Pour appliquer des rôles de cluster aux comptes de service, créez des liaisons de rôle qui les connectent. Lorsque vous liez un rôle de serveur à un compte de service, les autorisations que vous avez définies dans un rôle sont accordées au compte.
 
+Créer le fichier **api-reader-role-bindings.yaml**
+
 ```
 ---
 # The role binding to combine the no-access service account and role
