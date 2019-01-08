@@ -173,6 +173,66 @@ kubectl create -f api-reader-role-bindings.yaml
 kubectl get rolebindings
 ```
 
+### Créer l'image Docker
+
+Le fichier **Dockerfile** 
+
+```
+FROM ubuntu
+
+# Copy files
+COPY runtime.sh /
+# Modify file permissions
+RUN chmod +x runtime.sh
+
+
+# Install curl
+RUN apt-get update
+RUN apt-get install curl -y
+
+# Run script on startup
+CMD [ "/runtime.sh" ]
+```
+
+Ainsi que le fichier pour la commande **runtime.sh**
+
+```
+#!/bin/bash
+
+# Read mounted files
+KUBE_TOKEN=$(</var/run/secrets/kubernetes.io/serviceaccount/token)
+NAMESPACE=$(</var/run/secrets/kubernetes.io/serviceaccount/namespace)
+
+# Resource to get in API [pods/secrets]RESOURCE="secrets"
+
+# If an argument was set
+if [ "$#" -ge 1 ]; then
+ NAMESPACE="$1"
+fi
+
+#Curl against the resource
+echo curl -sSk -H "Authorization: Bearer $KUBE_TOKEN" https://$KUBERNETES_SERVICE_HOST:$KUBERNETES_PORT_443_TCP_PORT/api/v1/namespaces/$NAMESPACE/$RESOURCE
+
+curl -sSk -H "Authorization: Bearer $KUBE_TOKEN" https://$KUBERNETES_SERVICE_HOST:$KUBERNETES_PORT_443_TCP_PORT/api/v1/namespaces/$NAMESPACE/$RESOURCE
+echo ""
+
+# Don't wait on user exec
+if [ "$#" -lt 1 ]; then
+ # Sleep forever so the pod doesn't crash
+ while [ true ]; do
+ sleep 10
+ done
+fi
+```
+
+Construisez les images Docker
+
+```
+docker build -t nmuller/training-sa .
+```
+
+
+
 ### Créer les pods
 
 Créer le fichier **api-reader-pods.yaml**
@@ -188,7 +248,7 @@ spec:
  serviceAccountName: no-access-sa
  containers:
  - name: no-access-container
-   image: ubuntu
+   image: nmuller/training-sa
 ---
 # Create a pod with the secret-access service account
 kind: Pod
@@ -199,12 +259,30 @@ spec:
  serviceAccountName: secret-access-sa
  containers:
  - name: secret-access-container
-   image: ubuntu
+   image: nmuller/training-sa
 ```
 
 Créer les pods:
 ```
 kubectl create -f api-reader-pods.yaml
+
 kubectl get pods
+NAME                READY     STATUS    RESTARTS   AGE
+no-access-pod       1/1       Running   0          3m
+secret-access-pod   1/1       Running   0          3m
 ```
+
+### Etudier les logs des pods
+
+```
+kubectl logs no-access-pod
+```
+
+Vous devriez voir un message d'erreur comme quoi l'application cURL n'a pas le droit d'accèder à l'API K8S.
+Par contre, si vous faites
+
+```
+kubectl logs secret-access-pod
+```
+
 
