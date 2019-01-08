@@ -203,7 +203,8 @@ Ainsi que le fichier pour la commande **runtime.sh**
 KUBE_TOKEN=$(</var/run/secrets/kubernetes.io/serviceaccount/token)
 NAMESPACE=$(</var/run/secrets/kubernetes.io/serviceaccount/namespace)
 
-# Resource to get in API [pods/secrets]RESOURCE="secrets"
+# Resource to get in API [pods/secrets]
+RESOURCE="secrets"
 
 # If an argument was set
 if [ "$#" -ge 1 ]; then
@@ -280,9 +281,25 @@ kubectl logs no-access-pod
 
 Vous devriez voir un message d'erreur comme quoi l'application cURL n'a pas le droit d'accèder à l'API K8S.
 Par contre, si vous faites
-
 ```
 kubectl logs secret-access-pod
 ```
 
+Vous pouvez désormais voir le résultat autorisé à l'API K8S.
+Vous pouvez même vous cible exactement le secret qui nous intéresse.
 
+Faites un copier/coller de la ligne montrée dans le *echo*. Celle-ci doit ressembler à 
+```
+curl -sSk -H "Authorization: Bearer xxxxxxx" https://10.233.0.1:443/api/v1/namespaces/dev/secrets/
+```
+
+Pour commencer, connectez vous dans le container
+```
+kubectl exec -it secret-access-pod bash
+```
+
+Puis ajouter à la ligne précédente la valeur **api-access-secret**
+
+```
+curl -sSk -H "Authorization: Bearer xxxxxxx" https://10.233.0.1:443/api/v1/namespaces/dev/secrets/api-access-secret
+```
