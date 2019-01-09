@@ -303,3 +303,24 @@ Puis ajouter à la ligne précédente la valeur **api-access-secret**
 ```
 curl -sSk -H "Authorization: Bearer xxxxxxx" https://10.233.0.1:443/api/v1/namespaces/dev/secrets/api-access-secret
 ```
+
+### Générer une erreur
+
+```
+kubectl exec -it secret-access-pod /runtime.sh default
+```
+
+Parce que le service account est lié au namespace DEV, il n'est pas autorisé à en sortir.
+
+### Logs d'Audit
+
+En fonction des installations, le système d'audit peut ne pas être disponible.
+L'API **audit.k8s.io** est disponible depuis la 1.12 en v1beta et seulement en 1.13 en v1.
+
+Les informations se trouvent ici par exemple : 
+```
+/var/log/kubernetes/audit/kube-apiserver-audit.log
+```
+
+Pour savoir où se trouve un tel fichier, il faut se connecter dans le pod **kube-apiserver** puis faire un **ps | grep kube** pour avoir le détail du processus et ses options.
+
