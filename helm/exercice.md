@@ -9,6 +9,38 @@ helm init
 kubectl get po --all-namespaces
 ```
 
+Créer le ServiceAccount pour tiller
+
+```
+kubectl create serviceaccount tiller --namespace kube-system
+```
+
+Puis le RoleBinding
+```
+kind: ClusterRoleBinding
+apiVersion: rbac.authorization.k8s.io/v1beta1
+metadata:
+  name: tiller-clusterrolebinding
+subjects:
+- kind: ServiceAccount
+  name: tiller
+  namespace: kube-system
+roleRef:
+  kind: ClusterRole
+  name: cluster-admin
+  apiGroup: ""
+```
+
+Le déployer
+```
+kubectl create -f tiller-clusterrolebinding.yaml
+````
+
+Le mettre à jour et attendre quelques secondes.
+```
+helm init --service-account tiller --upgrade
+```
+
 ### Génération de fichiers de ressources K8S
 
 Avant de créer son premier chart, il est nécessaire d'avoir des fichiers ressources pour K8S.
