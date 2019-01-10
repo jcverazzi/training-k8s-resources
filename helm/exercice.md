@@ -1,5 +1,14 @@
 ## Cycle de vie d'un CHART
 
+### Installer Helm
+
+La procédure se trouve ici : https://docs.helm.sh/using_helm/#installing-helm
+
+```
+helm init
+kubectl get po --all-namespaces
+```
+
 ### Génération de fichiers de ressources K8S
 
 Avant de créer son premier chart, il est nécessaire d'avoir des fichiers ressources pour K8S.
@@ -10,8 +19,7 @@ $ mkdir ~/my-first-chart
 $ cd ~/my-first-chart
 
 $ mkdir resources
-$ kubectl run example --image=nginx:1.13.5-alpine \
-                      -o yaml > resources/deployment.yaml
+$ kubectl create deployment example --image=nginx:1.13.5-alpine --dry-run -o yaml > resources/deployment.yaml
 $ kubectl expose deployment example \
                 --port=80 \
                 --type=NodePort \
