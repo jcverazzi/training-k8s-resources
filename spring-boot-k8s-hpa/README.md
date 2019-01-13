@@ -47,11 +47,6 @@ And `minikube service frontend`
 
 You can post messages to the queue by via http://minikube_ip:32000/submit?quantity=2
 
-You should be able to see the number of pending messages from http://minikube_ip:32000/metrics and from the custom metrics endpoint:
-
-```bash
-kubectl get --raw "/apis/custom.metrics.k8s.io/v1beta1/namespaces/default/pods/*/messages" | jq .
-```
 
 ## Installing Custom Metrics Api
 
@@ -105,8 +100,11 @@ Get the FS usage for all the pods in the `monitoring` namespace:
 kubectl get --raw "/apis/custom.metrics.k8s.io/v1beta1/namespaces/monitoring/pods/*/fs_usage_bytes" | jq .
 ```
 
+You should be able to see the number of pending messages from http://minikube_ip:32000/metrics and from the custom metrics endpoint:
 
-
+```bash
+kubectl get --raw "/apis/custom.metrics.k8s.io/v1beta1/namespaces/default/pods/*/messages" | jq .
+```
 
 
 ## Autoscaling workers
