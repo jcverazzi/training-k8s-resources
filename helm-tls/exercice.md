@@ -43,6 +43,29 @@ Ces valeurs peuvent être écrasées soit
 
 ## Redéploiement
 
+Identifiez le déploiement puis le supprimer
 
+```
+helm ls
+helm delete ...
+```
 
+On va désormais le redéployer avec un serviceType de nature ClusterIp
+
+``
+helm install --set service.type=ClusterIP stable/ghost
+```
+
+## Création du Ingress
+
+```
+apiVersion: extensions/v1beta1
+kind: Ingress
+metadata:
+  name: tailored-ocelot-ghost
+spec:
+  backend:
+    serviceName: tailored-ocelot
+    servicePort: 80
+```
   
