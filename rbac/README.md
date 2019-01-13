@@ -31,6 +31,17 @@ sudo openssl x509 -req -in treeptik.csr \
                   -out treeptik.crt -days 500
 ~~~
 
+ou bien si K8S 1.12
+
+~~~bash
+sudo openssl x509 -req -in treeptik.csr \
+                  -CA /etc/kubernetes/ssl/ca.crt \
+                  -CAkey /etc/kubernetes/ssl/ca.key \
+                  -CAcreateserial \
+                  -out treeptik.crt -days 500
+~~~
+
+
 ### Création Namespace et utilisateur dans K8S
 
 Créez le namespace sur lequel l'utilisateur treeptik pourra agir:
