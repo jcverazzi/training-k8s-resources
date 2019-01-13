@@ -111,8 +111,17 @@ kubectl create -f role-reader.yaml -f role-reader-binding.yaml
 ~~~
 
 Lancez un deployment depuis le compte root par défaut:
+Attention vous aurez un message de warning
 ~~~bash
-kubectl run --image nginx mybeautifulpod -n treeptik-namespace
+kubectl run --image nginx mybeautifulpod --restart=Never -n treeptik-namespace
+~~~
+Que vous pouvez faire disparaitre avec
+~~~bash
+kubectl run --image nginx mybeautifulpod --restart=Never -n treeptik-namespace
+~~~
+Sinon
+~~~bash
+kubectl run --image nginx mybeautifulpod --generator=run-pod/v1 -n treeptik-namespace
 ~~~
 
 Désormais vous pouvez afficher les ressources créees:
