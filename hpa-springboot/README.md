@@ -4,7 +4,7 @@
 
 You should have minikube installed.
 
-You should start minikube with at least 4GB of RAM:
+You should start minikube with at least 8GB of RAM:
 
 ```bash
 minikube start \
@@ -14,11 +14,44 @@ minikube start \
   --extra-config=controller-manager.horizontal-pod-autoscaler-sync-period=10s
 ```
 
-> If you're using a pre-existing minikube instance, you can resize the VM by destroying it an recreating it. Just adding the `--memory 4096` won't have any effect.
-
 You should install `jq` — a lightweight and flexible command-line JSON processor.
 
-You can find more [info about `jq` on the official website](https://github.com/stedolan/jq).
+## Package the application
+
+You package the application as a container with:
+
+```bash
+minikube ssh
+git clone https://github.com/learnk8s/spring-boot-k8s-hpa.git
+cd spring-boot-k8s-hpa
+docker build -t spring-boot-hpa .
+```
+
+## Deploying the application
+
+Deploy the application in Kubernetes with:
+
+```bash
+kubectl create -f kube/deployment
+
+kubectl get pods -l=app=queue
+kubectl get pods -l=app=fe
+kubectl get pods -l=app=backend
+```
+
+You can visit the application at http://minikube_ip:32000 with `minikube service backend`
+
+> (Or find the minikube ip address via `minikube ip`)
+
+And `minikube service frontend`
+
+You can post messages to the queue by via http://minikube_ip:32000/submit?quantity=2
+
+You should be able to see the number of pending messages from http://minikube_ip:32000/metrics and from the custom metrics endpoint:
+
+```bash
+kubectl get --raw "/apis/custom.metrics.k8s.io/v1beta1/namespaces/default/pods/*/messages" | jq .
+```
 
 ## Installing Custom Metrics Api
 
@@ -72,34 +105,9 @@ Get the FS usage for all the pods in the `monitoring` namespace:
 kubectl get --raw "/apis/custom.metrics.k8s.io/v1beta1/namespaces/monitoring/pods/*/fs_usage_bytes" | jq .
 ```
 
-## Package the application
 
-You package the application as a container with:
 
-```bash
-eval $(minikube docker-env)
-docker build -t spring-boot-hpa .
-```
 
-## Deploying the application
-
-Deploy the application in Kubernetes with:
-
-```bash
-kubectl create -f kube/deployment
-```
-
-You can visit the application at http://minkube_ip:32000
-
-> (Find the minikube ip address via `minikube ip`)
-
-You can post messages to the queue by via http://minkube_ip:32000/submit?quantity=2
-
-You should be able to see the number of pending messages from http://minkube_ip:32000/metrics and from the custom metrics endpoint:
-
-```bash
-kubectl get --raw "/apis/custom.metrics.k8s.io/v1beta1/namespaces/default/pods/*/messages" | jq .
-```
 
 ## Autoscaling workers
 
