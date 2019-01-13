@@ -106,6 +106,20 @@ You should be able to see the number of pending messages from http://minikube_ip
 kubectl get --raw "/apis/custom.metrics.k8s.io/v1beta1/namespaces/default/pods/*/messages" | jq .
 ```
 
+## Manual scaling workers
+
+Previous
+```
+kubectl scale --replicas=1 deployment/backend
+```
+
+Now we can have
+```
+kubectl scale --replicas=5 deployment/backend
+kubectl get pods -l=app=backend
+```
+
+
 
 ## Autoscaling workers
 
