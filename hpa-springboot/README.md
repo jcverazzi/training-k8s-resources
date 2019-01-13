@@ -8,7 +8,7 @@ You should start minikube with at least 8GB of RAM:
 
 ```bash
 minikube start \
-  --memory 8096 \
+  --memory 8192 \
   --extra-config=controller-manager.horizontal-pod-autoscaler-upscale-delay=1m \
   --extra-config=controller-manager.horizontal-pod-autoscaler-downscale-delay=2m \
   --extra-config=controller-manager.horizontal-pod-autoscaler-sync-period=10s
@@ -138,22 +138,4 @@ You can inspect the event and triggers in the HPA with:
 ```bash
 kubectl get hpa spring-boot-hpa
 ```
-
-## Appendix
-
-Using the secrets checked in the repository to deploy the Prometheus adapter is not recommended.
-
-You should generate your own secrets.
-
-But before you do so, make sure you install `cfssl` - a command line tool and an HTTP API server for signing, verifying, and bundling TLS certificates
-
-You can find more [info about `cfssl` on the official website](https://github.com/cloudflare/cfssl).
-
-Once `cfssl` is installed you generate a new Kubernetes secret with:
-
-```bash
-make certs
-```
-
-You should redeploy the Prometheus adapter.
 
