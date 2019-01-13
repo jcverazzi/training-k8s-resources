@@ -2,7 +2,9 @@
 
 Lancer une instance Tomcat sur le port standard.
 
-`kubectl run mytomcat --image=tomcat:8.0.52-jre8`
+`kubectl run mytomcat --restart=Never --image=tomcat:8.0.52-jre8`
+or 
+`kubectl run mytomcat --generator=run-pod/v1 --image=tomcat:8.0.52-jre8`
 
 Vérifier le status du pod :
 
