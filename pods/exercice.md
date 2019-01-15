@@ -2,7 +2,15 @@
 
 Lancer une instance Tomcat sur le port standard.
 
-`kubectl run mytomcat --image=tomcat:8.0.52-jre8`
+```
+kubectl run mytomcat --restart=Never --image=tomcat:8.0.52-jre8
+```
+
+or 
+
+```
+kubectl run mytomcat --generator=run-pod/v1 --image=tomcat:8.0.52-jre8
+```
 
 Vérifier le status du pod :
 
@@ -10,9 +18,9 @@ Vérifier le status du pod :
 
 Obtenir l'IP du pod :
 
-`kubectl describe pod mytomcat-66948985cf-q92hq | grep IP:`
+`kubectl describe pod mytomcat | grep IP:`
 
-Vous pouvez remarquer qu'un **Deployment** vient également d'être créé:
+Vous pouvez remarquer qu'aucuun **Deployment** vient également d'être créé car les options `--restart=Never` ou `--generator=run-pod/v1` ont évité la création de ce dernier.
 
 `kubectl get deployment`
 
@@ -23,23 +31,30 @@ Vous pouvez accéder en local à l'application via
 Vous pouvez également rentrer dans le container et y accéder en local :
 
 ```
-kubectl exec mytomcat-66948985cf-q92hq  -i -t -- bash
-root@mytomcat-66948985cf-q92hq:/usr/local/tomcat# curl localhost:8080
+kubectl exec mytomcat  -i -t -- bash
+root@mytomcat:/usr/local/tomcat# curl localhost:8080
 ```
 
 Vous pouvez lister les variables d'environnement :
 
-`kubectl exec mytomcat-66948985cf-q92hq -- printenv`
+`kubectl exec mytomcat printenv`
 
 ## Déployer un pod sur base d'un fichier 
 
-Créer un fichier `pod-tomcat.yaml` sur base de ceci :
+Créer un fichier pour un nouveau pod.
+Remarquez bien l'option **dry-run**.
+
+```
+kubectl run rawtomcat --generator=run-pod/v1 --image=tomcat:8.0.52-jre8 --dry-run -o yaml > pod-rawtomcat.yaml
+```
+
+Modifier le fichier pour avoir un second container
 
 ```
 apiVersion: v1
 kind: Pod
 metadata:
-  name: mytomcat
+  name: rawtomcat
 spec:
   containers:
   - name: rawtomcat
@@ -55,8 +70,8 @@ spec:
 Vous remarquerez que l'on crée désormais deux containers au sein du même pod.
 
 ```
-kubectl create -f pod-tomcat.yaml
-kubectl exec mytomcat -c shell -i -t -- bash
+kubectl create -f pod-rawtomcat.yaml
+kubectl exec rawtomcat -c shell -i -t -- bash
 [root@mytomcat /]# ps -ef
 [root@mytomcat /]# curl localhost:8080
 ```

@@ -1,0 +1,9 @@
+apiVersion: extensions/v1beta1
+kind: Ingress
+metadata:
+  name: tailored-ocelot-ghost
+spec:
+  backend:
+    serviceName: tailored-ocelot
+    servicePort: 80
+
