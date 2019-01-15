@@ -75,7 +75,7 @@ spec:
     metadata:
       labels:
         env: dev
-        owner: nobody
+        owner: nicolas
     spec:
       containers:
       - name: sise
