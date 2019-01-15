@@ -2,7 +2,7 @@
 
 ### Nettoyer l'environnement précédent
 
-`kubectl delete daemonsets,replicasets,services,deployments,pods,rc --all`
+`kubectl delete pods --all`
 
 ## Comment multiplier les pods
 
