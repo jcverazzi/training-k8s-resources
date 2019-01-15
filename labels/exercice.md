@@ -8,6 +8,8 @@
 
 Créer un nouveau fichier **pod-tomcat-label.dev.yaml**
 
+`kubectl create -f pod-tomcat-label.dev.yaml`
+
 ````
 apiVersion: v1
 kind: Pod
