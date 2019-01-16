@@ -20,7 +20,7 @@ wget https://k8s.io/docs/tasks/configure-pod-container/configmap/kubectl/ui.prop
 
 Puis créer la configuration
 ```
-kubectl create configmap game-config --from-file=configure-pod-container/configmap/kubectl/
+kubectl create configmap game-config --from-file=.
 ```
 
 ### Lister les configurations
