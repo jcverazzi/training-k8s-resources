@@ -47,15 +47,17 @@ Avant de créer son premier chart, il est nécessaire d'avoir des fichiers resso
 Une solution élégante est de les générer avec l'outil kubectl.
 
 ```
-$ mkdir ~/my-first-chart
-$ cd ~/my-first-chart
+mkdir ~/my-first-chart
+cd ~/my-first-chart
 
-$ mkdir resources
-$ kubectl create deployment example --image=nginx:1.13.5-alpine --dry-run -o yaml > resources/deployment.yaml
-$ kubectl expose deployment example \
-                --port=80 \
-                --type=NodePort \
-                -o yaml > resources/service.yaml
+mkdir resources
+kubectl create deployment example --image=nginx:1.13.5-alpine --dry-run -o yaml > resources/deployment.yaml
+kubectl apply -f resources/deployment.yaml
+kubectl expose deployment example \
+              --port=80 \
+              --type=NodePort \
+              -o yaml > resources/service.yaml
+kubectl apply -f resources/service.yaml              
 ```
 
 Il est possible d'accéder au déploiement via le NodePort exposé.
