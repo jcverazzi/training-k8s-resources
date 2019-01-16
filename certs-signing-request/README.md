@@ -182,7 +182,7 @@ kubectl auth can-i get deployments --namespace treeptik-namespace
 ```
 kubectl config set-credentials treeptik.student --kubeconfig treeptik-student-config \
                     --embed-certs=true \
-                    --client-certificate=treeptik.student.pem \ 
+                    --client-certificate=treeptik.student.pem \
                     --client-key=treeptik.student-key.pem
 ```
 
