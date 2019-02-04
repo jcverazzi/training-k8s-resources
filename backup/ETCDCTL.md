@@ -8,6 +8,12 @@ CLI for ETCD
 ps -ef| grep etcd 
 ```
 
+## Travailler avec la nouvelle API
+
+```
+export ETCDCTL_API=3
+```
+
 ## Liste des membres du cluster ETCD
 
 ```
