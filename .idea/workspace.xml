@@ -1,9 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="1ab551a3-f715-4c8b-99bd-c64b697b5107" name="Default Changelist" comment="">
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-    </list>
+    <list default="true" id="1ab551a3-f715-4c8b-99bd-c64b697b5107" name="Default Changelist" comment="" />
     <ignored path="$PROJECT_DIR$/spring-boot-k8s-hpa/target/" />
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
@@ -13,11 +11,6 @@
   </component>
   <component name="FileEditorManager">
     <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
-      <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/spring-boot-k8s-hpa/src/main/resources/application.yaml">
-          <provider selected="true" editor-type-id="text-editor" />
-        </entry>
-      </file>
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/spring-boot-k8s-hpa/monitoring/custom-metrics-api/custom-metrics-apiserver-auth-delegator-cluster-role-binding.yaml">
           <provider selected="true" editor-type-id="text-editor" />
@@ -43,10 +36,19 @@
         </entry>
       </file>
       <file pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/spring-boot-k8s-hpa/Dockerfile">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="255">
+              <caret line="15" column="31" selection-start-line="15" selection-start-column="31" selection-end-line="15" selection-end-column="31" />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/spring-boot-k8s-hpa/src/main/java/com/learnk8s/app/controller/HelloController.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="338">
-              <caret line="56" column="31" selection-start-line="56" selection-start-column="31" selection-end-line="56" selection-end-column="31" />
+            <state relative-caret-position="423">
+              <caret line="61" column="22" lean-forward="true" selection-start-line="61" selection-start-column="22" selection-end-line="61" selection-end-column="22" />
             </state>
           </provider>
         </entry>
@@ -112,6 +114,11 @@
             <path>
               <item name="training-k8s-resources" type="b2602c69:ProjectViewProjectNode" />
               <item name="training-k8s-resources" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="training-k8s-resources" type="b2602c69:ProjectViewProjectNode" />
+              <item name="training-k8s-resources" type="462c0819:PsiDirectoryNode" />
+              <item name="spring-boot-k8s-hpa" type="462c0819:PsiDirectoryNode" />
             </path>
           </expand>
           <select />
@@ -196,12 +203,12 @@
       <updated>1547418971730</updated>
       <workItem from="1547418973007" duration="5885000" />
       <workItem from="1548581327563" duration="10655000" />
-      <workItem from="1549181551584" duration="1954000" />
+      <workItem from="1549181551584" duration="2168000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="18494000" />
+    <option name="totallyTimeSpent" value="18708000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="0" y="0" width="1440" height="900" extended-state="0" />
@@ -303,9 +310,6 @@
     <entry file="file://$PROJECT_DIR$/spring-boot-k8s-hpa/kube/deployment/backend.yaml">
       <provider selected="true" editor-type-id="text-editor" />
     </entry>
-    <entry file="file://$PROJECT_DIR$/spring-boot-k8s-hpa/Dockerfile">
-      <provider selected="true" editor-type-id="text-editor" />
-    </entry>
     <entry file="file://$PROJECT_DIR$/spring-boot-k8s-hpa/README.md">
       <provider selected="true" editor-type-id="split-provider[text-editor;markdown-preview-editor]">
         <state split_layout="SPLIT">
@@ -326,13 +330,6 @@
     <entry file="file://$PROJECT_DIR$/spring-boot-k8s-hpa/monitoring/custom-metrics-api/custom-metrics-apiservice.yaml">
       <provider selected="true" editor-type-id="text-editor" />
     </entry>
-    <entry file="file://$PROJECT_DIR$/spring-boot-k8s-hpa/docker-compose.yml">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="238">
-          <caret line="14" selection-start-line="14" selection-end-line="14" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/spring-boot-k8s-hpa/monitoring/Makefile">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="289">
@@ -351,8 +348,22 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/spring-boot-k8s-hpa/src/main/java/com/learnk8s/app/controller/HelloController.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="338">
-          <caret line="56" column="31" selection-start-line="56" selection-start-column="31" selection-end-line="56" selection-end-column="31" />
+        <state relative-caret-position="423">
+          <caret line="61" column="22" lean-forward="true" selection-start-line="61" selection-start-column="22" selection-end-line="61" selection-end-column="22" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/spring-boot-k8s-hpa/docker-compose.yml">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="238">
+          <caret line="14" selection-start-line="14" selection-end-line="14" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/spring-boot-k8s-hpa/Dockerfile">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="255">
+          <caret line="15" column="31" selection-start-line="15" selection-start-column="31" selection-end-line="15" selection-end-column="31" />
         </state>
       </provider>
     </entry>
