@@ -139,7 +139,7 @@ spec:
 Appliquez la mise à jour avec **replace**
 
 ```
-kubectl replace -f new-nginx.yaml --record
+kubectl replace -f nginx.yaml
 ```
 
 ### Choix 3 - Edition directe
