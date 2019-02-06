@@ -153,7 +153,7 @@ Configurez la variable d'environnement KUBECONFIG pour la faire pointer sur kube
 export KUBECONFIG=<path>/kubeconfig.cfg
 ~~~
 
-## Retour à la normale
+## Retour en mode ADMINISTRATEUR pour le TP suivant
 
 ```
 kubectl config use-context kubernetes-admin@cluster.local
