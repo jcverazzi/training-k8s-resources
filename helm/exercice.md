@@ -2,7 +2,7 @@
 
 ### Installer Helm
 
-La procédure se trouve ici : https://docs.helm.sh/using_helm/#installing-helm
+La procédure se trouve ici : https://helm.sh/docs/using_helm/#from-script
 
 ```
 helm init
